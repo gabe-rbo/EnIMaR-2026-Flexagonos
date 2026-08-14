@@ -1,0 +1,11 @@
+# Core math and image processing dependencies for Flexagons & FuncoesFlexionaveis
+numpy>=1.24.0
+Pillow>=9.5.0
+matplotlib>=3.7.0
+mpmath>=1.3.0
+scipy>=1.10.0
+opencv-python>=4.8.0
+
+# Optional: Jupyter notebook support (for domain coloring and polar curve notebooks)
+ipykernel>=6.20.0
+jupyter>=1.0.0
