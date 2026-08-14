@@ -2,6 +2,10 @@
 MEGA-Aniura/
 %2e/
 
+# Generated build & catalog outputs
+out/
+entrega/
+
 # Python & Environment
 .venv/
 __pycache__/
