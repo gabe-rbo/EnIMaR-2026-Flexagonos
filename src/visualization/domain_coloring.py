@@ -503,6 +503,53 @@ def generate_truchet_texture(
     return img
 
 
+def generate_honeycomb_texture(
+    size: Tuple[int, int] = (3840, 3840),
+    hex_radius: Optional[int] = None,
+    colors: Optional[List[Tuple[int, int, int]]] = None
+) -> np.ndarray:
+    """Gera um mosaico de favos de mel (tesselação hexagonal) em 4K com anti-aliasing."""
+    w, h = size
+    img = np.full((h, w, 3), (250, 250, 252), dtype=np.uint8)
+
+    if colors is None:
+        colors = [
+            (235,  55,  55),  # Coral Red
+            (248, 185,  15),  # Ouro
+            ( 35, 175,  80),  # Esmeralda
+            ( 30, 115, 230),  # Safira
+            (160,  40, 195),  # Púrpura
+            ( 35, 195, 210),  # Turquesa
+        ]
+
+    r = hex_radius if hex_radius is not None else max(40, int(w * 0.045))
+    dx = r * 1.5
+    dy = r * np.sqrt(3)
+
+    cols = int(w / dx) + 4
+    rows = int(h / dy) + 4
+    border_thick = max(3, int(w * 0.003))
+
+    for row in range(-2, rows):
+        for col in range(-2, cols):
+            cx = int(col * dx)
+            cy = int(row * dy + (col % 2) * (dy / 2))
+
+            pts = []
+            for i in range(6):
+                angle_rad = np.pi / 180 * (60 * i)
+                px = int(cx + r * np.cos(angle_rad))
+                py = int(cy + r * np.sin(angle_rad))
+                pts.append([px, py])
+
+            pts_arr = np.array(pts, np.int32)
+            c_idx = (col * 3 + row * 5 + (col ^ row)) % len(colors)
+            cv2.fillPoly(img, [pts_arr], colors[c_idx], lineType=cv2.LINE_AA)
+            cv2.polylines(img, [pts_arr], True, (255, 255, 255), border_thick, lineType=cv2.LINE_AA)
+
+    return img
+
+
 # ==============================================================================
 # CLASSE DE ALTO NÍVEL: DomainColoringEngine (SUPORTE NATIVO A 4K UHD)
 # ==============================================================================
@@ -548,6 +595,7 @@ class DomainColoringEngine:
             - 'checkerboard': pullback de xadrez cartesiano do plano w
             - 'concentric_targets': pullback de círculos concêntricos
             - 'truchet': pullback de mosaico de Truchet
+            - 'honeycomb': pullback de tesselação de favos de mel
             - 'custom_image': pullback de imagem arbitrária (requer kwargs['texture'])
         """
         _, W = self.evaluate()
@@ -579,6 +627,10 @@ class DomainColoringEngine:
         elif mode == 'truchet':
             truchet_tex = generate_truchet_texture(size=self.resolution)
             rgb = colorize_image_pullback(W, truchet_tex, **kwargs)
+
+        elif mode == 'honeycomb':
+            honey_tex = generate_honeycomb_texture(size=self.resolution)
+            rgb = colorize_image_pullback(W, honey_tex, **kwargs)
 
         elif mode == 'custom_image':
             if 'texture' not in kwargs:
