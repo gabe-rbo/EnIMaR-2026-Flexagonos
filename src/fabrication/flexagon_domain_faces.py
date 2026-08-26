@@ -27,14 +27,14 @@ sys.path.insert(0, str(PROJECT_ROOT / "src" / "fabrication"))
 from domain_coloring import DomainColoringEngine, PALETTE_SOLID_6
 
 
-def criar_marcas_registro(img: Image.Image, tamanho=(2420, 2420), margem=28, cor="black") -> Image.Image:
-    """Cria marcas de registro vetoriais nos cantos e no centro para alinhamento gráfico."""
+def criar_marcas_registro(img: Image.Image, tamanho=(4840, 4840), margem=56, cor="black", scale=2) -> Image.Image:
+    """Cria marcas de registro vetoriais nos cantos e no centro para alinhamento gráfico em alta definição."""
     img = img.convert("RGBA")
     draw = ImageDraw.Draw(img)
 
-    comprimento_marca = 20
-    espessura = 2
-    offset_cruz = 15
+    comprimento_marca = 20 * scale
+    espessura = max(2, 2 * scale)
+    offset_cruz = 15 * scale
 
     cantos = [
         (margem, margem),
@@ -51,17 +51,17 @@ def criar_marcas_registro(img: Image.Image, tamanho=(2420, 2420), margem=28, cor
     draw.line([(cx - offset_cruz, cy), (cx + offset_cruz, cy)], fill=cor, width=espessura)
     draw.line([(cx, cy - offset_cruz), (cx, cy + offset_cruz)], fill=cor, width=espessura)
 
-    raio_circulo = 10
+    raio_circulo = 10 * scale
     draw.ellipse([(cx - raio_circulo, cy - raio_circulo), (cx + raio_circulo, cy + raio_circulo)], outline=cor, width=espessura)
     return img
 
 
-def paste_triangle_directly(img_triangulada: Image.Image, img_colada: Image.Image, orientation='bottom-right', position=(0, 0)) -> Image.Image:
-    """Cola um triângulo com transparência sobre uma imagem de fundo."""
+def paste_triangle_directly(img_triangulada: Image.Image, img_colada: Image.Image, orientation='bottom-right', position=(0, 0), tri_size=(116, 116)) -> Image.Image:
+    """Cola um triângulo com transparência sobre uma imagem de fundo em alta resolução."""
     fg = img_triangulada.convert('RGBA')
     bg = img_colada.convert('RGBA')
 
-    w, h = 58, 58
+    w, h = tri_size
     mask = Image.new('L', (w, h), 0)
     draw = ImageDraw.Draw(mask)
 
@@ -86,21 +86,26 @@ def gerar_planificacao_tetraflexagono(
     faces_paths: list,
     output_frontal: Path,
     output_traseiro: Path,
-    grafica: bool = True
+    grafica: bool = True,
+    scale_factor: int = 2
 ):
     """
-    Monta as planificações frontal e traseira do tetraflexágono de 6 faces a partir de 6 imagens de face.
+    Monta as planificações frontal e traseira do tetraflexágono de 6 faces em ULTRA ALTA DEFINIÇÃO (4K+).
     """
+    scale = scale_factor
+    base_seg = 562 * scale
+    sangria = 58 * scale
+    margem_corte = 28 * scale
+
     if grafica:
-        tamanho = (562 + 58) * 2
-        tamanho_plano = (562 * 4 + 58 * 2 + 28 * 2, 562 * 4 + 58 * 2 + 28 * 2)
-        tamanho_bordas = (562, 58)
-        distancia_borda = 28 + 58
-        ajuste = tamanho_bordas[1]
+        tamanho = (base_seg + sangria) * 2
+        tamanho_plano = (base_seg * 4 + sangria * 2 + margem_corte * 2, base_seg * 4 + sangria * 2 + margem_corte * 2)
+        distancia_borda = margem_corte + sangria
+        ajuste = sangria
     else:
-        tamanho = 562 * 2
-        tamanho_plano = (tamanho * 2 + 28 * 2 + 58, tamanho * 2 + 28 * 2 + 58)
-        distancia_borda = 28 + 28
+        tamanho = base_seg * 2
+        tamanho_plano = (tamanho * 2 + margem_corte * 2 + sangria, tamanho * 2 + margem_corte * 2 + sangria)
+        distancia_borda = margem_corte * 2
         ajuste = 0
 
     imgs = [Image.open(p).convert('RGB').resize((tamanho, tamanho), Image.Resampling.LANCZOS) for p in faces_paths]
@@ -221,90 +226,92 @@ def gerar_planificacao_tetraflexagono(
         B15F3 = img5.crop((ajuste, tamanho / 2 - ajuste, tamanho / 2, tamanho / 2)).rotate(90, expand=True)
         B35F3 = img5.crop((ajuste, tamanho - ajuste, tamanho / 2, tamanho)).rotate(90, expand=True)
 
+        tri_dim = (ajuste, ajuste)
+
         # Colagem de bordas no plano frontal
-        PlanoFrontal.paste(B24F3, (28 + ajuste, 28))
-        PlanoFrontal.paste(B34F3, (28, 28))
-        PlanoFrontal.paste(B32F1, (28 + 562 + ajuste, 28))
-        PlanoFrontal.paste(B12F1, (28 + 562 + ajuste, 28 + 562 + ajuste))
-        PlanoFrontal.paste(B16F2, (28 + 2 * 562 + ajuste, 28))
-        PlanoFrontal.paste(B36F2, (28 + 2 * 562 + ajuste, 28 + 562 + ajuste))
-        PlanoFrontal.paste(B16F1, (28 + 3 * 562 + ajuste, 28))
-        PlanoFrontal.paste(B46F1, (28 + 4 * 562 + ajuste, 28 + ajuste))
-        PlanoFrontal.paste(B42F2, (28 + 4 * 562 + ajuste, 28 + 562 + ajuste))
+        PlanoFrontal.paste(B24F3, (margem_corte + ajuste, margem_corte))
+        PlanoFrontal.paste(B34F3, (margem_corte, margem_corte))
+        PlanoFrontal.paste(B32F1, (margem_corte + base_seg + ajuste, margem_corte))
+        PlanoFrontal.paste(B12F1, (margem_corte + base_seg + ajuste, margem_corte + base_seg + ajuste))
+        PlanoFrontal.paste(B16F2, (margem_corte + 2 * base_seg + ajuste, margem_corte))
+        PlanoFrontal.paste(B36F2, (margem_corte + 2 * base_seg + ajuste, margem_corte + base_seg + ajuste))
+        PlanoFrontal.paste(B16F1, (margem_corte + 3 * base_seg + ajuste, margem_corte))
+        PlanoFrontal.paste(B46F1, (margem_corte + 4 * base_seg + ajuste, margem_corte + ajuste))
+        PlanoFrontal.paste(B42F2, (margem_corte + 4 * base_seg + ajuste, margem_corte + base_seg + ajuste))
 
-        B36F2_q = B36F2.crop((562 - ajuste, 0, 562, ajuste))
-        B22F2 = paste_triangle_directly(B36F2_q, B22F2, 'top-left')
-        PlanoFrontal.paste(B22F2, (28 + 3 * 562, 28 + 562 + ajuste))
+        B36F2_q = B36F2.crop((base_seg - ajuste, 0, base_seg, ajuste))
+        B22F2 = paste_triangle_directly(B36F2_q, B22F2, 'top-left', tri_size=tri_dim)
+        PlanoFrontal.paste(B22F2, (margem_corte + 3 * base_seg, margem_corte + base_seg + ajuste))
 
-        PlanoFrontal.paste(B14F2, (28 + 4 * 562 + ajuste, 28 + 2 * 562 + ajuste))
-        PlanoFrontal.paste(B14F1, (28 + 4 * 562 + ajuste, 28 + 3 * 562 + ajuste))
-        PlanoFrontal.paste(B34F2, (28 + 3 * 562         , 28 + 2 * 562 + ajuste))
-        PlanoFrontal.paste(B44F1, (28 + 3 * 562 + ajuste, 28 + 4 * 562 + ajuste))
+        PlanoFrontal.paste(B14F2, (margem_corte + 4 * base_seg + ajuste, margem_corte + 2 * base_seg + ajuste))
+        PlanoFrontal.paste(B14F1, (margem_corte + 4 * base_seg + ajuste, margem_corte + 3 * base_seg + ajuste))
+        PlanoFrontal.paste(B34F2, (margem_corte + 3 * base_seg         , margem_corte + 2 * base_seg + ajuste))
+        PlanoFrontal.paste(B44F1, (margem_corte + 3 * base_seg + ajuste, margem_corte + 4 * base_seg + ajuste))
 
-        B34F2_q = B34F2.crop((0, 562 - ajuste, ajuste, 562))
-        B32F3 = paste_triangle_directly(B34F2_q, B32F3, 'top-right', position=(562 - ajuste, 0))
-        PlanoFrontal.paste(B32F3, (562 * 2 + 28 + ajuste, 28 + 562 * 3))
+        B34F2_q = B34F2.crop((0, base_seg - ajuste, ajuste, base_seg))
+        B32F3 = paste_triangle_directly(B34F2_q, B32F3, 'top-right', position=(base_seg - ajuste, 0), tri_size=tri_dim)
+        PlanoFrontal.paste(B32F3, (base_seg * 2 + margem_corte + ajuste, margem_corte + base_seg * 3))
 
-        PlanoFrontal.paste(B12F3, (562 * 2 + 28 + ajuste, 28 + 562 * 4 + ajuste))
-        PlanoFrontal.paste(B16F4, (562 * 1 + 28 + ajuste, 28 + 562 * 3))
-        PlanoFrontal.paste(B36F4, (562 * 1 + 28 + ajuste, 28 + 562 * 4 + ajuste))
-        PlanoFrontal.paste(B26F3, (28, 28 + 562 * 3 + ajuste))
-        PlanoFrontal.paste(B36F3, (28, 28 + 562 * 4 + ajuste))
-        PlanoFrontal.paste(B22F4, (28, 28 + 562 * 2 + ajuste))
+        PlanoFrontal.paste(B12F3, (base_seg * 2 + margem_corte + ajuste, margem_corte + base_seg * 4 + ajuste))
+        PlanoFrontal.paste(B16F4, (base_seg * 1 + margem_corte + ajuste, margem_corte + base_seg * 3))
+        PlanoFrontal.paste(B36F4, (base_seg * 1 + margem_corte + ajuste, margem_corte + base_seg * 4 + ajuste))
+        PlanoFrontal.paste(B26F3, (margem_corte, margem_corte + base_seg * 3 + ajuste))
+        PlanoFrontal.paste(B36F3, (margem_corte, margem_corte + base_seg * 4 + ajuste))
+        PlanoFrontal.paste(B22F4, (margem_corte, margem_corte + base_seg * 2 + ajuste))
 
         B16F4_q = B16F4.crop((0, 0, ajuste, ajuste))
-        B42F4 = paste_triangle_directly(B16F4_q, B42F4, 'bottom-left', position=(0, 562 - ajuste))
-        PlanoFrontal.paste(B42F4, (562 * 1 + 28 + ajuste, 28 + 562 * 2 + ajuste))
+        B42F4 = paste_triangle_directly(B16F4_q, B42F4, 'bottom-left', position=(0, base_seg - ajuste), tri_size=tri_dim)
+        PlanoFrontal.paste(B42F4, (base_seg * 1 + margem_corte + ajuste, margem_corte + base_seg * 2 + ajuste))
 
-        PlanoFrontal.paste(B34F4, (28, 28 + 562 * 1 + ajuste))
+        PlanoFrontal.paste(B34F4, (margem_corte, margem_corte + base_seg * 1 + ajuste))
 
         B12F1_q = B12F1.crop((0, 0, ajuste, ajuste))
-        B14F4 = paste_triangle_directly(B12F1_q, B14F4, 'top-right')
-        PlanoFrontal.paste(B14F4, (28 + 562 + ajuste, 28 + 562 + ajuste))
+        B14F4 = paste_triangle_directly(B12F1_q, B14F4, 'top-right', tri_size=tri_dim)
+        PlanoFrontal.paste(B14F4, (margem_corte + base_seg + ajuste, margem_corte + base_seg + ajuste))
 
         # Colagem de bordas no plano traseiro
-        PlanoTraseiro.paste(B45F4, (28 + ajuste, 28))
-        PlanoTraseiro.paste(B15F4, (28, 28))
-        PlanoTraseiro.paste(B31F1, (28 + 562 + ajuste, 28))
-        PlanoTraseiro.paste(B11F1, (28 + 562 + ajuste, 28 + 562 + ajuste))
-        PlanoTraseiro.paste(B33F1, (28 + 2 * 562 + ajuste, 28))
-        PlanoTraseiro.paste(B13F1, (28 + 2 * 562 + ajuste, 28 + 562 + ajuste))
-        PlanoTraseiro.paste(B33F2, (28 + 3 * 562 + ajuste, 28))
-        PlanoTraseiro.paste(B23F2, (28 + 4 * 562 + ajuste, 28 + ajuste))
-        PlanoTraseiro.paste(B41F2, (28 + 4 * 562 + ajuste, 28 + 562 + ajuste))
+        PlanoTraseiro.paste(B45F4, (margem_corte + ajuste, margem_corte))
+        PlanoTraseiro.paste(B15F4, (margem_corte, margem_corte))
+        PlanoTraseiro.paste(B31F1, (margem_corte + base_seg + ajuste, margem_corte))
+        PlanoTraseiro.paste(B11F1, (margem_corte + base_seg + ajuste, margem_corte + base_seg + ajuste))
+        PlanoTraseiro.paste(B33F1, (margem_corte + 2 * base_seg + ajuste, margem_corte))
+        PlanoTraseiro.paste(B13F1, (margem_corte + 2 * base_seg + ajuste, margem_corte + base_seg + ajuste))
+        PlanoTraseiro.paste(B33F2, (margem_corte + 3 * base_seg + ajuste, margem_corte))
+        PlanoTraseiro.paste(B23F2, (margem_corte + 4 * base_seg + ajuste, margem_corte + ajuste))
+        PlanoTraseiro.paste(B41F2, (margem_corte + 4 * base_seg + ajuste, margem_corte + base_seg + ajuste))
 
-        B13F1_q = B13F1.crop((562 - ajuste, 0, 562, ajuste))
-        B21F2 = paste_triangle_directly(B13F1_q, B21F2, 'top-left')
-        PlanoTraseiro.paste(B21F2, (28 + 3 * 562, 28 + 562 + ajuste))
+        B13F1_q = B13F1.crop((base_seg - ajuste, 0, base_seg, ajuste))
+        B21F2 = paste_triangle_directly(B13F1_q, B21F2, 'top-left', tri_size=tri_dim)
+        PlanoTraseiro.paste(B21F2, (margem_corte + 3 * base_seg, margem_corte + base_seg + ajuste))
 
-        PlanoTraseiro.paste(B35F1, (28 + 4 * 562 + ajuste, 28 + 2 * 562 + ajuste))
-        PlanoTraseiro.paste(B35F2, (28 + 4 * 562 + ajuste, 28 + 3 * 562 + ajuste))
-        PlanoTraseiro.paste(B15F1, (28 + 3 * 562         , 28 + 2 * 562 + ajuste))
-        PlanoTraseiro.paste(B25F2, (28 + 3 * 562 + ajuste, 28 + 4 * 562 + ajuste))
+        PlanoTraseiro.paste(B35F1, (margem_corte + 4 * base_seg + ajuste, margem_corte + 2 * base_seg + ajuste))
+        PlanoTraseiro.paste(B35F2, (margem_corte + 4 * base_seg + ajuste, margem_corte + 3 * base_seg + ajuste))
+        PlanoTraseiro.paste(B15F1, (margem_corte + 3 * base_seg         , margem_corte + 2 * base_seg + ajuste))
+        PlanoTraseiro.paste(B25F2, (margem_corte + 3 * base_seg + ajuste, margem_corte + 4 * base_seg + ajuste))
 
-        B15F1_q = B15F1.crop((0, 562 - ajuste, ajuste, 562))
-        B31F3 = paste_triangle_directly(B15F1_q, B31F3, 'top-right', position=(562 - ajuste, 0))
-        PlanoTraseiro.paste(B31F3, (562 * 2 + 28 + ajuste, 28 + 562 * 3))
+        B15F1_q = B15F1.crop((0, base_seg - ajuste, ajuste, base_seg))
+        B31F3 = paste_triangle_directly(B15F1_q, B31F3, 'top-right', position=(base_seg - ajuste, 0), tri_size=tri_dim)
+        PlanoTraseiro.paste(B31F3, (base_seg * 2 + margem_corte + ajuste, margem_corte + base_seg * 3))
 
-        PlanoTraseiro.paste(B11F3, (562 * 2 + 28 + ajuste, 28 + 562 * 4 + ajuste))
-        PlanoTraseiro.paste(B33F3, (562 * 1 + 28 + ajuste, 28 + 562 * 3))
-        PlanoTraseiro.paste(B13F3, (562 * 1 + 28 + ajuste, 28 + 562 * 4 + ajuste))
-        PlanoTraseiro.paste(B43F4, (28, 28 + 562 * 3 + ajuste))
-        PlanoTraseiro.paste(B13F4, (28, 28 + 562 * 4 + ajuste))
-        PlanoTraseiro.paste(B21F4, (28, 28 + 562 * 2 + ajuste))
+        PlanoTraseiro.paste(B11F3, (base_seg * 2 + margem_corte + ajuste, margem_corte + base_seg * 4 + ajuste))
+        PlanoTraseiro.paste(B33F3, (base_seg * 1 + margem_corte + ajuste, margem_corte + base_seg * 3))
+        PlanoTraseiro.paste(B13F3, (base_seg * 1 + margem_corte + ajuste, margem_corte + base_seg * 4 + ajuste))
+        PlanoTraseiro.paste(B43F4, (margem_corte, margem_corte + base_seg * 3 + ajuste))
+        PlanoTraseiro.paste(B13F4, (margem_corte, margem_corte + base_seg * 4 + ajuste))
+        PlanoTraseiro.paste(B21F4, (margem_corte, margem_corte + base_seg * 2 + ajuste))
 
         B33F3_q = B33F3.crop((0, 0, ajuste, ajuste))
-        B41F4 = paste_triangle_directly(B33F3_q, B41F4, 'bottom-left', position=(0, 562 - ajuste))
-        PlanoTraseiro.paste(B41F4, (562 * 1 + 28 + ajuste, 28 + 562 * 2 + ajuste))
+        B41F4 = paste_triangle_directly(B33F3_q, B41F4, 'bottom-left', position=(0, base_seg - ajuste), tri_size=tri_dim)
+        PlanoTraseiro.paste(B41F4, (base_seg * 1 + margem_corte + ajuste, margem_corte + base_seg * 2 + ajuste))
 
-        PlanoTraseiro.paste(B15F3, (28, 28 + 562 * 1 + ajuste))
+        PlanoTraseiro.paste(B15F3, (margem_corte, margem_corte + base_seg * 1 + ajuste))
 
         B11F1_q = B11F1.crop((0, 0, ajuste, ajuste))
-        B35F3 = paste_triangle_directly(B11F1_q, B35F3, 'top-right')
-        PlanoTraseiro.paste(B35F3, (28 + 562 + ajuste, 28 + 562 + ajuste))
+        B35F3 = paste_triangle_directly(B11F1_q, B35F3, 'top-right', tri_size=tri_dim)
+        PlanoTraseiro.paste(B35F3, (margem_corte + base_seg + ajuste, margem_corte + base_seg + ajuste))
 
-        PlanoFrontal = criar_marcas_registro(PlanoFrontal)
-        PlanoTraseiro = criar_marcas_registro(PlanoTraseiro)
+        PlanoFrontal = criar_marcas_registro(PlanoFrontal, tamanho=tamanho_plano, margem=margem_corte, scale=scale)
+        PlanoTraseiro = criar_marcas_registro(PlanoTraseiro, tamanho=tamanho_plano, margem=margem_corte, scale=scale)
 
     PlanoFrontal.save(output_frontal, "PNG")
     PlanoTraseiro.save(output_traseiro, "PNG")
@@ -373,10 +380,10 @@ def main():
         func=f,
         x_range=(-2.2, 2.2),
         y_range=(-2.2, 2.2),
-        resolution=(1124, 1124)
+        resolution=(3840, 3840)
     )
 
-    print(">>> 2. Renderizando as 6 Faces do Flexágono...")
+    print(">>> 2. Renderizando as 6 Faces do Flexágono em 4K UHD (3840x3840)...")
     faces = engine.generate_six_flexagon_faces(
         custom_palette=PALETTE_SOLID_6,
         texture_u_range=(-2.5, 2.5),
@@ -389,20 +396,21 @@ def main():
         p = faces_dir / f"face{i}.png"
         faces[key].save(p, "PNG")
         face_paths.append(str(p))
-        print(f" - Salva {key}: {p}")
+        print(f" - Salva {key} (4K): {p}")
 
     print(">>> 3. Gerando Painel Comparativo 2x3...")
     painel_path = out_dir / "painel_6_faces_domain_coloring.png"
     criar_painel_comparativo(faces, painel_path)
 
-    print(">>> 4. Montando Planificações de Impressão (Tetraflexágono)...")
+    print(">>> 4. Montando Planificações de Impressão (Tetraflexágono em Ultra-Alta Definição 4840x4840)...")
     frontal_path = out_dir / "Plano_Frontal_DomainColoring.png"
     traseiro_path = out_dir / "Plano_Traseiro_DomainColoring.png"
     gerar_planificacao_tetraflexagono(
         faces_paths=face_paths,
         output_frontal=frontal_path,
         output_traseiro=traseiro_path,
-        grafica=True
+        grafica=True,
+        scale_factor=2
     )
 
     print(f"\n>>> SUCESSO! Todos os arquivos gráficos foram gerados em:\n{out_dir}")

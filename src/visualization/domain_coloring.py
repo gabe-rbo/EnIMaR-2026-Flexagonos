@@ -388,42 +388,45 @@ def colorize_image_pullback(
 
 
 # ==============================================================================
-# GERADORES DE TEXTURAS PARAMÉTRICAS PARA O PLANO W
+# GERADORES DE TEXTURAS PARAMÉTRICAS PARA O PLANO W (SUPORTE A 4K / ALTA DENSIDADE)
 # ==============================================================================
 
 def generate_cartesian_grid_texture(
-    size: Tuple[int, int] = (1024, 1024),
-    grid_lines: int = 10,
-    line_thickness: int = 4,
-    axis_thickness: int = 8,
-    bg_color: Tuple[int, int, int] = (250, 250, 250),
-    grid_color: Tuple[int, int, int] = (120, 160, 210),
-    axis_color: Tuple[int, int, int] = (220, 40, 40)
+    size: Tuple[int, int] = (3840, 3840),
+    grid_lines: int = 12,
+    line_thickness: Optional[int] = None,
+    axis_thickness: Optional[int] = None,
+    bg_color: Tuple[int, int, int] = (252, 252, 254),
+    grid_color: Tuple[int, int, int] = (40, 110, 200),
+    axis_color: Tuple[int, int, int] = (225, 30, 30)
 ) -> np.ndarray:
-    """Gera uma grade cartesiana com eixos coordenados para o plano w."""
+    """Gera uma grade cartesiana com eixos coordenados em 4K e desenho suavizado."""
     w, h = size
     img = np.full((h, w, 3), bg_color, dtype=np.uint8)
 
+    l_thick = line_thickness if line_thickness is not None else max(3, int(w * 0.004))
+    a_thick = axis_thickness if axis_thickness is not None else max(6, int(w * 0.008))
+
     for i in range(grid_lines + 1):
-        x = int(i * (w - 1) / grid_lines)
-        y = int(i * (h - 1) / grid_lines)
-        cv2.line(img, (x, 0), (x, h - 1), grid_color, line_thickness)
-        cv2.line(img, (0, y), (w - 1, y), grid_color, line_thickness)
+        x = int(round(i * (w - 1) / grid_lines))
+        y = int(round(i * (h - 1) / grid_lines))
+        cv2.line(img, (x, 0), (x, h - 1), grid_color, l_thick, lineType=cv2.LINE_AA)
+        cv2.line(img, (0, y), (w - 1, y), grid_color, l_thick, lineType=cv2.LINE_AA)
 
     cx, cy = w // 2, h // 2
-    cv2.line(img, (cx, 0), (cx, h - 1), axis_color, axis_thickness)
-    cv2.line(img, (0, cy), (w - 1, cy), axis_color, axis_thickness)
+    cv2.line(img, (cx, 0), (cx, h - 1), axis_color, a_thick, lineType=cv2.LINE_AA)
+    cv2.line(img, (0, cy), (w - 1, cy), axis_color, a_thick, lineType=cv2.LINE_AA)
 
     return img
 
 
 def generate_checkerboard_texture(
-    size: Tuple[int, int] = (1024, 1024),
-    squares_per_side: int = 8,
-    color1: Tuple[int, int, int] = (245, 245, 245),
-    color2: Tuple[int, int, int] = (40, 50, 70)
+    size: Tuple[int, int] = (3840, 3840),
+    squares_per_side: int = 10,
+    color1: Tuple[int, int, int] = (250, 250, 252),
+    color2: Tuple[int, int, int] = (25, 35, 55)
 ) -> np.ndarray:
-    """Gera um tabuleiro de xadrez cartesiano para o plano w."""
+    """Gera um tabuleiro de xadrez cartesiano de alta resolução para o plano w."""
     w, h = size
     img = np.zeros((h, w, 3), dtype=np.uint8)
     dx = w / squares_per_side
@@ -431,8 +434,8 @@ def generate_checkerboard_texture(
 
     for r in range(squares_per_side):
         for c in range(squares_per_side):
-            x1, y1 = int(c * dx), int(r * dy)
-            x2, y2 = int((c + 1) * dx), int((r + 1) * dy)
+            x1, y1 = int(round(c * dx)), int(round(r * dy))
+            x2, y2 = int(round((c + 1) * dx)), int(round((r + 1) * dy))
             col = color1 if (r + c) % 2 == 0 else color2
             cv2.rectangle(img, (x1, y1), (x2, y2), col, -1)
 
@@ -440,11 +443,11 @@ def generate_checkerboard_texture(
 
 
 def generate_concentric_targets_texture(
-    size: Tuple[int, int] = (1024, 1024),
-    n_rings: int = 8,
+    size: Tuple[int, int] = (3840, 3840),
+    n_rings: int = 10,
     colors: Optional[List[Tuple[int, int, int]]] = None
 ) -> np.ndarray:
-    """Gera círculos concêntricos coloridos no plano w."""
+    """Gera círculos concêntricos coloridos no plano w em 4K com anti-aliasing."""
     w, h = size
     img = np.full((h, w, 3), (255, 255, 255), dtype=np.uint8)
     cx, cy = w // 2, h // 2
@@ -452,32 +455,37 @@ def generate_concentric_targets_texture(
 
     if colors is None:
         colors = [
-            (230, 40, 40), (245, 180, 0), (40, 180, 60),
-            (0, 170, 230), (40, 70, 220), (200, 30, 200)
+            (230,  30,  30),  # Vermelho
+            (250, 185,   0),  # Amarelo
+            ( 30, 180,  50),  # Verde
+            (  0, 185, 230),  # Ciano
+            ( 35,  75, 225),  # Azul
+            (210,  30, 210),  # Magenta
         ]
 
     for i in range(n_rings, 0, -1):
-        r = int(i * max_radius / n_rings)
+        r = int(round(i * max_radius / n_rings))
         color = colors[(i - 1) % len(colors)]
-        cv2.circle(img, (cx, cy), r, color, -1)
+        cv2.circle(img, (cx, cy), r, color, -1, lineType=cv2.LINE_AA)
 
     return img
 
 
 def generate_truchet_texture(
-    size: Tuple[int, int] = (1024, 1024),
-    grid_size: int = 8,
-    line_thickness: int = 16,
-    bg_color: Tuple[int, int, int] = (248, 248, 250),
-    line_color: Tuple[int, int, int] = (25, 45, 95)
+    size: Tuple[int, int] = (3840, 3840),
+    grid_size: int = 10,
+    line_thickness: Optional[int] = None,
+    bg_color: Tuple[int, int, int] = (250, 250, 252),
+    line_color: Tuple[int, int, int] = (20, 40, 85)
 ) -> np.ndarray:
-    """Gera um mosaico clássico de rosetas e arcos de Truchet para o plano w."""
+    """Gera um mosaico clássico de rosetas e arcos de Truchet em 4K com anti-aliasing."""
     w, h = size
     img = np.full((h, w, 3), bg_color, dtype=np.uint8)
     tile_w = w // grid_size
     tile_h = h // grid_size
 
-    # Padrão pseudoaleatório determinístico estético
+    l_thick = line_thickness if line_thickness is not None else max(4, int(w * 0.014))
+
     np.random.seed(101)
     for r in range(grid_size):
         for c in range(grid_size):
@@ -486,22 +494,22 @@ def generate_truchet_texture(
             rad = tile_w // 2
 
             if rot == 0:
-                cv2.ellipse(img, (x0, y0), (rad, rad), 0, 0, 90, line_color, line_thickness)
-                cv2.ellipse(img, (x0 + tile_w, y0 + tile_h), (rad, rad), 0, 180, 270, line_color, line_thickness)
+                cv2.ellipse(img, (x0, y0), (rad, rad), 0, 0, 90, line_color, l_thick, lineType=cv2.LINE_AA)
+                cv2.ellipse(img, (x0 + tile_w, y0 + tile_h), (rad, rad), 0, 180, 270, line_color, l_thick, lineType=cv2.LINE_AA)
             else:
-                cv2.ellipse(img, (x0 + tile_w, y0), (rad, rad), 0, 90, 180, line_color, line_thickness)
-                cv2.ellipse(img, (x0, y0 + tile_h), (rad, rad), 0, 270, 360, line_color, line_thickness)
+                cv2.ellipse(img, (x0 + tile_w, y0), (rad, rad), 0, 90, 180, line_color, l_thick, lineType=cv2.LINE_AA)
+                cv2.ellipse(img, (x0, y0 + tile_h), (rad, rad), 0, 270, 360, line_color, l_thick, lineType=cv2.LINE_AA)
 
     return img
 
 
 # ==============================================================================
-# CLASSE DE ALTO NÍVEL: DomainColoringEngine
+# CLASSE DE ALTO NÍVEL: DomainColoringEngine (SUPORTE NATIVO A 4K UHD)
 # ==============================================================================
 
 class DomainColoringEngine:
     """
-    Motor Unificado de Coloração de Domínio para Funções Complexas.
+    Motor Unificado de Coloração de Domínio para Funções Complexas com suporte a 4K UHD.
     """
 
     def __init__(
@@ -509,7 +517,7 @@ class DomainColoringEngine:
         func: Callable[[np.ndarray], np.ndarray],
         x_range: Tuple[float, float] = (-2.0, 2.0),
         y_range: Tuple[float, float] = (-2.0, 2.0),
-        resolution: Tuple[int, int] = (1124, 1124)
+        resolution: Tuple[int, int] = (3840, 3840)
     ):
         self.func = func
         self.x_range = x_range

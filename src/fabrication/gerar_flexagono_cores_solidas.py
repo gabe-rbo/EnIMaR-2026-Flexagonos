@@ -79,10 +79,10 @@ def main():
         func=f,
         x_range=(-2.2, 2.2),
         y_range=(-2.2, 2.2),
-        resolution=(1124, 1124)
+        resolution=(3840, 3840)
     )
 
-    print(">>> 2. Renderizando as 6 Faces em Cores Sólidas e Pullbacks Geométricos...")
+    print(">>> 2. Renderizando as 6 Faces em Cores Sólidas e Pullbacks em 4K UHD (3840x3840)...")
     faces = engine.generate_six_solid_faces(
         custom_palette=PALETTE_SOLID_6,
         texture_u_range=(-2.5, 2.5),
@@ -96,20 +96,21 @@ def main():
         p = faces_dir / f"face{i}.png"
         faces[key].save(p, "PNG")
         face_paths.append(str(p))
-        print(f" - Salva {key}: {p}")
+        print(f" - Salva {key} (4K): {p}")
 
     print(">>> 3. Gerando Painel Comparativo 2x3...")
     painel_path = out_dir / "painel_6_faces_cores_solidas.png"
     criar_painel_comparativo_solidas(faces, painel_path)
 
-    print(">>> 4. Montando Planificações de Impressão (Tetraflexágono de Cores Sólidas)...")
+    print(">>> 4. Montando Planificações de Impressão (Tetraflexágono de Cores Sólidas 4840x4840)...")
     frontal_path = out_dir / "Plano_Frontal_CoresSolidas.png"
     traseiro_path = out_dir / "Plano_Traseiro_CoresSolidas.png"
     gerar_planificacao_tetraflexagono(
         faces_paths=face_paths,
         output_frontal=frontal_path,
         output_traseiro=traseiro_path,
-        grafica=True
+        grafica=True,
+        scale_factor=2
     )
 
     # Gerar também o README da pasta
