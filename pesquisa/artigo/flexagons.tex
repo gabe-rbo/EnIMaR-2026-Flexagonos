@@ -1,0 +1,1908 @@
+\documentclass[11pt,a4paper]{article}
+
+\usepackage[T1]{fontenc}
+\usepackage[utf8]{inputenc}
+\usepackage{amsmath,amssymb,amsthm,mathrsfs}
+\usepackage{graphicx,subcaption,booktabs}
+\usepackage[dvipsnames]{xcolor}
+\usepackage[margin=2.6cm]{geometry}
+\usepackage[colorlinks,linkcolor=MidnightBlue,citecolor=MidnightBlue,
+            urlcolor=MidnightBlue]{hyperref}
+\usepackage[protrusion=true,expansion=false]{microtype}
+
+\renewcommand{\proofname}{Demonstra\c{c}\~ao}
+\theoremstyle{plain}
+\newtheorem{teorema}{Teorema}[section]
+\newtheorem{proposicao}[teorema]{Proposição}
+\newtheorem{lema}[teorema]{Lema}
+\newtheorem{corolario}[teorema]{Corolário}
+\theoremstyle{definition}
+\newtheorem{definicao}[teorema]{Definição}
+\newtheorem{exemplo}[teorema]{Exemplo}
+\theoremstyle{remark}
+\newtheorem{observacao}[teorema]{Observação}
+
+\newcommand{\C}{\mathbb{C}}
+\newcommand{\R}{\mathbb{R}}
+\newcommand{\Z}{\mathbb{Z}}
+\newcommand{\Q}{\mathbb{Q}}
+\newcommand{\Zi}{\Z[i]}
+\newcommand{\Qq}{\mathbf{Q}}
+\newcommand{\FF}{\mathscr{F}}
+\newcommand{\wpL}{\wp}
+\DeclareMathOperator{\Aut}{Aut}
+\DeclareMathOperator{\End}{End}
+\DeclareMathOperator{\covol}{covol}
+\DeclareMathOperator{\Id}{Id}
+
+\title{\bfseries Funções complexas flexionáveis\\[2pt]
+\large Tetraflexágonos quadrados, grupos cristalográficos planos\\
+e funções elípticas com multiplicação complexa}
+\author{Gabriel Ribeiro\\[-2pt]
+\small Departamento de Matem\'atica, UFMG}
+\date{\small Agosto de 2026}
+
+\begin{document}
+\maketitle
+\vspace{-2.2\baselineskip}
+
+\begin{abstract}
+\noindent
+Um \emph{flex} de uma face ladrilhada por polígonos congruentes é uma bijeção
+que é isometria direta em cada ladrilho e os permuta --- o rearranjo que um
+flexágono impõe à figura de uma face quando ela reaparece. Dada $f$ meromorfa,
+perguntamos quando a imagem flexionada $\Phi_*f=f\circ\Phi^{-1}$ ainda é uma
+função meromorfa. Mostramos que isso ocorre se e somente se $f$ é invariante
+pelo grupo $\Gamma_\Phi=\langle A_k^{-1}A_j\rangle$ gerado pelas discrepâncias
+entre as peças de $\Phi$, e que $\Gamma_\Phi$ é sempre um subgrupo discreto de
+$C_n\ltimes\frac1d\mathcal O_n$, com $\mathcal O_4=\Zi$ e
+$\mathcal O_3=\mathcal O_6=\Z[\zeta_3]$. O problema cai assim inteiramente
+dentro da teoria das funções automorfas planas e admite classificação
+completa: nove classes, cada uma com um \emph{Hauptmodul} explícito. Quando o
+reticulado de $\Gamma_\Phi$ tem posto $2$ não há solução inteira não constante
+e a curva $\C/\Lambda$ tem multiplicação complexa --- \emph{lemniscática}
+($j=1728$) no caso quadrado, \emph{equianarmônica} ($j=0$) no
+triangular. Enumeramos exaustivamente os dois grupos de flexes ($6144$ e
+$524\,880$ elementos) e resolvemos os quatro flexágonos clássicos:
+o tri-tetraflexágono dá $h(e^{i\pi z})$ (com soluções inteiras), o
+hexa-tetraflexágono dá $\C(\wp,\wp')$ do reticulado quadrado $2\Zi$, e os
+dois hexaflexágonos --- confinados pelo \emph{teorema das retas de dobra} às
+rotações em torno do centro do hexágono --- dão ambos o grupo \emph{finito}
+$C_3$, com soluções $f(z)=h\big((z-O)^3\big)$, entre elas inteiras. Um modelo
+de flexão que acompanha a ordem das camadas decide a última questão em aberto,
+reproduz exatamente o diagrama de flexão do brinquedo, e o grafo desse modelo
+é decomposto por inteiro: $20\,405$ componentes, uma delas --- o flexágono ---
+com $19\,200$ estados e todas as outras com $200$ ou menos. Acompanha o texto um
+programa que gera e certifica a família completa de soluções de qualquer
+flexágono, e catálogos prontos para impressão.
+\end{abstract}
+
+\medskip
+\noindent\textbf{Palavras-chave:} flexágonos, retratos de fase, grupos
+cristalográficos planos, funções elípticas, multiplicação complexa, curva
+lemniscática.
+
+\section{Introdução}
+
+Um flexágono é um objeto de papel que, dobrado adequadamente, exibe faces
+escondidas. Nos \emph{tetraflexágonos quadrados} cada face é um quadrado
+subdividido em quatro quadradinhos, e o que se observa ao flexionar é que os
+quatro quadradinhos de uma face reaparecem \emph{permutados e girados}. Se
+pintamos uma face com o retrato de fase de uma função complexa $f$, a flexão
+devolve um novo desenho: as quatro peças de $f$ recolocadas de outro modo.
+Quase sempre o resultado é uma figura quebrada --- as cores não casam nos cortes.
+A pergunta que motivou este trabalho é:
+
+\begin{quote}
+\emph{Para quais $f$ o desenho flexionado é, ainda, o retrato de fase de uma
+função complexa?}
+\end{quote}
+
+A resposta tem três camadas. A primeira é uma tradução: o rearranjo é uma
+aplicação afim por partes $\Phi$, e a condição é que as quatro determinações
+$f\circ A_j^{-1}$ colem, o que pelo princípio da identidade equivale a uma
+\emph{equação funcional} --- $f$ deve ser invariante por um grupo $\Gamma_\Phi$
+de isometrias diretas do plano (Teorema~\ref{thm:principal}). A segunda é
+estrutural: $\Gamma_\Phi$ é sempre discreto e contido em
+$\mu_4\ltimes\frac12\Zi$, isto é, é um subgrupo de um grupo cristalográfico do
+tipo $p4$; assim o problema cai inteiramente dentro da teoria das funções
+automorfas planas e admite classificação completa
+(Teorema~\ref{thm:classificacao}). A terceira é aritmética e um pouco
+surpreendente: quando $\Gamma_\Phi$ contém duas translações independentes ---
+o que acontece em $92\%$ dos casos --- não há solução inteira não constante, as
+soluções são elípticas, e o reticulado, por estar contido em $\frac12\Zi$, é
+comensurável com $\Zi$. \emph{O flexágono força multiplicação complexa}
+(Corolário~\ref{cor:cm}).
+
+Nos flexágonos concretos do manual \cite{manual} tudo se calcula: o
+tri-tetraflexágono dá $h(e^{i\pi z})$ (Teorema~\ref{thm:tri}) e o hexa dá as
+funções elípticas do reticulado quadrado $2\Zi$ (Teorema~\ref{thm:hexa}) --- a
+função de Weierstrass do caso lemniscático, $g_3=0$, $j=1728$. A diferença
+entre os dois é uma face que reaparece ao longo de dois eixos em vez de um.
+
+\medskip
+As Seções \ref{sec:flex}--\ref{sec:classificacao} são independentes de
+flexágonos concretos. A Seção~\ref{sec:flexagonos} determina, por enumeração
+exata das dobraduras planas, quais flexes o hexa-tetraflexágono de \cite{manual}
+realmente realiza; a Seção~\ref{sec:principais} contém o teorema específico. A
+Seção~\ref{sec:naoanalitico} mostra que toda a rigidez é um fenômeno
+estritamente holomorfo, a Seção~\ref{sec:gerador} descreve o programa que gera a
+família completa de soluções e a Seção~\ref{sec:computacional} a verificação
+computacional.
+\section{Flexes de quadrantes}\label{sec:flex}
+
+Escrevemos $Q=[-1,1]^2\subset\C$ e denotamos por
+\[
+Q_1=[0,1]^2,\quad Q_2=[-1,0]\times[0,1],\quad
+Q_3=[-1,0]^2,\quad Q_4=[0,1]\times[-1,0]
+\]
+os quadrantes, numerados no sentido cartesiano (a mesma convenção de
+\cite[\S3.4]{manual}), com centros
+\[
+c_1=\tfrac{1+i}{2},\qquad c_2=\tfrac{-1+i}{2},\qquad
+c_3=\tfrac{-1-i}{2},\qquad c_4=\tfrac{1-i}{2}.
+\]
+Seja $\mu_4=\{1,i,-1,-i\}$.
+
+\begin{definicao}\label{def:flex}
+Um \emph{flex de quadrantes} é uma aplicação $\Phi:Q\to Q$, bijetora fora dos
+eixos coordenados, para a qual existem $\sigma\in S_4$ e
+$\varepsilon_1,\dots,\varepsilon_4\in\mu_4$ tais que
+\begin{equation}\label{eq:flex}
+\Phi|_{\mathring Q_j}=A_j,\qquad
+A_j(z):=\varepsilon_j\,(z-c_j)+c_{\sigma(j)}
+      =\varepsilon_j z+\beta_j,\quad
+\beta_j:=c_{\sigma(j)}-\varepsilon_j c_j .
+\end{equation}
+Denotamos $\Phi=(\sigma;\varepsilon)$ e escrevemos $\FF$ para o conjunto de
+todos os flexes de quadrantes.
+\end{definicao}
+
+Cada $A_j$ é uma isometria direta que leva $Q_j$ sobre $Q_{\sigma(j)}$; a
+restrição $\varepsilon_j\in\mu_4$ é forçada pelo fato de $A_j$ levar um quadrado
+do reticulado em outro. A exclusão de isometrias \emph{inversas} corresponde ao
+fato físico de que, numa dada face do flexágono, todos os quadradinhos são
+vistos pelo mesmo lado do papel (veja a Observação~\ref{obs:reflexao}).
+
+\begin{proposicao}
+$\FF$ é um grupo para a composição, isomorfo ao produto entrelaçado
+$\mu_4\wr S_4=\mu_4^{\,4}\rtimes S_4$; em particular
+$|\FF|=4^4\cdot 4!=6144$.
+\end{proposicao}
+
+\begin{proof}
+A aplicação $\Phi\mapsto(\varepsilon;\sigma)$ é bijetiva por
+\eqref{eq:flex}, e $(\sigma;\varepsilon)\circ(\sigma';\varepsilon')
+=(\sigma\sigma';\,(\varepsilon_{\sigma'(j)}\varepsilon'_j)_j)$, que é
+exatamente a lei do produto entrelaçado.
+\end{proof}
+
+\begin{figure}[t]
+\centering
+\includegraphics[width=\linewidth]{fig/flexao_tetra.png}
+\caption{A flexão de um tetraflexágono, o análogo quadrado da pinça. (a) a face
+e os dois cortes; (b) dobra-se por uma mediana e os quatro quadrantes viram
+duas pilhas; (c) reabre-se pela \emph{mesma} mediana, mas separando a pilha
+noutro ponto: sobem folhas que estavam escondidas e aparece outra face --- são
+literalmente as operações \texttt{dobrar} e \texttt{abrir} do modelo com
+camadas da Seção~\ref{sec:camadas}; (d) o mapa de retorno diagonal da face $1$,
+$\sigma=(13)(24)$ com $\varepsilon\equiv1$: os quadrantes opostos trocam de
+lugar sem girar; (e) as discrepâncias $A_k^{-1}A_j$ desse mapa são as
+translações por $2$ e por $2i$, e geram
+$\Lambda_\Phi=2\Zi$. Comparar com a Figura~\ref{fig:pinca}, onde o mesmo
+raciocínio no hexágono só produz rotações.}\label{fig:flexaotetra}
+\end{figure}
+
+\begin{definicao}
+Dada $f$ meromorfa, o \emph{flexionado} de $f$ por $\Phi$ é
+$\Phi_*f:=f\circ\Phi^{-1}$, definido em $Q$ a menos dos eixos: em
+$\mathring Q_{\sigma(j)}$ vale $\Phi_*f=f\circ A_j^{-1}$.
+Dizemos que $f$ é \emph{$\Phi$-flexionável} se existe uma vizinhança aberta e
+conexa $U\supset Q$ e uma função $G$ meromorfa em $U$ com
+$G|_{\mathring Q_{\sigma(j)}}=f\circ A_j^{-1}$ para $j=1,2,3,4$.
+\end{definicao}
+
+Note que $\Phi_*f$ é automaticamente holomorfa (meromorfa) no \emph{interior de
+cada quadrante}, pois ali é composição de $f$ com uma aplicação afim. Todo o
+conteúdo do problema está na colagem ao longo dos dois cortes.
+
+\section{O teorema de caracterização}\label{sec:teorema}
+
+\begin{definicao}\label{def:gamma}
+O \emph{grupo de discrepância} de $\Phi=(\sigma;\varepsilon)$ é
+\[
+\Gamma_\Phi:=\bigl\langle\, A_k^{-1}\!\circ A_j \ :\ 1\le j,k\le 4 \,\bigr\rangle
+\ \le\ \Aut_{\mathrm{af}}(\C),
+\qquad
+A_k^{-1}A_j(z)=\frac{\varepsilon_j}{\varepsilon_k}\,z
+ +\frac{\beta_j-\beta_k}{\varepsilon_k}.
+\]
+\end{definicao}
+
+\begin{teorema}[Caracterização]\label{thm:principal}
+Seja $f$ meromorfa em $\C$ e $\Phi=(\sigma;\varepsilon)\in\FF$.
+São equivalentes:
+\begin{enumerate}
+\item[(i)] $f$ é $\Phi$-flexionável;
+\item[(ii)] as quatro determinações coincidem:
+      $f\circ A_1^{-1}=f\circ A_2^{-1}=f\circ A_3^{-1}=f\circ A_4^{-1}$ em $\C$;
+\item[(iii)] $f\circ S=f$ para todo $S\in\Gamma_\Phi$.
+\end{enumerate}
+Nesse caso $\Phi_*f=f\circ A_1^{-1}$ é meromorfa em $\C$, e o seu grupo de
+invariância é $A_1\Gamma_\Phi A_1^{-1}$.
+\end{teorema}
+
+\begin{proof}
+(i)$\Rightarrow$(ii). Seja $G$ meromorfa em $U\supset Q$ conexo com
+$G=f\circ A_j^{-1}$ em $\mathring Q_{\sigma(j)}$. Como $A_j$ é afim inversível,
+$f\circ A_j^{-1}$ é meromorfa em todo $\C$; ela coincide com $G$ no aberto não
+vazio $\mathring Q_{\sigma(j)}\subset U$, e $U$ é conexo, logo pelo princípio da
+identidade $G=f\circ A_j^{-1}$ em $U$. Isso vale para os quatro índices, donde
+$f\circ A_j^{-1}=f\circ A_k^{-1}$ em $U$ e, de novo pelo princípio da
+identidade (agora em $\C$), em todo o plano.
+
+(ii)$\Rightarrow$(iii). De $f\circ A_j^{-1}=f\circ A_k^{-1}$ segue, compondo à
+direita com $A_j$, que $f=f\circ A_k^{-1}A_j$. Os $A_k^{-1}A_j$ geram
+$\Gamma_\Phi$ e o conjunto $\{S: f\circ S=f\}$ é um subgrupo.
+
+(iii)$\Rightarrow$(i). Se $f$ é $\Gamma_\Phi$-invariante então
+$f\circ A_k^{-1}A_j=f$, isto é, $f\circ A_j^{-1}=f\circ A_k^{-1}$; tome
+$G:=f\circ A_1^{-1}$, meromorfa em $\C$. A última afirmação é imediata.
+\end{proof}
+
+\begin{observacao}[versão local, via Morera]\label{obs:local}
+Se $f$ é apenas holomorfa numa vizinhança de $Q$ e exigimos somente que
+$\Phi_*f$ se estenda \emph{continuamente} aos cortes, o teorema de
+Morera--Painlevé garante que a extensão é holomorfa, e o argumento acima se
+aplica localmente: como os quatro quadrantes formam um ciclo de comprimento $4$
+no grafo de adjacência, basta a colagem entre pares adjacentes para concluir que
+todas as determinações coincidem. Obtém-se a mesma equação funcional, agora
+válida na órbita de $U$ sob $\Gamma_\Phi$; se essa órbita for todo o plano, $f$
+se estende a uma função $\Gamma_\Phi$-invariante em $\C$.
+\end{observacao}
+
+\begin{observacao}[por que só isometrias diretas]\label{obs:reflexao}
+Se admitíssemos que algumas peças de $\Phi$ fossem isometrias \emph{inversas}
+(o que corresponderia a ver alguns quadradinhos pelo verso), a peça
+correspondente de $\Phi_*f$ seria antiholomorfa. Uma função simultaneamente
+holomorfa e antiholomorfa num aberto é constante; logo, num flex misto,
+$\Phi_*f$ meromorfa obriga $f$ a ser constante. A hipótese de
+Definição~\ref{def:flex} não é, portanto, uma restrição arbitrária: é a única
+situação com conteúdo.
+\end{observacao}
+
+O próximo lema mostra que $\Gamma_\Phi$ não vê rotações globais --- em
+particular, ambiguidades de convenção sobre ``como o flexágono é segurado''
+são irrelevantes.
+
+\begin{lema}\label{lem:rho}
+Se $\rho$ é uma isometria direta de $\C$ com $\rho(Q)=Q$ (isto é,
+$\rho(z)=i^u z$, $u\in\Z/4$), então $\rho\circ\Phi\in\FF$ e
+$\Gamma_{\rho\circ\Phi}=\Gamma_\Phi$. Mais geralmente,
+$\Gamma_\Phi$ depende apenas da família $(A_j)_j$ a menos de um fator comum
+à esquerda.
+\end{lema}
+
+\begin{proof}
+As peças de $\rho\circ\Phi$ são $\rho A_j$, e
+$(\rho A_k)^{-1}(\rho A_j)=A_k^{-1}\rho^{-1}\rho A_j=A_k^{-1}A_j$.
+\end{proof}
+
+\begin{proposicao}\label{prop:discreto}
+Para todo $\Phi\in\FF$ tem-se
+$\Gamma_\Phi\le \mu_4\ltimes\tfrac12\Zi$. Em particular $\Gamma_\Phi$ é um
+subgrupo discreto do grupo das isometrias diretas de $\C$, isto é, um grupo
+cíclico finito de rotações, um grupo de friso direto, ou um grupo
+cristalográfico plano dos tipos $p1$, $p2$ ou $p4$; e o seu reticulado de
+translações $\Lambda_\Phi$ satisfaz $\Lambda_\Phi\subset\frac12\Zi$.
+\end{proposicao}
+
+\begin{proof}
+Como $2c_j\in\Zi$ e $\varepsilon_j\in\mu_4$, temos $2\beta_j\in\Zi$; logo
+$A_j$ tem a forma $z\mapsto \varepsilon_j z+t_j/2$ com $t_j\in\Zi$. O conjunto
+$\{z\mapsto \varepsilon z+t/2:\varepsilon\in\mu_4,\ t\in\Zi\}$ é um grupo
+(pois $\mu_4\Zi=\Zi$), obviamente discreto, e contém todos os $A_k^{-1}A_j$.
+Um subgrupo discreto do grupo das isometrias diretas do plano tem parte de
+translações de posto $0$, $1$ ou $2$ e grupo de pontos cíclico; aqui o grupo de
+pontos é um subgrupo de $\mu_4$, o que exclui $p3$ e $p6$.
+\end{proof}
+
+\section{Classificação completa}\label{sec:classificacao}
+
+Escrevemos $\Lambda=\Lambda_\Phi$ para o reticulado de translações de
+$\Gamma_\Phi$ e $P=P_\Phi\le\mu_4$ para o grupo de pontos, de modo que
+$1\to\Lambda\to\Gamma_\Phi\to P\to 1$. Quando $P\ne\{1\}$, fixamos um centro de
+rotação $p$ de ordem máxima.
+
+\begin{teorema}[Classificação]\label{thm:classificacao}
+Seja $\Phi\in\FF$ e $f$ meromorfa não constante. Então $f$ é $\Phi$-flexionável
+se e somente se $f$ pertence ao corpo indicado na tabela abaixo, onde
+$n=|P|$, $\omega$ gera $\Lambda$ no caso de posto $1$, e $\wp=\wp(\,\cdot\,;\Lambda)$.
+\begin{center}
+\renewcommand{\arraystretch}{1.25}
+\begin{tabular}{ccll}
+\toprule
+$\operatorname{posto}\Lambda$ & $n$ & corpo das soluções & inteiras não constantes?\\
+\midrule
+$0$ & $1$ & todas as funções meromorfas & sim\\
+$0$ & $2$ & $\{h((z-p)^2)\}$ & sim\\
+$0$ & $4$ & $\{h((z-p)^4)\}$ & sim\\
+$1$ & $1$ & $\{h(e^{2\pi i (z-p)/\omega})\}$ & sim\\
+$1$ & $2$ & $\{H(\cos(2\pi (z-p)/\omega))\}$ & sim\\
+$2$ & $1$ & $\C(\wp,\wp')$ & \textbf{não}\\
+$2$ & $2$ & $\C\bigl(\wp(z-p)\bigr)$ & \textbf{não}\\
+$2$ & $4$ & $\C\bigl(\wp(z-p)^2\bigr)$, $\Lambda$ quadrado & \textbf{não}\\
+\bottomrule
+\end{tabular}
+\end{center}
+(Nos casos de posto $\le 1$, $h$ e $H$ percorrem todas as funções meromorfas do
+argumento indicado.)
+\end{teorema}
+
+\begin{proof}
+Pelo Teorema~\ref{thm:principal} basta descrever o corpo
+$\mathscr{M}(\C)^{\Gamma_\Phi}$ das funções meromorfas $\Gamma_\Phi$-invariantes,
+isto é, das funções meromorfas na órbifold $\C/\Gamma_\Phi$.
+
+\emph{Posto $0$.} $\Gamma_\Phi=\langle z\mapsto \zeta_n(z-p)+p\rangle\cong C_n$ e
+$w\mapsto w^n$ realiza $\C\to\C/C_n$; logo as invariantes são $h((z-p)^n)$.
+
+\emph{Posto $1$, $n=1$.} $\Gamma_\Phi=\omega\Z$ e $z\mapsto e^{2\pi i(z-p)/\omega}$
+identifica $\C/\Gamma_\Phi\cong\C^\ast$.
+
+\emph{Posto $1$, $n=2$.} O grupo de pontos age no reticulado de posto $1$, logo
+$n\le 2$, e $n=2$ significa $\Gamma_\Phi=\langle t_\omega, r_p\rangle$ com
+$r_p(z)=2p-z$ e $r_pt_\omega r_p^{-1}=t_{-\omega}$. Pondo
+$u=e^{2\pi i (z-p)/\omega}$, o grupo torna-se $u\mapsto u^{\pm1}$ em $\C^\ast$,
+cujo quociente é $\C$ via $u+u^{-1}=2\cos(2\pi(z-p)/\omega)$.
+
+\emph{Posto $2$, $n=1$.} Definição de função elíptica; o corpo é $\C(\wp,\wp')$.
+
+\emph{Posto $2$, $n=2$.} As invariantes são as elípticas pares em torno de $p$,
+que formam $\C(\wp(z-p))$.
+
+\emph{Posto $2$, $n=4$.} $n=4$ obriga $i\Lambda=\Lambda$, isto é, $\Lambda$
+quadrado; então $g_3(\Lambda)=0$ e, com $w=z-p$,
+\begin{equation}\label{eq:CM}
+\wp(iw)=-\wp(w),\qquad \wp'(iw)=i\,\wp'(w).
+\end{equation}
+Logo $\wp^2$ é $C_4$-invariante. Como $\wp^2$ tem um único polo, de ordem $4$,
+em $w=0$, ela define um recobrimento ramificado
+$\C/\Lambda\to\mathbb{P}^1$ de grau $4$, donde
+$[\C(\wp,\wp'):\C(\wp^2)]=4=|C_4|=[\C(\wp,\wp'):\C(\wp,\wp')^{C_4}]$
+e portanto $\C(\wp,\wp')^{C_4}=\C(\wp^2)$.
+
+Finalmente, a inexistência de soluções inteiras não constantes no posto $2$ é o
+teorema de Liouville: uma função inteira duplamente periódica é limitada, logo
+constante.
+\end{proof}
+
+\begin{observacao}
+A identidade \eqref{eq:CM} sai da definição: substituindo $\lambda=i\mu$ na
+série de $\wp(iw)=\frac1{(iw)^2}+\sum_{\lambda\ne0}
+\bigl[\frac1{(iw-\lambda)^2}-\frac1{\lambda^2}\bigr]$ e usando
+$i\Lambda=\Lambda$.
+\end{observacao}
+
+\subsection*{Censo dos 6144 flexes}
+
+Enumerando exaustivamente $\FF$ com aritmética exata em $\Q(i)$
+(Seção~\ref{sec:computacional}) obtemos:
+
+\begin{center}
+\renewcommand{\arraystretch}{1.2}
+\begin{tabular}{ccrrl}
+\toprule
+$\operatorname{posto}\Lambda$ & $|P|$ & \#flexes & \% & tipo cristalográfico\\
+\midrule
+$0$ & $1$ & $4$    & $0{,}07$  & trivial\\
+$0$ & $2$ & $36$   & $0{,}59$  & $C_2$\\
+$0$ & $4$ & $128$  & $2{,}08$  & $C_4$\\
+$1$ & $1$ & $32$   & $0{,}52$  & friso $p1$\\
+$1$ & $2$ & $288$  & $4{,}69$  & friso $p2$\\
+$2$ & $1$ & $60$   & $0{,}98$  & $p1$\\
+$2$ & $2$ & $348$  & $5{,}66$  & $p2$\\
+$2$ & $4$ & $5248$ & $85{,}42$ & $p4$\\
+\midrule
+\multicolumn{2}{l}{\emph{total}} & $6144$ & $100$ & \\
+\bottomrule
+\end{tabular}
+\end{center}
+
+\begin{corolario}[Rigidez]\label{cor:rigidez}
+Exatamente $5656$ dos $6144$ flexes de quadrantes ($92{,}06\%$) não admitem
+nenhuma função inteira flexionável não constante. Para esses flexes, toda
+solução não trivial \emph{tem polos}: o retrato de fase precisa exibir
+singularidades.
+\end{corolario}
+
+\begin{corolario}\label{cor:trivial}
+$\Gamma_\Phi=\{1\}$ se e somente se $A_1=A_2=A_3=A_4$, isto é, se e somente se
+$\Phi$ é a restrição a $Q$ de uma rotação global $z\mapsto i^u z$. Há
+exatamente $4$ tais flexes, e para eles toda $f$ é flexionável.
+\end{corolario}
+
+\begin{corolario}[Multiplicação complexa forçada]\label{cor:cm}
+Se $\operatorname{posto}\Lambda_\Phi=2$, então $\Lambda_\Phi$ é um reticulado
+contido em $\frac12\Zi$, portanto comensurável com $\Zi$. Consequentemente
+$\C/\Lambda_\Phi$ é isógena à curva lemniscática $\C/\Zi$ e
+$\End(\C/\Lambda_\Phi)$ é uma ordem em $\Zi$: toda função complexa flexionável
+não constante de um flex genérico é uma função elíptica \emph{com multiplicação
+complexa por $\Q(i)$}. Se além disso $|P_\Phi|=4$, então $\Lambda_\Phi$ é
+quadrado, $g_3=0$ e $j(\C/\Lambda_\Phi)=1728$.
+\end{corolario}
+
+\begin{proof}
+Proposição~\ref{prop:discreto} dá $\Lambda_\Phi\subset\frac12\Zi$; sendo de
+posto $2$, o índice $[\frac12\Zi:\Lambda_\Phi]$ é finito, logo $\Lambda_\Phi$ e
+$\Zi$ são comensuráveis e $\Q\Lambda_\Phi=\Q(i)$. Assim
+$\End(\C/\Lambda_\Phi)=\{\alpha:\alpha\Lambda_\Phi\subset\Lambda_\Phi\}$ é uma
+ordem em $\Q(i)$, estritamente maior que $\Z$. Para $|P|=4$ vale
+$i\Lambda_\Phi=\Lambda_\Phi$; então $g_3(i\Lambda)=i^{-6}g_3(\Lambda)=-g_3(\Lambda)$
+força $g_3=0$ e $j=1728\,g_2^3/(g_2^3-27g_3^2)=1728$.
+\end{proof}
+
+\begin{corolario}[Funções universalmente flexionáveis]\label{cor:universal}
+Seja $\Gamma_{\max}=\langle\Gamma_\Phi:\Phi\in\FF\rangle$. Então
+$\Gamma_{\max}$ é o grupo cristalográfico $p4$ de reticulado $\Zi$, com centros
+de ordem $4$ em $\Zi\cup(\frac{1+i}2+\Zi)$. Em consequência, uma função
+meromorfa é $\Phi$-flexionável para \emph{todo} $\Phi\in\FF$ se e somente se
+\[
+f\in\C\bigl(J_0\bigr),\qquad J_0(z):=\wp\bigl(z;\Zi\bigr)^2 .
+\]
+\end{corolario}
+
+\section{O que os flexágonos realmente fazem}\label{sec:flexagonos}
+
+\begin{figure}[t]
+\centering
+\includegraphics[width=\linewidth]{fig/planos.png}
+\caption{Os dois planos de papel. À esquerda, o anel de doze quadradinhos do
+hexa-tetraflexágono, com as charneiras marcadas por cor (verticais e
+horizontais alternam em blocos de três --- é a Proposição~\ref{prop:solta}) e
+com moldura nas quatro folhas que carregam a face $1$. À direita, o octomino do
+tri-tetraflexágono: das nove adjacências, duas são \emph{cortes} --- o rasgo,
+a laranja --- e o que sobra é a tira $a\,b\,c\,f\,g\,h\,e\,d$, colada pelas duas
+pontas. A célula $d$, branca dos dois lados, é a aba livre.}\label{fig:planos}
+\end{figure}
+
+\begin{figure}[t]
+\centering
+\includegraphics[width=\linewidth]{fig/tiras.png}
+\caption{Os outros dois planos de papel, gerados pelo mesmo código que o modelo
+usa (\texttt{hexaflex.tira}). São tiras retas de triângulos equiláteros, com o
+último colado de volta no primeiro: $10$ triângulos para o tri-hexaflexágono
+($9\cdot2=3\cdot6$) e $19$ para o hexa-hexaflexágono ($18\cdot2=6\cdot6$).
+Comparadas com a Figura~\ref{fig:planos}, a diferença que decide tudo não é o
+tamanho: é que aqui as charneiras, ao serem levadas para a face, caem nas três
+diagonais do hexágono, e essas passam todas pelo centro
+(Teorema~\ref{thm:retas}).}\label{fig:tiras}
+\end{figure}
+
+\subsection{Os dois modelos de \cite{manual}}
+O manual descreve dois tetraflexágonos quadrados. O \emph{hexa-tetraflexágono}
+($6$ faces) é montado a partir de um anel de $12$ quadradinhos --- um quadrado
+$4\times4$ sem o $2\times2$ central --- \emph{sem cola} \cite[\S1.2]{manual};
+a contagem fecha, $12\cdot2=6\cdot4$.
+
+O \emph{tri-tetraflexágono} ($3$ faces) é montado a partir do modelo da
+Figura~A.1 de \cite{manual}. Extraindo essa figura pixel a pixel obtém-se, em
+cada metade da folha, um \emph{octomino} de $8$ quadradinhos: $6$ com figura e
+$2$ brancos --- as abas de cola do roteiro (``cole a face do quadrado branco, a
+qual deve estar encarando outro''). Dobrando a folha na linha indicada as duas
+metades se superpõem célula a célula; ao todo há $4$ lados brancos em $3$
+células, e restam $16-4=12=3\cdot4$ lados com figura. Numerando as células
+$a,\dots,e$ na linha de cima e $f,g,h$ na de baixo de uma grade $2\times5$:
+\[
+\begin{array}{llll}
+a:\ E_2/\text{branco} &\quad b:\ E_1/V_1 &\quad c:\ F_2/V_2 &\quad d:\ \text{branco}/\text{branco}\\
+e:\ \text{branco}/F_1 &\quad f:\ F_3/E_4 &\quad g:\ V_3/E_3 &\quad h:\ V_4/F_4 .
+\end{array}
+\]
+Qual par de faces brancas é colado não está dito explicitamente, mas fica
+determinado por necessidade: enumerando (como abaixo) todas as dobraduras
+planas do octomino sem nenhuma restrição, o \emph{único} par de células que
+aparece junto em todos os estados que exibem alguma face é $\{a,e\}$ --- as
+duas pontas da tira, exatamente como no tri-tetraflexágono clássico. A célula
+$d$, branca dos dois lados, é uma aba livre.
+
+\subsection{Mapas de retorno}
+Precisamos de uma noção de flex que não dependa de nenhuma convenção de
+desenho. Ela é sugerida pelo próprio roteiro de flexão de \cite[p.~6]{manual},
+$1 \to 3 \to 4 \to 2 \to 1 \to 5 \to 6 \to 2 \to 1$, em que as faces $1$ e $2$
+\emph{reaparecem}.
+
+\begin{definicao}\label{def:retorno}
+Um \emph{estado} do flexágono é uma dobradura plana do seu plano sobre um
+quadrado $2\times2$. A face $k$ é \emph{exibível} no estado $S$ se os quatro
+quadradinhos da face $k$ ocupam, em $S$, as quatro posições distintas do
+quadrado, com o lado $k$ para cima; nesse caso $S$ determina uma bijeção $P_S$
+das quatro peças nas quatro posições e uma rotação $\rho_S(j)\in\mu_4$ de cada
+peça. Se $S$ e $S'$ exibem ambos a face $k$, o \emph{mapa de retorno} é o flex
+de quadrantes
+\[
+\Phi_{S\to S'}=(\sigma,\varepsilon),\qquad \sigma=P_{S'}\circ P_S^{-1},\qquad
+\varepsilon_{P_S(j)}=\rho_{S'}(j)\rho_S(j)^{-1}.
+\]
+\end{definicao}
+
+Se a face $k$ é pintada para ficar correta no estado $S$, no estado $S'$ o
+desenho aparece exatamente como $\Phi_{S\to S'}$ o rearranja. A razão
+$\rho_{S'}/\rho_S$ elimina qualquer convenção sobre como se desenha o verso do
+papel: em ambos os estados o \emph{mesmo} lado de cada quadradinho está para
+cima, e um eventual fator de convenção cancela. O mapa de retorno é, portanto,
+um invariante do flexágono. Denotamos por $\mathcal{R}$ o conjunto dos mapas de
+retorno de um flexágono e por $\Gamma_{\mathcal R}=\langle\Gamma_\Phi:
+\Phi\in\mathcal R\rangle$.
+
+\subsection{Enumeração exata das dobraduras planas}
+Uma dobradura plana é uma atribuição, a cada quadradinho $C$, de uma isometria
+$g_C$ do plano tal que quadradinhos vizinhos $C\sim C'$ de aresta comum $e$
+satisfazem $g_{C'}=g_C$ (sem dobra) ou $g_{C'}=g_C\circ\mathrm{ref}_e$ (dobra).
+Fixando $g$ numa célula, uma dobradura fica determinada por um bit por
+charneira, sujeito ao fechamento dos ciclos independentes do grafo de
+adjacência. É essencial percorrer $g_{C_0}\in\{\mathrm{id},\text{reflexão}\}$:
+a segunda opção corresponde a virar o flexágono do avesso, e omiti-la elimina
+todos os estados em que o verso do papel está para cima. Exigindo por fim que
+todas as imagens caiam num bloco $2\times2$ (e, no tri, que $a$ e $e$ fiquem na
+mesma posição), obtemos:
+
+\begin{proposicao}\label{prop:enum}
+A menos de translação, o anel do hexa-tetraflexágono admite exatamente $70$
+dobraduras planas sobre um quadrado $2\times2$, e o octomino colado do
+tri-tetraflexágono exatamente $4$. No tri, as três faces são exibíveis, e
+apenas a face da frente o é em dois arranjos. No hexa, todas as seis faces são
+exibíveis; as faces $1$ e $2$ em $5$ arranjos e as demais em $2$.
+\end{proposicao}
+
+A enumeração é um \emph{majorante}: nem toda dobradura plana admite ordenação
+de camadas sem auto-interseção, nem é necessariamente alcançável por flexões.
+Para o hexa-tetraflexágono, porém, dispomos do \emph{diagrama de flexão} do
+próprio projeto \cite{enimar}, que lista os estados efetivamente percorridos.
+Nele cada face aparece nos arranjos
+\begin{center}
+\renewcommand{\arraystretch}{1.2}
+\begin{tabular}{cll}
+\toprule
+faces & arranjos exibidos & mapas de retorno\\
+\midrule
+$1$, $2$ & $abcd$,\ $badc$,\ $cdab$ & $\sigma_{\mathrm h}$, $\sigma_{\mathrm v}$, $\sigma_{\mathrm h}\sigma_{\mathrm v}$\\
+$3$, $6$ & $abcd$,\ $badc$ & $\sigma_{\mathrm h}$\\
+$4$, $5$ & $abcd$,\ $cdab$ & $\sigma_{\mathrm v}$\\
+\bottomrule
+\end{tabular}
+\end{center}
+onde escrevemos $abcd$ para a palavra que se lê no diagrama (as peças nas
+posições superior-esquerda, superior-direita, inferior-esquerda,
+inferior-direita), e
+\[
+\sigma_{\mathrm h}=(12)(34),\qquad \sigma_{\mathrm v}=(14)(23),\qquad
+\varepsilon\equiv 1
+\]
+são, respectivamente, a troca das colunas e a troca das linhas. Esses três
+arranjos estão entre os cinco produzidos pela enumeração, o que confirma uma
+construção pela outra. Note que \emph{nenhuma peça aparece girada}: os mapas de
+retorno dos dois flexágonos são puras permutações de quadrantes --- ``recortar
+o quadrado em quatro e trocar as peças de lugar''.
+
+\begin{proposicao}\label{prop:gammas}
+Os grupos de discrepância são:
+\begin{center}
+\renewcommand{\arraystretch}{1.2}
+\begin{tabular}{llll}
+\toprule
+flexágono & face & $\Gamma$ da face & soluções da face\\
+\midrule
+tri  & frente & $2\Z$ (posto 1) & $h(e^{i\pi z})$\\
+tri  & verso, escondida & $\{1\}$ & quaisquer\\
+hexa & $3$, $6$ & $2\Z$ (posto 1) & $h(e^{i\pi z})$\\
+hexa & $4$, $5$ & $2i\Z$ (posto 1) & $h(e^{\pi z})$\\
+hexa & $1$, $2$ & $2\Zi$ (posto 2, $P=1$) & $\C(\wp,\wp')$\\
+\midrule
+tri  & \emph{todas} & $2\Z$ & $h(e^{i\pi z})$\\
+hexa & \emph{todas} & $2\Zi$ & $\C(\wp,\wp')$\\
+\bottomrule
+\end{tabular}
+\end{center}
+Em todos os casos $\varepsilon\equiv1$, de modo que $\Gamma_{\mathcal R}$ é um
+grupo de \emph{translações} puras: o grupo de pontos é trivial.
+\end{proposicao}
+
+\begin{proof}
+$\sigma_{\mathrm h}$ com $\varepsilon\equiv1$ tem $A_1(z)=z-1$, $A_2(z)=z+1$,
+$A_3(z)=z+1$, $A_4(z)=z-1$, donde $A_2^{-1}A_1=t_{-2}$ e $A_4^{-1}A_1=\mathrm{id}$:
+$\Gamma=2\Z$. Analogamente $\sigma_{\mathrm v}$ dá $2i\Z$ e
+$\sigma_{\mathrm h}\sigma_{\mathrm v}=(13)(24)$ dá $\langle 2,2i\rangle=2\Zi$.
+Os grupos de pontos são triviais porque todos os $\varepsilon_j$ valem $1$.
+\end{proof}
+
+\section{Os teoremas para os dois flexágonos}\label{sec:principais}
+
+\begin{teorema}[Tri-tetraflexágono]\label{thm:tri}
+Uma função meromorfa é flexionável nas três faces do tri-tetraflexágono se e
+somente se ela é $2$-periódica, isto é, se e somente se
+\[
+\boxed{\;f(z)=h\bigl(e^{i\pi z}\bigr),\qquad h \text{ meromorfa em } \C^\ast
+\text{ arbitrária}.\;}
+\]
+Em particular existem soluções \emph{inteiras} não constantes --- a mais
+simples é $f(z)=e^{i\pi z}$ --- e o espaço das soluções é de dimensão infinita.
+\end{teorema}
+
+\begin{proof}
+Proposição~\ref{prop:gammas} e o caso $(\text{posto }1,\,n=1)$ do
+Teorema~\ref{thm:classificacao}, com $\omega=2$.
+\end{proof}
+
+\begin{teorema}[Hexa-tetraflexágono]\label{thm:hexa}
+Seja $\Lambda=2\Zi$. Uma função meromorfa é flexionável em todas as faces do
+hexa-tetraflexágono se e somente se ela é elíptica de reticulado $\Lambda$:
+\[
+\boxed{\;f\in\C\bigl(\wp(z;2\Zi),\,\wp'(z;2\Zi)\bigr).\;}
+\]
+\emph{Nenhuma função inteira não constante} serve. Já as faces $3,4,5,6$,
+tomadas isoladamente, são satisfeitas por funções inteiras: $e^{i\pi z}$ nas
+faces $3$ e $6$, $e^{\pi z}$ nas faces $4$ e $5$. As faces $1$ e $2$ sozinhas
+já forçam a elipticidade.
+
+O reticulado é quadrado: $g_3=0$, $j=1728$, $g_2=\varpi^4/4\approx11{,}816982$,
+onde $\varpi=2{,}62205\ldots$ é a constante lemniscática. A curva elíptica
+subjacente é $y^2=4x^3-g_2x$, com multiplicação complexa por $\Zi$.
+\end{teorema}
+
+\begin{proof}
+Proposição~\ref{prop:gammas} e o caso $(\text{posto }2,\,n=1)$ do
+Teorema~\ref{thm:classificacao}. A não existência de soluções inteiras é
+Liouville; $g_3=0$ e $j=1728$ seguem do Corolário~\ref{cor:cm}, e
+$g_2(2\Zi)=g_2(\Zi)/16=4\varpi^4/16$.
+\end{proof}
+
+\begin{observacao}[a dicotomia]
+Vale a pena enunciá-la nitidamente. \emph{As faces que o roteiro de flexão
+visita uma única vez são tolerantes; as que ele revisita são rígidas.} No
+tri-tetraflexágono só a face da frente reaparece, e ela reaparece ao longo de
+\emph{um} eixo: o grupo tem posto $1$ e sobram funções inteiras. No
+hexa-tetraflexágono as faces $1$ e $2$ reaparecem ao longo de \emph{dois} eixos
+--- é a propriedade que o manual destaca, ``apenas a face de número $1$ pode
+ser aberta ao longo de dois eixos diferentes'' --- e duas translações
+independentes obrigam a função a ter polos. A rigidez não vem de o flexágono
+ser complicado; vem de ele ter uma face que volta por dois caminhos.
+\end{observacao}
+
+\begin{observacao}
+$\wp(z;2\Zi)$ tem um único polo em $Q=[-1,1]^2$, na origem: a singularidade ---
+o ponto onde todas as cores se encontram --- cai exatamente no cruzamento dos
+dois cortes, isto é, esconde-se na dobra. Os seus zeros ficam em $\pm1$ e
+$\pm i$, nos pontos médios dos lados.
+\end{observacao}
+
+\section{Fora do mundo holomorfo não há rigidez}\label{sec:naoanalitico}
+Vale a pena isolar onde a rigidez foi usada: apenas no princípio da identidade.
+
+\begin{proposicao}
+Seja $\Sigma\subset Q$ a união dos dois cortes (a ``cruz'' $\{xy=0\}\cap Q$) e
+$E_\Phi:=\bigcup_{j}A_j^{-1}\bigl(\Sigma\cap\partial Q_{\sigma(j)}\bigr)$, um
+subconjunto de dimensão $1$ de $Q$. Se exigimos apenas que $\Phi_*f$ seja
+\emph{contínua} em $Q$ (com $f$ contínua), a condição envolve somente
+$f|_{E_\Phi}$. Em particular, qualquer $f$ contínua que se anule numa vizinhança
+de $E_\Phi$ é flexionável nesse sentido, e o espaço das soluções é de dimensão
+infinita para todo $\Phi\in\FF$.
+\end{proposicao}
+
+O mesmo vale na categoria real-analítica: duas funções real-analíticas em
+$\R^2$ podem coincidir num segmento sem coincidir (por exemplo $0$ e $y$ ao
+longo de $y=0$), de modo que a colagem ao longo dos cortes \emph{não} propaga
+informação. É a rigidez do princípio da identidade complexo --- o fato de que
+uma função holomorfa é determinada por sua restrição a um segmento --- que
+transforma quatro condições de fronteira em uma equação funcional global, e daí
+em funções elípticas. Nesse sentido, a resposta ao problema do título é um
+fenômeno estritamente da análise complexa.
+
+\section{Verificação computacional}\label{sec:computacional}
+
+Todos os enunciados foram verificados por programas independentes.
+
+\begin{enumerate}
+\item \textbf{Simulação da dobradura} (\texttt{flexagon\_sim.py}). Aritmética
+exata em $\Q(i)$; reproduz os cinco diagramas de montagem de
+\cite[p.~5]{manual}, inclusive o passo final de ``desenrolar e enrolar ao
+contrário'', e devolve o estado montado com todas as posições e orientações.
+
+\item \textbf{Extração do modelo impresso} (\texttt{plano\_tri.py}). A
+Figura~A.1 de \cite{manual} é lida pixel a pixel; confirma-se que cada metade é
+um octomino, que as duas metades se superpõem célula a célula sob a dobra
+indicada, que sobram $12$ lados com figura, e que o gerador de planos do projeto
+reproduz exatamente esse modelo.
+
+\item \textbf{Enumeração das dobraduras} (\texttt{foldings.py},
+\texttt{foldings\_tri.py}, \texttt{mecanica.py}). Aritmética inteira exata em
+$\Zi$ (coordenadas dobradas); produz as $70$ dobraduras planas do hexa e as $4$
+do tri, os arranjos exibíveis de cada face e os mapas de retorno da
+Proposição~\ref{prop:enum}. O estado montado devolvido pelo item 1 é
+reencontrado dentro da lista, e os arranjos do diagrama de \cite{enimar} estão
+entre os enumerados --- três construções independentes que concordam.
+
+\item \textbf{Reticulados} (\texttt{reticulados.py}). Percorre os $5656$ flexes
+de posto $2$, reduz cada reticulado por Gauss, testa se é da forma $\alpha\Zi$
+e calcula $j(\tau)$ por séries de Eisenstein: são os dados do
+Teorema~\ref{thm:reticulados}.
+
+\item \textbf{Censo de $\FF$} (\texttt{quadflex.py}). Os $6144$ flexes são
+enumerados e, para cada um, $\Gamma_\Phi$ é calculado exatamente: o grupo de
+pontos por fecho em $\mu_4$ e o reticulado por geradores de Schreier seguidos
+de forma normal de Hermite sobre $\Z$. Isso produz a tabela da
+Seção~\ref{sec:classificacao} e os Corolários
+\ref{cor:rigidez}--\ref{cor:universal}. O Lema~\ref{lem:rho} foi testado em
+$400$ flexes aleatórios contra as $4$ rotações globais.
+
+\item \textbf{Modelo com camadas} (\texttt{verify\_camadas.py},
+\texttt{verify\_geral.py}). $65$ testes exatos, em aritmética inteira:
+a fórmula de paridade e a fórmula dos intervalos contra a enumeração dos
+$216\,768$ estados; a regra dos extremos e a sua versão espelhada; a
+decomposição completa em $20\,405$ componentes (soma $=216\,768$, ilha $=19\,200$,
+maior grão $=200$); $W^+(D)$ nos dois reticulados; a flexão de pinça; o
+tri-hexaflexágono com $\Gamma=C_3$; a roda de dois protótipos com $\Gamma=C_{12}$;
+e os quatro catálogos --- não só a existência dos arquivos, mas que os
+quatro \texttt{catalogo.pdf} são PDFs de verdade e que nenhuma fórmula
+impressa traz sinal duplo.
+
+\item \textbf{Testes funcionais} (\texttt{verify2.py}).
+$\wp$ e $\wp'$ são avaliadas por funções teta de Jacobi com base de Gauss
+reduzida e conferidas contra a soma de Eisenstein direta e contra diferenças
+finitas (concordância $\sim10^{-6}$ e $\sim10^{-7}$). Testamos
+$\max_j\|f\circ A_1^{-1}-f\circ A_j^{-1}\|$ em $1500$ pontos aleatórios de $Q$
+contra todos os mapas de retorno:
+\begin{center}
+\renewcommand{\arraystretch}{1.15}
+\begin{tabular}{llc}
+\toprule
+$f$ & mapas de retorno & resíduo relativo máximo\\
+\midrule
+$\wp(z;2\Zi)$                 & todos os do hexa   & $7{,}2\times10^{-15}$\\
+$R(\wp)+S(\wp)\wp'$           & todos os do hexa   & $\le 2{,}2\times10^{-13}$\\
+$e^{i\pi z}$                  & faces $3$, $6$; todo o tri & $9{,}1\times10^{-16}$\\
+$e^{\pi z}$                   & faces $4$, $5$     & $9{,}4\times10^{-16}$\\
+\midrule
+$e^{i\pi z}$                  & face $1$ (diagonal) & $2{,}5\times10^{2}$ \ (falha)\\
+$e^{z}$, $z^2$                & todos              & $\ge 3{,}9$ \ (falha)\\
+\bottomrule
+\end{tabular}
+\end{center}
+Verificamos também $\wp(iz)=-\wp(z)$ (resíduo $3\times10^{-15}$), $g_3=0$ e
+$j=1728$ para $\Zi$, $2\Zi$ e $(1+i)\Zi$.
+
+\item \textbf{Geração e desenho} (\texttt{gerador.py}). Ver
+Seção~\ref{sec:gerador}: cada imagem produzida é testada antes de ser salva.
+\end{enumerate}
+
+\begin{figure}[t]
+\centering
+\begin{subfigure}[b]{0.235\textwidth}
+  \includegraphics[width=\linewidth]{fig/n_wp_diag_antes.png}
+  \caption{$f=\wp(z;2\Zi)$}
+\end{subfigure}\hfill
+\begin{subfigure}[b]{0.235\textwidth}
+  \includegraphics[width=\linewidth]{fig/n_wp_diag_depois.png}
+  \caption{$\Phi_*f$: costura invisível}
+\end{subfigure}\hfill
+\begin{subfigure}[b]{0.235\textwidth}
+  \includegraphics[width=\linewidth]{fig/n_exp_diag_antes.png}
+  \caption{$f=e^{2z}$}
+\end{subfigure}\hfill
+\begin{subfigure}[b]{0.235\textwidth}
+  \includegraphics[width=\linewidth]{fig/n_exp_diag_depois.png}
+  \caption{$\Phi_*f$: quebra}
+\end{subfigure}
+\caption{O mapa de retorno diagonal da face $1$ ($\sigma=(13)(24)$,
+$\varepsilon\equiv1$: os quadrantes opostos trocam de lugar, sem girar)
+aplicado a uma solução e a uma não-solução. Em (b) a figura é literalmente a
+mesma de (a). As linhas brancas marcam os cortes.}
+\end{figure}
+
+\begin{figure}[t]
+\centering
+\begin{subfigure}[b]{0.235\textwidth}
+  \includegraphics[width=\linewidth]{fig/n_exp_horz_antes.png}
+  \caption{$f=e^{i\pi z}$}
+\end{subfigure}\hfill
+\begin{subfigure}[b]{0.235\textwidth}
+  \includegraphics[width=\linewidth]{fig/n_exp_horz_depois.png}
+  \caption{faces $3$, $6$: cola}
+\end{subfigure}\hfill
+\begin{subfigure}[b]{0.235\textwidth}
+  \includegraphics[width=\linewidth]{fig/n_exp_ihdiag_antes.png}
+  \caption{a mesma $f$}
+\end{subfigure}\hfill
+\begin{subfigure}[b]{0.235\textwidth}
+  \includegraphics[width=\linewidth]{fig/n_exp_ihdiag_depois.png}
+  \caption{face $1$: quebra}
+\end{subfigure}
+\caption{A solução \emph{inteira} $e^{i\pi z}$ das faces $3$ e $6$ do
+hexa-tetraflexágono (Proposição~\ref{prop:gammas}) --- a mesma que resolve
+\emph{todo} o tri-tetraflexágono (Teorema~\ref{thm:tri}). Ela não resolve a
+face~$1$ do hexa: nenhuma função inteira não constante resolve todas.}
+\end{figure}
+
+\section{Gerando a família completa}\label{sec:gerador}
+
+A classificação do Teorema~\ref{thm:classificacao} é construtiva, e isso permite
+mais do que exibir exemplos: permite \emph{parametrizar} o conjunto das
+soluções. Em cada uma das oito classes a órbifold $\C/\Gamma_\Phi$ é uma
+superfície de Riemann com uma função geradora $J$ --- um Hauptmodul --- tal que
+toda solução meromorfa é $f=R(J)$ com $R$ racional (no caso
+$(\text{posto }2,\,|P|=1)$, $f=R_1(\wp)+R_2(\wp)\wp'$):
+\begin{center}
+\renewcommand{\arraystretch}{1.25}
+\begin{tabular}{ccl}
+\toprule
+$\operatorname{posto}\Lambda$ & $n=|P|$ & gerador $J$ da órbifold\\
+\midrule
+$0$ & $1$ & $J=z$ (toda $f$ serve)\\
+$0$ & $n$ & $J=(z-p)^n$\\
+$1$ & $1$ & $J=e^{2\pi i(z-p)/\omega}$\\
+$1$ & $2$ & $J=\cos\bigl(2\pi (z-p)/\omega\bigr)$\\
+$2$ & $1$ & $(\wp,\wp')$ (dois geradores)\\
+$2$ & $2$ & $J=\wp(z-p)$\\
+$2$ & $4$ & $J=\wp(z-p)^2$\\
+\bottomrule
+\end{tabular}
+\end{center}
+
+O programa \texttt{gerador.py} implementa exatamente isso. Dado um flexágono ou
+um flex arbitrário, ele calcula $\Gamma$ com aritmética exata em $\Q(i)$,
+identifica a classe, constrói $J$, sorteia $R$ e --- este é o ponto --- confere
+numericamente que a $f$ resultante é de fato flexionável antes de desenhá-la. As
+raízes e os polos de $R$ são sorteados entre os \emph{valores} que $J$
+efetivamente assume no quadrado, o que garante que os zeros e polos de $f$ caiam
+dentro da figura; sem esse cuidado a maioria dos retratos sai quase constante.
+Uma pequena varredura de qualidade (cobertura do círculo cromático) descarta o
+resto. Na prática todas as tentativas passam no teste, com resíduo da ordem de
+$10^{-14}$.
+
+\begin{figure}[t]
+\centering
+\begin{subfigure}[b]{0.30\textwidth}
+  \includegraphics[width=\linewidth]{fig/hexa_face1.png}
+\end{subfigure}\hfill
+\begin{subfigure}[b]{0.30\textwidth}
+  \includegraphics[width=\linewidth]{fig/hexa_face3.png}
+\end{subfigure}\hfill
+\begin{subfigure}[b]{0.30\textwidth}
+  \includegraphics[width=\linewidth]{fig/hexa_face5.png}
+\end{subfigure}\\[4pt]
+\begin{subfigure}[b]{0.30\textwidth}
+  \includegraphics[width=\linewidth]{fig/hexa_face2.png}
+\end{subfigure}\hfill
+\begin{subfigure}[b]{0.30\textwidth}
+  \includegraphics[width=\linewidth]{fig/hexa_face4.png}
+\end{subfigure}\hfill
+\begin{subfigure}[b]{0.30\textwidth}
+  \includegraphics[width=\linewidth]{fig/hexa_face6.png}
+\end{subfigure}
+\caption{Seis faces geradas automaticamente para o hexa-tetraflexágono:
+$f=R_k(\wp(z;2\Zi))$ com racionais $R_k$ sorteadas. São seis desenhos
+diferentes e todos sobrevivem a todos os mapas de retorno (resíduos
+$\le 1{,}2\times10^{-13}$).}
+\end{figure}
+\section{A teoria geral: faces ladrilhadas}\label{sec:geral}
+
+Tudo o que foi feito até aqui para o quadrado vale, sem alteração, para
+qualquer face ladrilhada por polígonos congruentes. Vale a pena enunciá-lo
+assim, porque é o que faz os flexágonos triangulares (e quaisquer outros)
+caírem no mesmo teorema.
+
+\begin{definicao}
+Seja $\mathcal T$ uma tesselação do plano por polígonos congruentes, com
+reticulado de translações $L$ e grupo de rotações $C_n$; pela restrição
+cristalográfica $n\in\{1,2,3,4,6\}$. Uma \emph{face} é uma união finita
+$D=T_1\cup\dots\cup T_m$ de ladrilhos. Um \emph{flex} de $D$ é uma bijeção
+$\Phi:D\to D$, definida fora das arestas, que é isometria direta em cada
+$\mathring T_j$ e permuta os ladrilhos:
+\[
+\Phi|_{\mathring T_j}=A_j,\qquad A_j(z)=\varepsilon_j(z-c_j)+c_{\sigma(j)},
+\]
+onde $c_j$ é o baricentro de $T_j$ e $\varepsilon_j$ percorre as rotações que
+levam a forma de $T_j$ na de $T_{\sigma(j)}$ --- uma classe lateral do grupo de
+rotações do ladrilho. O grupo dos flexes tem ordem $m!\cdot|\mathrm{Rot}(T)|^m$.
+\end{definicao}
+
+Para o quadrado $2\times2$ de quadradinhos: $n=4$, $m=4$,
+$\mathrm{Rot}(T)=C_4$, $|\FF|=4!\cdot4^4=6144$. Para o hexágono de seis
+triângulos equiláteros: $n=6$, $m=6$, $\mathrm{Rot}(T)=C_3$ (o triângulo só
+admite rotações de $120^\circ$ em torno do seu baricentro) e
+$|\FF_\triangle|=6!\cdot3^6=524\,880$.
+
+\begin{teorema}[Teorema geral]\label{thm:geral}
+O Teorema~\ref{thm:principal} vale literalmente nesse contexto: $f$ é
+$\Phi$-flexionável se e somente se $f$ é invariante por
+$\Gamma_\Phi=\langle A_k^{-1}A_j\rangle$. Além disso
+\[
+\Gamma_\Phi\ \le\ C_n\ltimes\tfrac1d\,\mathcal O_n,\qquad
+\mathcal O_4=\Zi,\quad \mathcal O_3=\mathcal O_6=\Z[\zeta_3],
+\]
+onde $d$ é o denominador dos baricentros ($d=2$ no caso quadrado, $d=3$ no
+triangular). Em particular $\Gamma_\Phi$ é discreto, e se o seu reticulado de
+translações $\Lambda$ tem posto $2$ então $\Lambda$ é comensurável com
+$\mathcal O_n$; se ainda $|P_\Phi|\ge3$, então $\Lambda$ é um ideal de
+$\mathcal O_n$ e $\C/\Lambda$ tem multiplicação complexa:
+\[
+n=4:\quad j=1728 \ \text{(lemniscática)};\qquad
+n=3,6:\quad j=0 \ \text{(equianarmônica)}.
+\]
+\end{teorema}
+
+\begin{proof}
+A demonstração do Teorema~\ref{thm:principal} usa apenas que os ladrilhos são
+abertos conexos, que $D$ tem interior conexo e o princípio da identidade;
+nada de específico ao quadrado. Para a segunda parte: $d\,c_j\in\mathcal O_n$ e
+$\varepsilon_j\in\mu_n\subset\mathcal O_n^\times$, logo
+$d\beta_j=d(c_{\sigma(j)}-\varepsilon_jc_j)\in\mathcal O_n$ e todo
+$A_k^{-1}A_j$ tem a forma $z\mapsto\zeta z+t$ com $\zeta\in\mu_n$ e
+$t\in\frac1d\mathcal O_n$; esse conjunto é um grupo discreto. Se $|P|\ge3$
+então $\zeta_n\Lambda=\Lambda$ com $n\ge3$, isto é, $\Lambda$ é um
+$\mathcal O_n$-submódulo de $\Q(\zeta_n)$ finitamente gerado, ou seja um ideal
+fracionário; como $\mathcal O_n$ é principal, $\Lambda=\alpha\mathcal O_n$ e a
+homotetia $z\mapsto z/\alpha$ leva $\Lambda$ em $\mathcal O_n$. Os invariantes
+de $\C/\Zi$ e $\C/\Z[\zeta_3]$ são $j=1728$ e $j=0$.
+\end{proof}
+
+\begin{teorema}[Classificação universal]\label{thm:universal}
+Seja $\Phi$ um flex de uma face ladrilhada e $f$ meromorfa não constante.
+Então $f$ é $\Phi$-flexionável se e somente se $f$ pertence ao corpo indicado,
+onde $n=|P_\Phi|\in\{1,2,3,4,6\}$, $\omega$ gera $\Lambda$ no posto $1$,
+$\wp=\wp(\,\cdot\,;\Lambda)$ e $p$ é um centro de rotação:
+\begin{center}
+\renewcommand{\arraystretch}{1.3}
+\begin{tabular}{ccll}
+\toprule
+$\operatorname{posto}\Lambda$ & $|P|$ & gerador da órbifold $\C/\Gamma_\Phi$ & inteiras?\\
+\midrule
+$0$ & $1$ & --- (toda $f$ serve) & sim\\
+$0$ & $n$ & $(z-p)^n$ & sim\\
+$1$ & $1$ & $e^{2\pi i(z-p)/\omega}$ & sim\\
+$1$ & $2$ & $\cos\bigl(2\pi(z-p)/\omega\bigr)$ & sim\\
+$2$ & $1$ & $\wp,\ \wp'$ \quad(dois geradores) & \textbf{não}\\
+$2$ & $2$ & $\wp(z-p)$ & \textbf{não}\\
+$2$ & $3$ & $\wp'(z-p)$;\ $\Lambda$ hexagonal, $g_2=0$, $j=0$ & \textbf{não}\\
+$2$ & $4$ & $\wp(z-p)^2$;\ $\Lambda$ quadrado, $g_3=0$, $j=1728$ & \textbf{não}\\
+$2$ & $6$ & $\wp'(z-p)^2$;\ $\Lambda$ hexagonal, $g_2=0$, $j=0$ & \textbf{não}\\
+\bottomrule
+\end{tabular}
+\end{center}
+\end{teorema}
+
+\begin{figure}[p]
+\centering
+\includegraphics[width=\linewidth]{fig/atlas.png}
+\caption{As nove classes do Teorema~\ref{thm:universal}, cada uma pelo retrato
+de fase do seu gerador $J$ (com $\omega=2$ e $p=0$; a cor é o argumento, as
+faixas escuras são curvas de nível de $|J|$). A tabela lê-se na figura. No
+posto $0$ o gerador é $(z-p)^n$ e tem no centro um zero de ordem $n=|P|$: uma
+volta de cor quando $|P|=1$, três quando $n=3$. No posto $2$ o centro é um
+\emph{polo}, de ordem $|P|$ --- dois em $\wp$, três em $\wp'$, quatro em
+$\wp^2$, seis em $\wp'^2$ ---, com a única exceção de $(2,1)$, onde nenhum
+gerador sozinho serve e desenhamos $\wp'$. No posto $1$ não há ponto
+distinguido: $e^{2\pi i(z-p)/\omega}$ nunca se anula e os dois zeros do
+cosseno ficam fora do centro. O posto de $\Lambda$ é o número de direções em
+que o desenho se repete, e a simetria do retículo de polos separa $\Lambda$
+quadrado ($j=1728$) de $\Lambda$ hexagonal ($j=0$). Nas três primeiras linhas
+há soluções inteiras não constantes; nas seis de posto $2$, não.}
+\label{fig:atlas}
+\end{figure}
+
+\begin{proof}
+Como antes, trata-se de descrever as funções meromorfas na órbifold
+$\C/\Gamma_\Phi$; os casos de posto $\le1$ e os de posto $2$ com $|P|\le2$ já
+foram feitos. Para $|P|=3$: $\zeta_3\Lambda=\Lambda$ e
+$\wp(\zeta_3w)=\zeta_3^{-2}\wp(w)=\zeta_3\wp(w)$, donde
+$\wp'(\zeta_3w)=\zeta_3^{-3}\wp'(w)=\wp'(w)$: $\wp'$ é $C_3$-invariante e tem
+grau $3=|C_3|$, logo gera o corpo de invariantes. Para $|P|=6$, $C_6=\langle
+-1\rangle\times\langle\zeta_3\rangle$ e $\wp'$ é ímpar, de modo que $\wp'^2$ é
+$C_6$-invariante de grau $6=|C_6|$. Para $|P|=4$, $\wp(iw)=-\wp(w)$ e $\wp^2$
+tem grau $4$. Em cada caso o índice bate com a ordem do grupo, e o corpo de
+invariantes é gerado por esse elemento.
+\end{proof}
+
+\subsection*{Os dois censos}
+Enumerando exaustivamente os dois grupos de flexes com aritmética exata em
+$\Zi$ e em $\Z[\zeta_3]$ (Seção~\ref{sec:computacional}):
+\begin{center}
+\renewcommand{\arraystretch}{1.15}
+\begin{tabular}{ccrrrr}
+\toprule
+& & \multicolumn{2}{c}{quadrado ($|\FF|=6144$)} & \multicolumn{2}{c}{triangular ($|\FF|=524\,880$)}\\
+posto & $|P|$ & \#flexes & \% & \#flexes & \%\\
+\midrule
+$0$&$1$&    $4$&$0{,}07$&      $6$&$0{,}00$\\
+$0$&$2$&   $36$&$0{,}59$&     $54$&$0{,}01$\\
+$0$&$3$&    ---&---&         $246$&$0{,}05$\\
+$0$&$4$&  $128$&$2{,}08$&      ---&---\\
+$0$&$6$&    ---&---&         $738$&$0{,}14$\\
+$1$&$1$&   $32$&$0{,}52$&     $54$&$0{,}01$\\
+$1$&$2$&  $288$&$4{,}69$&    $522$&$0{,}10$\\
+$2$&$1$&   $60$&$0{,}98$&    $156$&$0{,}03$\\
+$2$&$2$&  $348$&$5{,}66$&  $1\,368$&$0{,}26$\\
+$2$&$3$&    ---&---&      $52\,026$&$9{,}91$\\
+$2$&$4$&$5\,248$&$85{,}42$&    ---&---\\
+$2$&$6$&    ---&---&     $469\,710$&$89{,}49$\\
+\midrule
+\multicolumn{2}{l}{\emph{admitem inteiras}} & $488$ & $7{,}94$ & $1\,620$ & $0{,}31$\\
+\multicolumn{2}{l}{\emph{forçam polos}} & $5\,656$ & $92{,}06$ & $523\,260$ & $99{,}69$\\
+\bottomrule
+\end{tabular}
+\end{center}
+
+\begin{corolario}[Rigidez, forma geral]\label{cor:rigidez2}
+Um flex de quadrantes tomado ao acaso não admite função inteira não constante
+com probabilidade $92{,}06\%$; um flex triangular, com probabilidade
+$99{,}69\%$. E em $85{,}4\%$ (resp. $99{,}4\%$) dos casos a curva elíptica
+subjacente é \emph{forçada}: lemniscática ($j=1728$) no caso quadrado,
+equianarmônica ($j=0$) no triangular.
+\end{corolario}
+
+\section{O modelo com camadas e o teorema das retas de dobra}\label{sec:camadas}
+
+Até aqui um estado do brinquedo foi uma \emph{dobradura plana}: uma isometria
+$g_C$ por célula. Isso ignora duas coisas que o papel não ignora --- a ordem
+em que as células se empilham, e o facto de só se ver a de cima. Repô-las
+decide a pergunta que ficou em aberto e, mais do que isso, resolve de uma vez
+todos os flexágonos.
+
+\begin{definicao}[estado dobrado]
+Um \emph{estado dobrado} do plano de um flexágono é um par $(g,\pi)$: uma
+isometria $g_C$ por célula e, em cada posição $p$, uma ordem total $\pi_p$ (de
+baixo para cima) das células que aí caem, sujeita às três condições de
+não-atravessamento de Justin --- taco--taco, taco--tortilha e
+tortilha--tortilha. Elas são necessárias e suficientes para que a ordem
+descreva papel sem auto-intersecção \cite{demaine}. A face $k$ está
+\emph{exibida} quando as suas células são as de \emph{topo} das quatro
+posições, com o lado $k$ para cima: é o que se vê, e é sobre o que se vê que a
+função está pintada.
+\end{definicao}
+
+Uma reta $\ell$ é \emph{admissível} para a face $D$ quando $\ell\cap D$ é uma
+união de arestas de ladrilhos --- dobrar não pode vincar um ladrilho --- e a
+reflexão $r_\ell$ leva ladrilhos de $\mathcal T$ em ladrilhos de $\mathcal T$.
+Um \emph{flex} é então: dobrar ao longo de uma reta admissível (a metade móvel
+passa por cima ou por baixo da outra) e reabrir ao longo de outra reta
+admissível, fazendo passar para o outro lado um \emph{bloco contíguo de
+camadas} do topo ou do fundo --- é o que o dedo faz ao abrir um livro. Só
+podem ser cortadas charneiras que assentem sobre a reta de abertura, e o
+resultado tem de ser de novo um estado dobrado válido.
+
+\begin{lema}[retas admissíveis]\label{lem:retas}
+Para o quadrado $2\times2$ de quadradinhos as retas admissíveis são as duas
+medianas e os quatro lados: seis retas. Para o hexágono de seis triângulos
+equiláteros são as três diagonais longas --- e \emph{todas passam pelo centro}
+$O$.
+\end{lema}
+
+\begin{proof}
+No quadrado, as arestas do ladrilhamento jazem em $x\in\{0,\pm1\}$ e
+$y\in\{0,\pm1\}$; as seis retas são admissíveis, e dobrar por um lado desliza
+o quadrado um ladrilho --- é o passo de abertura do flex. No hexágono, as
+arestas são os seis raios e os seis lados; raios opostos alinham-se dois a
+dois nas três diagonais longas, ao passo que dois lados consecutivos fazem
+$120^\circ$ e nunca se alinham, de modo que uma reta admissível contém no
+máximo um lado. Dobrar por esse lado levaria a folha incidente para fora do
+hexágono, e a união dos ladrilhos restantes com a sua imagem não é um hexágono
+de seis triângulos em torno de um vértice comum (a imagem não toca $O$): o
+contorno deixaria de ser a face. Restam as três diagonais.
+\end{proof}
+
+\begin{figure}[t]
+\centering
+\includegraphics[width=\linewidth]{fig/retas_dobra.png}
+\caption{As retas admissíveis das duas faces. No quadrado há seis --- as duas
+medianas e os quatro lados --- e duas paralelas compõem-se numa translação: é
+daí que vem o posto $2$. No hexágono há três, as diagonais longas, e
+\emph{todas passam pelo centro}: os lados não servem porque levariam papel para
+fora da face. Toda a diferença entre $\C(\wp,\wp')$ e $h\big((z-O)^3\big)$ está
+nesta figura.}\label{fig:retas}
+\end{figure}
+
+\begin{teorema}[teorema das retas de dobra]\label{thm:retas}
+Seja $W(D)$ o grupo gerado pelas reflexões nas retas admissíveis de $D$ e
+$W^+(D)$ o seu subgrupo de isometrias diretas. Se dois estados de um flexágono
+ligados por flexes exibem a mesma face, então o mapa de retorno $\Phi$ entre
+eles satisfaz $A_j\in W^+(D)$ para todo $j$. Em particular
+$\Gamma_\Phi\le W^+(D)$.
+\end{teorema}
+
+\begin{proof}
+Cada dobra e cada abertura substitui $g_C$ por $r_\ell\circ g_C$ nas células
+que se movem, com $\ell$ admissível. Ao longo de uma sequência de flexes cada
+folha $L$ tem portanto $g'_L=h_L\circ g_L$ com $h_L\in W(D)$. Se a face está
+exibida nos dois estados, $L$ mostra o mesmo lado para cima nos dois, logo
+$h_L$ é direta: $h_L\in W^+(D)$. Pela definição de mapa de retorno,
+$A_j=g'_L\circ g_L^{-1}=h_L$ para a folha $L$ que ocupa o ladrilho $j$, e
+$\Gamma_\Phi=\langle A_k^{-1}A_j\rangle\le W^+(D)$.
+\end{proof}
+
+\begin{corolario}[caso quadrado]\label{cor:quad}
+$W$ é gerado pelas reflexões em $x,y\in\{0,\pm1\}$, logo $W^+$ é o grupo $p2$
+das translações de $2\Zi$ e das meias-voltas em torno dos pontos de $\Zi$.
+Assim $\Lambda\subseteq2\Zi$ e $|P|\le2$: das nove classes do
+Teorema~\ref{thm:universal} só $p1$ e $p2$ (e as degeneradas de posto menor)
+podem ocorrer num tetraflexágono.
+\end{corolario}
+
+\begin{corolario}[caso hexagonal]\label{cor:hex}
+As três diagonais fazem $60^\circ$ entre si, logo $W$ é o grupo diedral de
+ordem $6$ que fixa $O$ e $W^+=C_3$. Assim $\Gamma$ é um grupo cíclico
+\emph{finito} de rotações em torno de $O$, de ordem $m\mid3$, e
+\[
+\{f \text{ meromorfa}:\ f\circ\Phi^{-1}\text{ meromorfa para todo flex}\}
+=\C\big((z-O)^m\big),\qquad\text{isto é}\qquad f(z)=h\big((z-O)^m\big).
+\]
+Em particular \emph{nenhum} hexaflexágono força funções elípticas, todos
+admitem soluções inteiras não constantes --- por exemplo $(z-O)^m$ --- e
+\emph{cada face de qualquer hexaflexágono aparece em no máximo três
+arranjos}. Este último enunciado é exatamente o que Gardner observou
+experimentalmente em $1956$ (Teorema~\ref{thm:hexaflex} e a discussão que o
+segue): o limite $3$ é um teorema, não um acidente do hexa-hexa.
+\end{corolario}
+
+\begin{observacao}[$W^+(D)$ calcula-se face a face]\label{obs:wgrupo}
+O cálculo acima é mecânico e está implementado em \texttt{wgrupo.py} para
+polióminos e poliamantes: enumeram-se as retas do reticulado que contêm
+arestas da face e forma-se o grupo gerado pelos produtos de duas reflexões.
+Distinguem-se duas colunas --- \emph{confinada} (só as retas interiores a $D$:
+o brinquedo nunca se abre para fora da face) e \emph{livre} (todas as retas
+que tocam $D$: ele pode abrir-se por um lado e deslizar) ---, e $\Gamma$ fica
+sempre entre as duas.
+\begin{center}
+\renewcommand{\arraystretch}{1.15}
+\begin{tabular}{lll}
+\toprule
+face & $W^+$ confinada & $W^+$ livre\\
+\midrule
+quadrado $2\times2$ (tetraflexágonos) & $C_2$ & posto $2$, $|P|=2$\\
+dominó $1\times2$ & trivial & posto $2$, $|P|=2$\\
+tira $1\times3$ & posto $1$, $|P|=1$ & posto $2$, $|P|=2$\\
+retângulo $2\times3$ & posto $1$, $|P|=2$ & posto $2$, $|P|=2$\\
+quadrado $3\times3$ & posto $2$, $|P|=2$ & posto $2$, $|P|=2$\\
+\midrule
+hexágono de $6$ triângulos (hexaflexágonos) & $C_3$ & posto $2$, $|P|=3$\\
+losango ($2$ triângulos) & trivial & posto $2$, $|P|=3$\\
+trapézio ($3$ triângulos) & $C_3$ & posto $2$, $|P|=3$\\
+\bottomrule
+\end{tabular}
+\end{center}
+\end{observacao}
+
+\noindent O contraste entre os dois corolários tem uma causa só, e é
+geométrica: no quadrado há retas admissíveis que \emph{não} passam pelo centro
+(os quatro lados), e é a composição de duas reflexões paralelas que produz as
+translações e, com elas, o posto $2$; no hexágono todas passam pelo centro, e
+o grupo colapsa para rotações.
+
+\subsection*{O hexa-tetraflexágono, decidido}
+
+O Corolário~\ref{cor:quad} deixa exatamente duas possibilidades, $|P|=1$ e
+$|P|=2$; é a busca exaustiva no modelo com camadas que escolhe. Implementámos
+estados dobrados, exibição e flex em \texttt{flexcamadas.py} e percorremos a
+órbita do estado montado, semeando-a com \emph{todas} as ordens de camadas
+compatíveis com esse estado --- o que torna a órbita um majorante da
+alcançabilidade física e as exclusões incondicionais.
+
+\begin{teorema}\label{thm:decidido}
+O anel de $12$ quadradinhos admite $216\,768$ estados dobrados válidos sobre o
+quadrado $2\times2$ (num referencial fixo); a órbita do estado montado pelo
+flex tem $19\,200$. Nessa órbita as faces $1$ e $2$ exibem-se em exatamente
+três arranjos e as faces $3,\dots,6$ em exatamente dois --- precisamente o
+diagrama de flexão de \cite{enimar}. Todos os mapas de retorno têm
+$\varepsilon$ constante, portanto
+\[
+\Gamma=2\Zi,\qquad |P|=1,\qquad
+\boxed{\ \text{soluções}=\C(\wp,\wp')\ \text{do reticulado quadrado }2\Zi\ }
+\]
+--- todas as funções elípticas de $2\Zi$, e não apenas as pares.
+\end{teorema}
+
+A comparação é instrutiva. O modelo puramente combinatório --- todos os
+estados dobrados, sem alcançabilidade --- dá cinco arranjos para as faces $1$
+e $2$ e $|P|=2$, isto é $\C(\wp)$. O majorante em que a abertura pode levar
+para o outro lado \emph{qualquer} conjunto admissível de camadas, e não um
+bloco contíguo, dá também cinco e $|P|=2$. A diferença entre três e cinco é
+exatamente a diferença entre abrir um livro por uma página e separar folhas
+não contíguas: a primeira é um flex, a segunda desmonta o brinquedo. E os dois
+arranjos que só o majorante alcança são precisamente os únicos com
+$\varepsilon$ não constante --- os únicos, portanto, capazes de pôr uma
+meia-volta em $\Gamma$. A órbita é fechada pelas meias-voltas e pelos dois
+espelhos, mas \emph{não} pelas rotações de um quarto de volta: um
+tetraflexágono nunca volta rodado $90^\circ$.
+
+\subsection*{Os outros três}
+
+O plano do tri-tetraflexágono precisa de uma correção. Das nove adjacências do
+octomino da Figura~A.1 de \cite{manual}, duas são \emph{cortes} --- o rasgo do
+tri-tetraflexágono clássico ---, e o que sobra é a tira
+$a\,b\,c\,f\,g\,h\,e\,d$ com as duas pontas coladas. Tira e colagem ficam
+determinadas por necessidade (\texttt{busca\_tri.py}): das três tiras
+hamiltonianas possíveis e de todas as colagens branco-com-branco, só essa
+exibe as \emph{três} faces no topo das pilhas, e só ela reproduz o diagrama
+de \cite{enimar} ($F$ com dois arranjos, $V$ e $E$ com um). O grupo não muda:
+$\Gamma=2\Z$, posto $1$, soluções $h(e^{i\pi z})$.
+
+Nos dois hexaflexágonos o Corolário~\ref{cor:hex} faz quase todo o trabalho:
+um mapa de retorno é uma rotação em torno de $O$, o que em coordenadas de
+ladrilho se lê $\sigma(j)\equiv j+\varepsilon_j\pmod 6$. Filtrando o censo
+combinatório por essa condição (\texttt{rotflex.py}):
+
+\begin{center}
+\renewcommand{\arraystretch}{1.15}
+\begin{tabular}{lrrl}
+\toprule
+& mapas combinatórios & rotações em torno de $O$ & $\Gamma$\\
+\midrule
+tri-hexaflexágono  & $4$   & $0$  & --- \\
+hexa-hexaflexágono & $107$ & $35$ & $C_3$\\
+\bottomrule
+\end{tabular}
+\end{center}
+
+(No tri-hexaflexágono o censo combinatório fixa o referencial --- \texttt{hexaflex.enumerar}
+percorre só $g_0\in\{\mathrm{ID},\mathrm{REF}\}$ --- e por isso não vê as
+rotações que a flexão realiza; é o modelo com camadas, com a pinça, que as
+encontra.)
+
+\begin{teorema}\label{thm:hexaflex}
+No hexa-hexaflexágono $\Gamma=C_3$ --- o máximo permitido pelo
+Corolário~\ref{cor:hex} ---, gerado pela rotação de $120^\circ$ em torno do
+centro, e as soluções são exatamente $f(z)=h\big((z-O)^3\big)$ com $h$
+meromorfa, entre elas $(z-O)^3$, inteira e não constante. E o mesmo vale para o
+tri-hexaflexágono: com a flexão de pinça, a órbita de um exemplar montado tem
+$660$ estados, as suas três faces --- as seis folhas de cima, as seis de
+baixo, as seis restantes, que de facto partem os $18$ lados --- reaparecem, e
+os $35$ mapas de retorno são todos rotações em torno de $O$, com
+$\Gamma=C_3$. Os dois hexaflexágonos clássicos dão portanto a \emph{mesma}
+resposta, e é o máximo que o Corolário~\ref{cor:hex} permite.
+\end{teorema}
+
+O Corolário~\ref{cor:hex} tem uma hipótese --- que o brinquedo não se abra
+para fora do hexágono --- e ela merece ser testada, não assumida.
+Implementámos por isso o análogo triangular do modelo com camadas
+(\texttt{hexcamadas.py}): estados dobrados sobre o reticulado $\Z[\omega]$,
+com o movimento geral ``refletir numa reta do reticulado um bloco contíguo de
+camadas cujas charneiras cortadas assentem todas nessa reta'' --- que inclui
+as dobras parciais, as aberturas, e em particular as aberturas \emph{por um
+lado exterior}, isto é, as tentativas de fuga. A órbita do tri-hexaflexágono
+tem $402$ estados; os seus contornos descem até um único triângulo (tamanhos
+$1,2,3,6$ com $216,144,36,6$ estados), de modo que o modelo \emph{permite} a
+fuga; e ainda assim todos os mapas de retorno alcançáveis são rotações em
+torno de $O$. A hipótese do corolário não é uma restrição imposta ao
+brinquedo: é uma consequência das camadas.
+
+\begin{figure}[t]
+\centering
+\includegraphics[width=\linewidth]{fig/pinca.png}
+\caption{A flexão de pinça, o único flex de um hexaflexágono. (a) pinçam-se
+três raios alternados --- é uma dobra \emph{simultânea}, e é por isso que um
+modelo de uma reta de cada vez não a alcança; (b) o brinquedo fica no
+tri-dobrado, três ladrilhos alternados, cada um com duas folhas por ladrilho da
+face; (c) abre-se pelos outros três raios, e cada braço manda um bloco
+contíguo de camadas para o ladrilho vazio ao lado; (d) o hexágono volta, com as
+faces trocadas. Todas as retas usadas passam pelo centro --- é o
+Teorema~\ref{thm:retas} em ação.}\label{fig:pinca}
+\end{figure}
+
+Um modelo de uma reta de cada vez não realiza, porém, a \emph{flexão de
+pinça}, que é uma dobra \emph{simultânea} por três raios alternados --- e o
+tri-dobrado de três ladrilhos alternados não se obtém por dobras sucessivas.
+Implementámo-la à parte (\texttt{hexcamadas.pinca}: os três pares, montanha ou
+vale em cada um, e a abertura simultânea pelos outros três raios). Com ela a
+órbita do tri-hexaflexágono passa de $402$ para $6756$ estados, dos quais
+$696$ hexagonais --- e \emph{todos} os $35$ mapas de retorno continuam a ser
+rotações em torno de $O$. É a confirmação do Teorema~\ref{thm:retas} com a
+flexão verdadeira, e não apenas com o seu substituto.
+
+Isto bate com o que Gardner registou em 1956 \cite{gardner}: cada face do
+hexa-hexa aparece em mais de uma forma, ``devido a uma rotação dos triângulos
+componentes uns em relação aos outros'', e as seis faces exibem ao todo $18$
+configurações --- $6\times3$, que é exatamente $|\Gamma|=3$ arranjos por face.
+É também a correção de uma leitura demasiado generosa: contar os mapas de
+retorno de \emph{todas} as dobraduras combinatórias atribuía aos
+hexaflexágonos um $\Gamma$ de posto $2$, quando o Teorema~\ref{thm:retas}
+mostra que nenhum mapa de posto positivo é sequer realizável, porque toda
+dobra de um hexágono de seis triângulos passa pelo centro.
+
+
+\section{Os quatro flexágonos clássicos}\label{sec:quatro}
+
+O mesmo método --- enumerar as dobraduras planas do plano do brinquedo sobre a
+sua face, ler os \emph{mapas de retorno} e calcular $\Gamma$ --- resolve os
+quatro flexágonos clássicos. Para os hexaflexágonos a tira é reta, com o
+último triângulo colado no primeiro, e as \emph{faces não são postuladas}: uma
+face é um conjunto de seis lados de célula que ocupa os seis ladrilhos, e os
+estados que exibem o mesmo conjunto dão os mapas de retorno.
+
+\begin{teorema}\label{thm:quatro}
+Com $O$ o centro da face e $\Lambda_\square=2\Zi$:
+\begin{center}
+\renewcommand{\arraystretch}{1.3}
+\begin{tabular}{lllll}
+\toprule
+flexágono & face & $\Gamma$ & soluções & inteiras?\\
+\midrule
+tri-tetraflexágono & quadrado & $2\Z$ (posto $1$) & $h(e^{i\pi z})$ & sim\\
+hexa-tetraflexágono & quadrado & $\Lambda_\square$ (posto $2$, $|P|=1$) & $\C(\wp,\wp')$ & \textbf{não}\\
+tri-hexaflexágono & hexágono & $C_3$ (posto $0$, $|P|=3$) & $h\big((z-O)^3\big)$ & sim\\
+hexa-hexaflexágono & hexágono & $C_3$ (posto $0$, $|P|=3$) & $h\big((z-O)^3\big)$ & sim\\
+\bottomrule
+\end{tabular}
+\end{center}
+Só o hexa-tetraflexágono força polos: é o único dos quatro cujo $\Gamma$ tem
+posto $2$, e a sua curva $\C/2\Zi$ é a lemniscática, $j=1728$.
+\end{teorema}
+
+\begin{figure}[t]
+\centering
+\includegraphics[width=\linewidth]{fig/quatro_faces.png}
+\caption{Uma solução para cada flexágono, no retrato de fase da sua face. Nas
+duas faces quadradas vê-se a diferença de posto: $\cos$ é periódica num só
+eixo, $\wp$ é duplamente periódica e tem polos (os pontos onde todas as cores
+se encontram). Nas duas faces hexagonais a simetria de ordem três em torno do
+centro é imediata --- é literalmente $\Gamma=C_3$ a olho nu ---, e ambas são
+soluções \emph{inteiras} ou quocientes delas.}\label{fig:quatrofaces}
+\end{figure}
+
+Os números: o anel de $12$ quadradinhos admite $70$ dobraduras planas sobre o
+quadrado $2\times2$ e $216\,768$ estados dobrados; o octomino rasgado e colado
+do tri-tetraflexágono, $6$ dobraduras; a tira de $10$ triângulos, $6$; a de
+$19$ triângulos, $1362$. O que separa as quatro linhas da tabela não é o
+tamanho do brinquedo mas a geometria da sua face, pelo
+Teorema~\ref{thm:retas}: no quadrado há retas de dobra que não passam pelo
+centro e o grupo pode ter posto $2$; no hexágono não há, e o grupo é
+forçosamente finito. Dentro do caso quadrado, o que separa o tri do hexa é
+quantos arranjos a flexão realmente alcança --- Teorema~\ref{thm:decidido}.
+
+
+\section{A caracterização combinatória}\label{sec:paridade}
+
+O Teorema~\ref{thm:decidido} foi obtido por busca exaustiva em $216\,768$
+estados dobrados. Esta seção mostra que a busca é dispensável: o arranjo de
+\emph{cada} face é função de quatro dígitos ternários.
+
+\begin{teorema}[fórmula de paridade]\label{thm:paridade}
+Numa dobradura plana do plano de um tetraflexágono sobre a face $2\times2$,
+seja $\kappa_L\in\{0,1\}$ a coluna que a folha $L$ ocupa na face e $c_L$ a
+coluna que ela ocupa no plano; analogamente $\rho_L$ e $r_L$ para as linhas.
+Então a parte de rotação e o lado visível de cada folha são
+\[
+a_L\equiv 2(\kappa_L+c_L)\ (\mathrm{mod}\ 4),\qquad
+s_L\equiv(\kappa_L+c_L)+(\rho_L+r_L)\ (\mathrm{mod}\ 2)\ \ (\text{a menos de constante}).
+\]
+\end{teorema}
+
+\begin{proof}
+As retas de dobra são $x\in\Z$ e $y\in\Z$, logo $W\cong D_\infty\times D_\infty$
+age separadamente em $x$ e em $y$ e cada $g_L$ se escreve $(u_L,v_L)$. Uma
+isometria $(u,v)$ é uma rotação de $180^\circ$ exatamente quando $u$ e $v$ são
+ambas reflexões, e é direta quando ambas são do mesmo tipo; daí
+$a_L=2\,t_x(L)$ e $s_L=t_x(L)+t_y(L)$, onde $t_x=1$ se $u_L$ inverte. Enfim,
+se $u_L$ é translação a célula $[c,c+1]$ vai para $[c+2m,c+1+2m]$ e
+$\kappa\equiv c$; se inverte, vai para $[-c-1+2m,-c+2m]$ e
+$\kappa\equiv c+1$. Logo $t_x\equiv\kappa+c$.
+\end{proof}
+
+\begin{corolario}[fórmula dos intervalos]\label{cor:intervalos}
+Para duas peças $j,j'$ de uma face exibida,
+\[
+a_j-a_{j'}\;\equiv\;2\cdot\#\{\text{charneiras \emph{verticais} dobradas entre
+as duas peças ao longo da tira}\}\pmod 4 .
+\]
+O vetor de rotações de um arranjo lê-se dos bits de dobra: nenhuma isometria é
+necessária.
+\end{corolario}
+
+\begin{proposicao}[uma charneira solta por bloco]\label{prop:solta}
+As doze charneiras do anel repartem-se em quatro blocos de três paralelas,
+$(0,1,2)$, $(3,4,5)$, $(6,7,8)$, $(9,10,11)$. Dobrar quatro células numa janela
+de duas obriga a que \emph{exatamente uma} charneira de cada bloco fique
+solta. Uma dobradura é portanto um ponto
+$u=(u_1,u_2,u_3,u_4)\in\{0,1,2\}^4$, e das $81$ possibilidades ocorrem $25$.
+Um flex vertical ou fixa $(u_1,u_3)$ ou muda \emph{as duas} coordenadas (as
+charneiras soltas assentam no vinco, as dobradas na aresta livre, e a abertura
+corta uma das duas famílias); um flex horizontal age do mesmo modo em
+$(u_2,u_4)$.
+\end{proposicao}
+
+\begin{teorema}[o arranjo é função de $u$]\label{thm:combinatoria}
+Seja $u$ uma das $25$ coordenadas. Para cada face $k$:
+\begin{itemize}\itemsep2pt
+\item a peça $j$ ocupa a posição $(\kappa_j,\rho_j)$, onde $\kappa_j$ é a
+      paridade do número de charneiras verticais \emph{soltas} entre a peça $1$
+      e a peça $j$ ao longo da tira, e $\rho_j$ a mesma coisa com as
+      horizontais;
+\item $k$ é exibível em $u$ se e só se essas quatro posições são distintas;
+\item nesse caso a assinatura de rotações é a do
+      Corolário~\ref{cor:intervalos}.
+\end{itemize}
+O conjunto de arranjos assim previsto coincide \emph{exatamente}, face a face,
+com o que a enumeração dos $216\,768$ estados dobrados produz
+(\texttt{paridade.py}; verificado em \texttt{verify\_camadas.py}).
+\end{teorema}
+
+Para o hexa-tetraflexágono a leitura é imediata:
+
+\begin{center}
+\renewcommand{\arraystretch}{1.2}
+\begin{tabular}{lll}
+\toprule
+face & exibível em $(u_1,u_3)$ & assinatura\\
+\midrule
+$3,4,5,6$ & várias coordenadas & \emph{única}: $(0,0,0,0)$\\
+$1$ & $(0,0),(1,1)$ & $(0,2,0,2)$\\
+$1$ & $(2,2)$ & $(0,0,0,0)$\\
+$2$ & $(1,1),(2,2)$ & $(0,2,0,2)$\\
+$2$ & $(0,0)$ & $(0,0,0,0)$\\
+\bottomrule
+\end{tabular}
+\end{center}
+
+\begin{corolario}
+$|P|=1$ --- isto é, $\Gamma$ é um reticulado puro --- se e só se nenhuma face é
+exibida em duas coordenadas de assinaturas diferentes. As faces $3$ a $6$ têm
+assinatura única e não dão trabalho. As faces $1$ e $2$ só se exibem na
+\emph{diagonal} $u_1=u_3$, e aí cada uma tem duas assinaturas.
+\end{corolario}
+
+Resta portanto um único bit, e ele tem uma regra --- e a regra tem uma
+simetria que vale a pena enunciar primeiro. As quatro charneiras soltas
+(uma por bloco) cortam o anel em \emph{quatro arcos}, um por posição: todo
+estado dobrado é um ciclo de quatro \emph{pats}, e os seus tamanhos são
+$3+u_{i+1}-u_i$. Nas três coordenadas ``simétricas'' $u_1=u_2=u_3=u_4$ os
+quatro pats têm três folhas cada, e a folha de topo de um pat pode ser a
+primeira, a do meio ou a última do seu arco: $81$ padrões, e todos os $81$
+existem como estado dobrado válido. Mas a flexão não os alcança todos.
+
+\begin{figure}[t]
+\centering
+\includegraphics[width=.92\linewidth]{fig/extremos.png}
+\caption{A regra dos extremos em $u=(2,2,2,2)$. Cada uma das quatro posições
+guarda um pat de três folhas; a laranja é a \emph{folha de saída} do pat (a que
+precede a charneira solta), e a de cima de cada pilha é a que se vê. À esquerda,
+um dos oito padrões que a flexão alcança: a saída está no topo em dois pats
+opostos. À direita, o que a face $1$ exigiria --- a saída no topo nos quatro ---
+e que nunca ocorre. As setas dão a ordem em que a tira percorre as quatro
+posições. (As camadas do meio estão desenhadas em ordem arbitrária: só o topo
+importa.)}\label{fig:extremos}
+\end{figure}
+
+\begin{teorema}[regra dos extremos]\label{thm:extremos}
+Nas coordenadas simétricas:
+\begin{itemize}\itemsep2pt
+\item $u=(1,1,1,1)$ --- charneiras soltas \emph{ao meio} de cada bloco ---
+      a flexão alcança os $81$ padrões;
+\item $u=(2,2,2,2)$ alcança exatamente $8$: a \emph{última} folha do arco está
+      no topo em exatamente dois pats \emph{opostos};
+\item $u=(0,0,0,0)$ alcança exatamente $8$: o mesmo com a \emph{primeira}
+      folha --- o enunciado espelhado, como tem de ser, porque inverter o
+      sentido do anel troca $(0,0,0,0)$ com $(2,2,2,2)$.
+\end{itemize}
+\end{teorema}
+
+É isto que fecha o problema. A assinatura excepcional da face $1$ vive só em
+$u=(2,2,2,2)$, e exibi-la aí exigiria os topos $(2,5,8,11)$, isto é, a última
+folha nos \emph{quatro} pats --- e a regra permite no máximo dois. A face $6$
+pede $(2,3,8,9)$, última--primeira--última--primeira: dois opostos, permitido;
+a face $4$ pede $(0,5,6,11)$, o padrão complementar; ambas ocorrem. E, no
+espelho, a assinatura excepcional da face $2$ vive em $u=(0,0,0,0)$ e é morta
+pelo mesmo argumento. Cada face fica assim com uma \emph{única} assinatura ao
+longo de toda a órbita --- a face $1$ aparece em $u=(0,1,0,1)$, $(1,0,1,0)$ e
+$(1,1,1,1)$, a face $2$ em $(1,1,1,1)$, $(1,2,1,2)$ e $(2,1,2,1)$ --- donde
+$\varepsilon$ constante, $|P|=1$ e $\Gamma=2\Zi$, sem nenhuma busca.
+
+\subsection*{Por que a regra vale: o grafo de flexão é desconexo}
+
+A regra dos extremos não é um acidente da órbita: é a sombra de um facto
+estrutural. O grafo de flexão sobre os $216\,768$ estados dobrados
+\emph{não é conexo}. O flexágono montado vive numa componente de $19\,200$
+estados, que exibe as seis faces. Já um estado dobrado que exiba o arranjo
+excepcional da face $1$ --- e ele existe, é um estado dobrado perfeitamente
+válido --- vive numa componente de \emph{vinte} estados, disjunta daquela, em
+que nenhuma outra face chega a aparecer: um objeto de papel rígido, preso em
+$u=(2,2,2,2)$, que exibe a face $1$ e mais nada. Para passar dele ao flexágono
+seria preciso desdobrar o anel por completo e voltar a dobrá-lo; nenhuma
+sequência de flexões o faz.
+
+E a paisagem toda é assim --- calculámo-la por inteiro.
+
+\begin{figure}[t]
+\centering
+\includegraphics[width=.86\linewidth]{fig/grafo_tri.png}
+\caption{O grafo de flexão do tri-tetraflexágono \emph{inteiro} --- ele é
+pequeno o bastante para caber na página. São $24$ classes de estados dobrados
+(a menos das simetrias globais da face), $12$ flexões e $14$ componentes. A
+primeira é o brinquedo: um triângulo, e nos seus três vértices estão as três
+faces $F$, $V$, $E$. As outras treze são grãos, e uma delas exibe a face $V$
+num arranjo que nenhuma flexão alcança --- o mesmo fenômeno que a
+Figura~\ref{fig:grafo} mostra em escala grande no
+hexa-tetraflexágono.}\label{fig:grafotri}
+\end{figure}
+
+\begin{figure}[t]
+\centering
+\includegraphics[width=\linewidth]{fig/grafo_componentes.png}
+\caption{O grafo de flexão. Nos três primeiros painéis, componentes inteiras
+--- grãos de $4$, $8$ e $20$ estados, desenhados como grafos: são objetos de
+papel que dobram mas não flexionam. No último, as $20\,405$ componentes em
+escala logarítmica dupla: um pó cujo maior grão tem $200$ estados, e, isolada à
+direita, a ilha do flexágono com $19\,200$.}\label{fig:grafo}
+\end{figure}
+
+\begin{teorema}[classificação das componentes]\label{thm:componentes}
+O grafo de flexão dos $216\,768$ estados dobrados do anel de doze
+quadradinhos sobre o quadrado $2\times2$ tem exatamente $20\,405$
+componentes: \emph{uma} com $19\,200$ estados --- o flexágono --- e
+$20\,404$ com $200$ estados ou menos. A lista completa dos tamanhos é
+\begin{center}\small
+\renewcommand{\arraystretch}{1.1}
+\begin{tabular}{r|rrrrrrrrrr}
+tamanho & $4$ & $8$ & $12$ & $16$ & $20$ & $24$ & $28$ & $32$ & $36$ & $40$\\
+quantas & $9244$ & $5288$ & $2208$ & $1256$ & $640$ & $820$ & $402$ & $84$ & $48$ & $96$\\[2pt]
+tamanho & $44$ & $48$ & $52$ & $56$ & $64$ & $72$ & $100$ & $128$ & $140$ & $200$\\
+quantas & $32$ & $120$ & $8$ & $48$ & $32$ & $48$ & $8$ & $16$ & $2$ & $4$\\
+\end{tabular}
+\end{center}
+(mais a ilha, $19\,200\times1$; a soma dá $216\,768$). Todos os tamanhos são
+múltiplos de quatro, porque as quatro simetrias globais que preservam a órbita
+agem livremente.
+\end{teorema}
+
+\begin{corolario}[critério de decisão]\label{cor:criterio}
+Um estado dobrado é um estado do flexágono se e só se a sua componente tem
+mais de $200$ estados. O teste termina em no máximo $201$ expansões: cresça-se
+a componente e pare-se ao atingir $201$.
+\end{corolario}
+
+O espaço dos estados dobrados do anel é, portanto, \emph{uma ilha grande num pó
+de grãos rígidos}: o flexágono é a ilha --- noventa e seis vezes maior do que o
+maior dos grãos ---, e cada grão é um objeto de papel que se dobra mas não
+flexiona.
+
+É esta a razão de fundo. O quinto arranjo da face $1$ não é ``difícil de
+alcançar'': está noutro mundo. A cadeia completa fica: $25$ coordenadas em vez
+de $216\,768$ estados; a exibibilidade de cada face por paridades; a sua
+assinatura pela fórmula dos intervalos; e, nas duas coordenadas extremas onde
+as duas assinaturas colidiriam, a regra dos extremos, que é o critério de
+componente. A enumeração exaustiva serve agora só de verificação
+(\texttt{verify\_camadas.py} e \texttt{verify\_geral.py}, $65$ testes exatos).
+
+
+\section{Os reticulados que ocorrem}\label{sec:reticulados}
+
+A classificação do Teorema~\ref{thm:classificacao} deixa em aberto \emph{quais}
+reticulados $\Lambda\subset\frac12\Zi$ efetivamente ocorrem. A resposta é
+surpreendentemente rígida.
+
+\begin{teorema}\label{thm:reticulados}
+Entre os $5656$ flexes de quadrantes com $\Gamma_\Phi$ de posto $2$ ocorrem
+exatamente $86$ reticulados distintos. Eles se distribuem em apenas
+\emph{quatro} classes de homotetia, a saber $\tau\in\{i,\,2i,\,\frac{-1+2i}2,\,
+\frac{-1+3i}2\}$, com
+\[
+j=1728,\qquad j=287496,\qquad j\approx-89{,}5950,\qquad j\approx-11663{,}3967,
+\]
+correspondentes às ordens de condutor $1,2,4,6$ em $\Zi$ (discriminantes
+$-4,-16,-64,-144$). Além disso:
+\begin{enumerate}
+\item[(a)] se $|P_\Phi|=4$ --- o que ocorre em $5240$ dos $5656$ casos --- então
+$\Lambda$ é um ideal gaussiano, $\Lambda=\alpha\Zi$, e portanto
+$\C/\Lambda\cong\C/\Zi$ \emph{sempre}: a curva é a lemniscática, $j=1728$. As
+normas que ocorrem são
+$N(\alpha)\in\{1,2,4,5,8,10,16,18\}$ (em unidades de $\covol\Zi$);
+\item[(b)] as outras três classes de homotetia só aparecem quando
+$|P_\Phi|\le2$, em $8$ reticulados;
+\item[(c)] em todos os casos $\C/\Lambda$ tem multiplicação complexa por uma
+ordem de $\Q(i)$, como já garantia o Corolário~\ref{cor:cm}.
+\end{enumerate}
+\end{teorema}
+
+\begin{proof}
+A parte numérica é a enumeração exata (Seção~\ref{sec:computacional}); só o
+item (a) precisa de argumento. Se $|P_\Phi|=4$ então $i\Lambda=\Lambda$, isto
+é, $\Lambda$ é um $\Zi$-submódulo de $\Q(i)$ finitamente gerado, ou seja um
+ideal fracionário; como $\Zi$ é principal, $\Lambda=\alpha\Zi$. A homotetia
+$z\mapsto z/\alpha$ leva $\Lambda$ em $\Zi$.
+\end{proof}
+
+\begin{observacao}
+Em particular a curva lemniscática não é apenas o caso ``genérico'': ela é o
+\emph{único} caso possível assim que o flex gira alguma peça de $90^\circ$.
+Os dois flexágonos de \cite{manual} caem no caso $\alpha=2$, $|P|=1$.
+\end{observacao}
+
+\section{Catálogos}\label{sec:catalogo}
+
+O programa \texttt{catalogo.py} materializa a Seção~\ref{sec:gerador}: para cada
+flexágono ele produz um diretório
+\begin{center}
+\texttt{funcoes-flexionaveis-<nome>/}\quad com\quad
+\texttt{001/face1.png}\,\ldots\,\texttt{faceN.png},\ \texttt{mecanica.png},\
+\texttt{formula.tex}
+\end{center}
+e um \texttt{catalogo.pdf} de duas colunas em que cada item traz o seu número,
+as fórmulas das faces e o \emph{diagrama de flexão com os retratos de fase
+encaixados}: no lugar dos rótulos $1a,1b,1c,1d$ do diagrama original aparecem os
+quadrantes da figura, cada caixa no arranjo em que aquela face de fato se
+apresenta naquele estado. As caixas cheias e tracejadas, as setas e o símbolo
+$\circlearrowright$ reproduzem o diagrama de \cite{enimar}. As imagens
+\texttt{faceN.png} são exatamente o que o gerador de planos de \cite{manual}
+espera como entrada, de modo que cada item do catálogo é um flexágono
+imprimível.
+
+Cada função é sorteada na parametrização completa do
+Teorema~\ref{thm:classificacao} e \emph{testada} antes de ser desenhada:
+o resíduo $\max_j\|f\circ A_1^{-1}-f\circ A_j^{-1}\|$ é medido contra todos os
+mapas de retorno e o item só é aceito abaixo de $10^{-7}$ (na prática obtém-se
+$10^{-14}$). Assim o catálogo não é uma coleção de exemplos: é uma amostragem
+certificada da família completa.
+
+\section{Faces com mais de um protótipo}\label{sec:multiproto}
+
+Se a face é ladrilhada por formas diferentes, um flex tem de respeitar as
+classes de congruência: $\sigma$ permuta ladrilhos dentro de cada classe e
+$\varepsilon_j$ percorre a co-classe das rotações que levam $T_j$ em
+$T_{\sigma(j)}$. O grupo dos flexes deixa de ser um produto entrelaçado ---
+é um subgrupo do produto directo dos produtos entrelaçados de cada classe ---
+mas o Teorema~\ref{thm:principal} não muda: a sua demonstração só usa o
+princípio da identidade ao longo das arestas, e não a congruência dos
+ladrilhos. O que muda é a aritmética.
+
+\begin{teorema}\label{thm:multiproto}
+Seja $D$ uma face ladrilhada por protótipos com grupos de rotação
+$C_{n_1},\dots,C_{n_r}$ e seja $\Phi$ um flex. Então exatamente um dos
+seguintes casos ocorre.
+\begin{enumerate}\itemsep2pt
+\item Os $A_j$ têm um ponto fixo comum $p$. Então $\Gamma_\Phi=C_N$ é
+      \emph{finito}, $N$ a ordem do grupo de pontos, e as soluções são
+      $f(z)=h\big((z-p)^N\big)$, $h$ meromorfa --- entre elas funções
+      inteiras não constantes. Aqui $N$ é arbitrário: a restrição
+      cristalográfica \emph{não} se aplica, porque não há translações.
+\item $\Gamma_\Phi$ contém uma translação não nula e $N\in\{1,2,3,4,6\}$:
+      $\Gamma_\Phi$ é discreto e cai numa das nove classes do
+      Teorema~\ref{thm:universal}.
+\item $\Gamma_\Phi$ contém uma translação não nula e $N\notin\{1,2,3,4,6\}$:
+      então $\Gamma_\Phi$ é \emph{denso} em $\C\rtimes U(1)$ e as únicas
+      soluções são as constantes.
+\end{enumerate}
+\end{teorema}
+
+\begin{proof}
+$\Gamma_\Phi\le\C\rtimes U(1)$ e o seu grupo de pontos $P$ é gerado pelos
+$\varepsilon_k^{-1}\varepsilon_j$, logo é cíclico finito de ordem $N$ dividindo
+$\mathrm{lcm}(n_1,\dots,n_r)$. Se todos os $A_j$ fixam $p$, então
+$\Gamma_\Phi$ fixa $p$ e é um grupo de rotações em torno de $p$: é $C_N$, e a
+função invariante genérica é $h((z-p)^N)$ (Hauptmodul da órbifold
+$\C/C_N$). Caso contrário $\Gamma_\Phi$ contém a translação não nula
+$T=A_k^{-1}A_j$ para um par sem ponto fixo comum, e o subgrupo de translações
+$\Lambda$ é invariante por $P$, isto é, é um $\Z[\zeta_N]$-módulo não nulo.
+Se $N\in\{1,2,3,4,6\}$, $\Z[\zeta_N]$ é discreto e recai-se no
+Teorema~\ref{thm:universal}. Se $N\notin\{1,2,3,4,6\}$, $\Z[\zeta_N]$ é denso
+em $\C$, logo $\Gamma_\Phi$ é denso; uma função meromorfa invariante por um
+grupo denso é constante (a órbita de um ponto regular acumula, e o princípio
+da identidade fecha o argumento).
+\end{proof}
+
+\begin{figure}[t]
+\centering
+\includegraphics[width=.55\linewidth]{fig/roda.png}
+\caption{A \emph{roda}: dois quadrados e três triângulos equiláteros fecham os
+$360^\circ$ em torno de um vértice. A rotação de $150^\circ$ em torno desse
+vértice troca os dois quadrados e fixa cada triângulo; como
+$\langle150^\circ\rangle=C_{12}$ e todos os $A_j$ fixam o vértice, o grupo é
+finito de ordem $12$ --- fora da lista cristalográfica, o que só é possível
+porque não há translações. As soluções são $h\big((z-p)^{12}\big)$, e há
+inteiras.}\label{fig:roda}
+\end{figure}
+
+\begin{exemplo}
+Um quadrado unitário ($C_4$) com um triângulo equilátero colado em cima e
+outro em baixo ($C_3$): a face tem três ladrilhos e dois protótipos.
+Aritmética exata em $\Z[\zeta_{12}]$ (\texttt{multiproto.py}) dá $72$ flexes:
+$32$ deles têm $\Gamma$ \emph{denso} --- só constantes ---, $29$ são
+cristalográficos e $11$ são cíclicos finitos $C_N$ com
+$N\in\{1,2,3,4,6\}$. Misturar protótipos torna a face \emph{mais} rígida, não
+menos.
+\end{exemplo}
+
+\begin{corolario}
+Num flexágono de verdade o caso denso nunca ocorre: pelo
+Teorema~\ref{thm:retas}, $\Gamma\le W^+(D)\le\mathrm{Sym}^+(\mathcal T)$, que é
+um grupo cristalográfico. A rigidez total é um fenómeno dos flexes
+\emph{abstratos}.
+\end{corolario}
+
+
+
+\begin{figure}[t]
+\centering
+\includegraphics[width=\linewidth]{fig/variedade.png}
+\caption{Oito itens do catálogo dos hexaflexágonos. Todas são
+$f(z)=h(z^3)$ com $h$ racional sorteada, e todas exibem a olho nu a simetria de
+ordem três em torno do centro que o Corolário~\ref{cor:hex} obriga. Nenhuma se
+quebra, seja qual for a flexão de pinça.}\label{fig:variedade}
+\end{figure}
+
+Para os hexaflexágonos o catálogo é outro e muito mais simples, porque
+$\Gamma=C_3$: as soluções são $f(z)=h\big((z-O)^3\big)$ com $h$ meromorfa
+qualquer, e há inteiras. \texttt{catalogo\_hex.py} gera-as, certifica
+$f(\omega z)=f(z)$ com resíduo $\sim10^{-14}$, desenha o retrato de fase do
+hexágono, recorta os seis triângulos e monta o
+\texttt{catalogo.pdf} de duas colunas, um para cada hexaflexágono. Os quatro
+catálogos existem e compilam: $12$ itens para o tri-tetraflexágono, $8$ para o
+hexa-tetraflexágono, $12$ para cada hexaflexágono. Com a semente $2026$ eles se
+reproduzem exatamente.
+
+\section{Observações finais}
+
+\textbf{1. Uma leitura em termos de órbifolds.} O Teorema~\ref{thm:principal}
+diz que uma função flexionável é uma função na órbifold $\C/\Gamma_\Phi$. As
+oito linhas da tabela do Teorema~\ref{thm:classificacao} são exatamente as
+órbifolds quocientes possíveis: $\C$, $\C(n)$, $\C^\ast$, o
+disco-com-dois-pontos-cônicos, o toro $\C/\Lambda$, a ``almofada''
+$S^2(2,2,2,2)$ e $S^2(2,4,4)$. Os dois flexágonos de \cite{manual} caem nos dois
+casos mais simples: $\C^\ast$ para o tri (donde $h(e^{i\pi z})$) e o toro
+$\C/2\Zi$ para o hexa (donde as elípticas). A Seção~\ref{sec:gerador}
+transforma essa observação num algoritmo.
+
+\smallskip
+\textbf{2. Por que $\Zi$?} A resposta aritmética --- multiplicação complexa por
+$\Q(i)$ --- é forçada por dois fatos elementares: os quadradinhos são
+\emph{quadrados} (donde $\varepsilon_j\in\mu_4$) e os seus centros estão em
+$\frac12\Zi$. Num ladrilhamento triangular o mesmo argumento produziria
+$\mu_6$ e $\Z[\zeta_3]$ --- a curva \emph{equianarmônica} $g_2=0$, $j=0$ ---, e
+é isso que se vê no censo dos $524\,880$ flexes triangulares abstratos; mas
+nenhum hexaflexágono real lá chega, porque o Teorema~\ref{thm:retas} o confina
+às rotações em torno do centro.
+Seria interessante desenvolver esse caso.
+
+\smallskip
+\textbf{3. Uma sugestão prática.} Para montar um flexágono ``analítico'' basta
+alimentar o gerador de \cite{manual} com as imagens produzidas por
+\texttt{catalogo.py}: seis funções elípticas distintas de reticulado $2\Zi$ para
+o hexa, três funções de $e^{i\pi z}$ para o tri. Cada face é um desenho
+diferente e nenhuma se quebra, seja qual for a flexão.
+
+\smallskip
+\textbf{4. As três perguntas que ficaram em aberto.}
+\emph{(a) Quais dobraduras são realizáveis, e quais são alcançáveis?}
+Resolvido. A realizabilidade das camadas (condições de Justin) não separa nada:
+as $70$ dobraduras planas do hexa-tetraflexágono passam-na todas. A
+alcançabilidade, sim: no modelo com camadas do §\ref{sec:camadas} a órbita do
+estado montado contém $19\,200$ dos $216\,768$ estados dobrados, e nela as
+faces $1$ e $2$ exibem-se em três arranjos e as faces $3$ a $6$ em dois ---
+exatamente o diagrama de \cite{enimar}. Os dois arranjos combinatórios a mais
+são os únicos com $\varepsilon$ não constante, e são inalcançáveis: exigiriam
+separar camadas não contíguas. O enquadramento $\C(\wp)\subseteq{}$soluções
+$\subseteq\C(\wp,\wp')$ colapsa assim no extremo de cima:
+$\Gamma=2\Zi$ é um reticulado puro, $|P|=1$, e as soluções são
+\emph{todas} as funções elípticas de $2\Zi$ (Teorema~\ref{thm:decidido}).
+Como a órbita foi semeada com todas as ordens de camadas do estado montado, a
+exclusão é incondicional.
+
+\smallskip
+\emph{(b) O grupo de flexão.} Nos dois tetraflexágonos todos os mapas de
+retorno têm $\varepsilon$ constante --- são translações a menos de uma
+isometria global ---, e nos dois hexaflexágonos são rotações em torno do
+centro. Isso não é um acidente dos dois brinquedos: é o
+Teorema~\ref{thm:retas}, que dá $\Gamma\le W^+(D)$ para qualquer flexágono de
+face $D$. $\Gamma$ é invariante por pós-composição com isometrias globais
+(Lema~\ref{lem:rho}), pelo que não distingue estados que difiram por uma
+rotação do brinquedo --- é exatamente o quociente certo para a pergunta
+analítica.
+
+\smallskip
+\emph{(c) O caso triangular.} Resolvido, e com uma inversão: o
+\emph{ladrilhamento} triangular dá $\mu_6$, $\Z[\zeta_3]$ e a curva
+equianarmônica --- e o censo dos $524\,880$ flexes abstratos mostra que
+$99{,}69\%$ deles forçam polos ---, mas os hexaflexágonos \emph{reais} não
+usam nenhum desses flexes. Como toda reta de dobra de um hexágono de seis
+triângulos passa pelo centro, o seu $\Gamma$ é finito, e igual a $C_3$ nos
+dois hexaflexágonos clássicos, com soluções
+$h\big((z-O)^3\big)$ (Teorema~\ref{thm:hexaflex}), em acordo com as $18$
+configurações que Gardner contou. O contraste com o caso quadrado continua a
+ter uma causa única, mas é outra que não o ladrilho: é o facto de o quadrado
+poder ser aberto por um lado e o hexágono não.
+
+\smallskip
+\textbf{5. E o que ficou de fora.} As duas perguntas que a versão anterior
+deixou pendentes estão fechadas. As faces com mais de um protótipo são o
+Teorema~\ref{thm:multiproto}: o teorema de caracterização não muda, a
+restrição cristalográfica passa a valer só quando há translações, e abre-se um
+caso novo --- $\Gamma$ denso, só constantes --- que nenhum flexágono realiza.
+E o cálculo de $W^+(D)$ deixou de ser feito à mão: \texttt{wgrupo.py} fá-lo
+para qualquer polióminos ou poliamante (Observação~\ref{obs:wgrupo}), de modo
+que uma face nova se resolve em três passos --- calcular $W^+(D)$, que fixa as
+classes possíveis; correr o modelo com camadas, que escolhe dentro delas; ler
+o Hauptmodul na tabela do Teorema~\ref{thm:universal}.
+
+A caracterização combinatória pedida está na Seção~\ref{sec:paridade}, e está
+completa: o arranjo de cada face é função dos quatro dígitos $u$
+(Teorema~\ref{thm:combinatoria}), e o único bit que os dígitos não fixam é
+decidido pela regra dos extremos (Teorema~\ref{thm:extremos}). Nada disto
+usa a busca exaustiva --- ela serve agora só de verificação.
+
+A classificação das componentes está feita (Teorema~\ref{thm:componentes}) e
+com ela o critério de decisão do Corolário~\ref{cor:criterio}; a regra dos
+extremos é agora um corolário verificado dela. Vale a pena dizer com precisão
+o que isso deixa, e o que não deixa, em aberto.
+
+Em aberto não fica a \emph{classificação}: a lista das $20\,405$ componentes é
+completa, e pertencer à ilha decide-se em no máximo $201$ expansões. O que
+falta é uma \emph{fórmula} onde hoje temos uma \emph{busca} --- uma questão de
+forma, e não de substância. Fica registado, porém, que ela não virá do lugar
+onde seria natural procurá-la.
+
+\begin{proposicao}\label{prop:naotopologico}
+Nenhum invariante topológico do mergulho distingue duas componentes: todos os
+estados dobrados do anel são ambientalmente isotópicos entre si.
+\end{proposicao}
+
+\begin{proof}
+Todo estado dobrado plano de um polígono de papel é atingível a partir do papel
+plano por um movimento contínuo sem auto-intersecção \cite{cfp}. Logo cada
+estado dobrado do anel é isotópico ao anel plano e, por transitividade, dois
+quaisquer são isotópicos entre si. Um invariante de isotopia é, portanto,
+constante em todo o espaço dos estados, e não pode separar componentes.
+\end{proof}
+
+O que distingue a ilha dos grãos não é, pois, a \emph{forma} do objeto
+dobrado --- é o \emph{movimento} permitido: desdobrar o anel por completo
+levaria qualquer grão ao flexágono, e é exatamente isso que um flex não faz.
+Um invariante teria de ler a restrição, não a geometria.
+
+\begin{observacao}
+Também não parece vir de uma estatística local. Testámos, na ilha e no pó, as
+coordenadas $u$ (as $25$ ocorrem na ilha), o enrolamento da banda pelas camadas
+$\sum\delta_i$ (todos os valores de $-4$ a $4$ ocorrem em ambos), o grau no
+grafo de flexão (ilha $2$--$22$, pó $2$--$16$: sobrepõem-se), o perfil de
+camadas por posição (os cinco perfis ocorrem em ambos), o sinal da permutação
+de leitura e a paridade dos lados: nenhum separa. Isto é evidência, não
+demonstração --- ao contrário da Proposição~\ref{prop:naotopologico}.
+\end{observacao}
+
+\begin{thebibliography}{9}
+\bibitem{manual}
+A.~Milanés Barrientos e G.~Ribeiro,
+\emph{Papel, quadrados misteriosos e \ldots matemática}, Coleção
+``Matemática fora da caixa'', Projeto Visitas no Mundo da Matemática,
+Departamento de Matemática, UFMG, Belo Horizonte, 2025.
+ISBN 978-65-01-47006-1.
+
+\bibitem{enimar}
+Projeto Visitas no Mundo da Matemática, \emph{Diagrama de flexão do
+hexa-tetraflexágono}, comunicação do EnIMaR, UFMG, 2025.
+
+\bibitem{demaine}
+E.~D.~Demaine e J.~O'Rourke, \emph{Geometric Folding Algorithms: Linkages,
+Origami, Polyhedra}, Cambridge University Press, 2007.
+
+\bibitem{cfp}
+E.~D.~Demaine, S.~L.~Devadoss, J.~S.~B.~Mitchell e J.~O'Rourke,
+\emph{Continuous foldability of polygonal paper}, Proc.\ 16th Canadian
+Conference on Computational Geometry (CCCG 2004), 64--67.
+
+\bibitem{gardner}
+M.~Gardner, \emph{Hexaflexagons and Other Mathematical Diversions},
+University of Chicago Press, 1988.
+
+\bibitem{pook}
+L.~P.~Pook, \emph{Serious Fun with Flexagons: A Compendium and Guide},
+Springer, 2009.
+
+\bibitem{ahlfors}
+L.~V.~Ahlfors, \emph{Complex Analysis}, 3ª ed., McGraw--Hill, 1979.
+
+\bibitem{silverman}
+J.~H.~Silverman, \emph{Advanced Topics in the Arithmetic of Elliptic Curves},
+Springer GTM 151, 1994.
+
+\bibitem{wegert}
+E.~Wegert, \emph{Visual Complex Functions: An Introduction with Phase Portraits},
+Birkhäuser, 2012.
+\end{thebibliography}
+
+\end{document}

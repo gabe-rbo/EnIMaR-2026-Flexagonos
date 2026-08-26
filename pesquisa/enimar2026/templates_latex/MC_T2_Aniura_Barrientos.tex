@@ -1,0 +1,291 @@
+\documentclass[12pt,oneside,a4paper]{article}
+
+%------------------------------------------------------------------------
+%                         PACOTES UTILIZADOS
+%------------------------------------------------------------------------
+\usepackage{amssymb,amsmath,amsfonts,pgf,verbatim, graphicx,epsf,xcolor,color,tikz,hyperref}
+\usepackage[brazilian]{babel}
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage{indentfirst}
+\usepackage{lmodern}
+%\usepackage{figure}
+%--------------------------------------------------------------------------
+
+%--------------------------------------------------------------------------
+%                             MARGENS
+%--------------------------------------------------------------------------
+\usepackage{geometry}
+\geometry{lmargin=3.0cm,rmargin=3.0cm,tmargin=3.0cm,bmargin=2cm}
+%\setlength{\textwidth}{160mm}  %-------- largura do texto --------------
+%\setlength{\textheight}{247mm} %------- altura do texto ---------------
+%\setlength{\voffset}{-42mm} 
+%\setlength{\hoffset}{-9mm}
+%--------------------------------------------------------------------------
+
+\usepackage{transparent}
+\usepackage{eso-pic}
+
+%\usepackage{subcaption}
+\usepackage{graphicx}
+
+\AddToShipoutPicture*{
+    \put(0,0){
+        \parbox[b][\paperheight]{\paperwidth}{%
+            \vfill
+            \centering
+            {\transparent{1}\includegraphics[scale=1]{Marcadagua}}%
+            \vfill
+        }
+    }
+}
+
+
+%--------------------------------------------------------------------------
+%                             ESPAÇAMENTO ENTRE LINHAS
+%--------------------------------------------------------------------------
+\renewcommand{\baselinestretch}{1.0}
+\parskip 7pt
+%--------------------------------------------------------------------------
+
+%--------------------------------------------------------------------------
+%                              AMBIENTES E NUMERAÇÃO
+%--------------------------------------------------------------------------
+\newtheorem{Teorema}{Teorema}[section]
+\newtheorem{Lema}{Lema}[section]
+\newtheorem{Corolario}{Corol\'ario}[section]
+\newtheorem{Proposicao}{Proposição}[section]
+\newtheorem{Definicao}{Defini\c{c}\~ao}[section]
+\newtheorem{Observacao}{Observa\c{c}\~ao}[section]
+%--------------------------------------------------------------------------
+
+%--------------------------------------------------------------------------
+%                             NORMAS ABNT
+%--------------------------------------------------------------------------
+%       https://www.bco.ufscar.br/servicos-informacoes/normalizacao
+%--------------------------------------------------------------------------
+
+
+%--------------------------------------------------------------------------
+%                            Legenda de figuras e tabelas
+%--------------------------------------------------------------------------
+\usepackage[figurename=Fig.,tablename=Tab.,footnotesize,bf]{caption}
+%--------------------------------------------------------------------------
+%pasta de imagens
+\graphicspath{{./figuras/}}
+
+%--------------------------------------------------------------------------
+%  INÍCIO DO DOCUMENTO. NÃO ALTERAR O PREÂMBULO, EXCETO TÍTULO E AUTORES.  
+%--------------------------------------------------------------------------
+\begin{document}
+\pretolerance10000 %it does not allow separation syllabic.
+%--------------------------------------------------------------------------
+
+
+%--------------------------------------------------------------------------
+%                             ESTILO DA PÁGINA (NÃO ALTERAR)
+%--------------------------------------------------------------------------
+\thispagestyle{empty}
+
+
+%-------------------------------------------------------
+% COM LOGO 
+%-------------------------------------------------------
+
+\centerline{
+ \includegraphics[width=0.4\textwidth]{Enimarlogo}
+}
+
+
+
+\pagenumbering{arabic}
+\pagestyle{myheadings}
+\markboth{1$^o$ Encontro Internacional de Matemática Recreativa em Língua Portuguesa}
+{1$^o$ Encontro Internacional de Matemática Recreativa em Língua Portuguesa}
+
+
+
+%--------------------------------------------------------------------------
+
+
+
+%--------------------------------------------------------------------------
+%                   IDENTIFICAÇÃO DO TRABALHO E DOS AUTORES
+%--------------------------------------------------------------------------
+\vspace{1.0cm}
+
+%\begin{center}
+%	{\LARGE \bf
+%		
+%		MINICURSO%\footnote{Este trabalho foi apoiado ...}
+%		
+%}\end{center}
+
+
+\begin{center}
+{\Huge\bf
+
+       Experiências com flexágonos.%\footnote{Este trabalho foi apoiado ...}
+
+}\end{center}
+
+\begin{center}
+	{\large\bf
+		
+		Da matemática recreativa à visualização de propriedades geométricas.%(Se houver)
+		
+}\end{center}
+%Use o comando \footnote{Este trabalho foi apoiado ...} logo após o título caso necessário indicar o apoio de agência/instituição.
+
+\begin{center}
+{\large
+
+ Milanés Barrientos, Aniura e\\
+ %\footnote{UFMG. Este autor foi apoiado ...}
+ Ribeiro, Gabriel.\\
+
+}\end{center}
+ %Use o comando \footnote{Afiliação. Este autor foi apoiado ...} logo após o nome do autor para identificar a Instituição do autor e caso necessário indicar o apoio de agência/instituição.
+
+
+\noindent \textit{\textbf{Resumo:}}{\it 
+  Neste minicurso pretendemos apresentar um flexágono quadrado de 6 faces que tem algumas propriedades interessantes. Além de ser um ``brinquedo matemático'', ele nos permitirá explorar diferentes propriedades geométricas de curvas polares e de gráficos de funções de variável complexa. Os participantes do minicurso serão incentivados a ``produzir flexágonos'' contendo objetos geométricos que possam ser de seu interesse.}
+
+\begin{flushleft}
+\textit{\textbf{Palavras-chave:}}{\it
+flexágonos, Python, geometria, gráficos de funções.
+
+}\end{flushleft}
+%--------------------------------------------------------------------------
+
+ 
+
+%--------------------------------------------------------------------------
+%                             CONTEÚDO DO TRABALHO
+%--------------------------------------------------------------------------
+
+
+
+
+
+\section{Introdução}
+
+Em 1939 o matemático britânico \href{https://en.wikipedia.org/wiki/Arthur_Harold_Stone}{Arthur Stone} estudava na Universidade de Princeton. Para poder colocar no seu fichário inglês as folhas de papel que vendiam nos Estados Unidos, ele precisou cortar delas uma tira de papel e a partir dai, brincando com as tiras, montou o que viria a ser o primeiro flexágono da história.
+
+Outros destacados cientistas, colegas dele na época, foram \href{https://en.wikipedia.org/wiki/Bryant_Tuckerman}{Bryant Tuckerman}, \href{https://pt.wikipedia.org/wiki/John_Tukey}{John Tukey}  e  \href{https://pt.wikipedia.org/wiki/Richard\_Feynman}{Richard Feynman}. Eles ficaram entusiasmados com a descoberta e os quatro se juntaram para formar o que seria o Comitê de Flexágonos de Princeton, que inclusive começou a desenvolver uma teoria sobre esses brinquedos.
+
+De lá para cá muitas outras pessoas têm se dedicado a estudar esse tópico. Existem variados flexágonos e diferentes teorias sobre eles. Aqui estaremos interessados num tipo específico de flexágono de forma quadrada. Ele possue 6 faces diferentes e foi popularizado pelo conhecido divulgador da matemática Martin Gardner em \cite{gardner1988}.
+
+\section{Objetivos}
+Neste minicurso pretendemos
+\begin{itemize}
+    \item apresentar o flexágono de 6 faces que nos interessa
+e o código em Python que permite gerar automaticamente seu modelo a partir das imagens desejadas nas faces;
+    \item mostrar como o flexágono, além de ser um ``brinquedo matemático'', pode ser utilizado como um ``laboratório tátil'' para visualizar conceitos abstratos como transformações geométricas e propriedades de funções de variável complexa/curvas polares;
+    \item capacitar a professores, estudantes e participantes em geral a gerarem seus próprios flexágonos manipuláveis para visualizar temas de geometria que possam ser de seu interesse.
+\end{itemize}
+
+\section{Um flexágono de seis faces}
+
+\subsection{Montagem}
+
+O plano o modelo de um flexágono é um ``anel'' de 24 quadradinhos relativamente simples de montar a partir de uma folha A4. Ele terá 6 faces que podem ser numeradas de 1 a 6 e uma dinâmica que podemos representar como segue e que mostra que na verdade, podemos visualizar 14 desenhos diferentes usando um único flexágono. (Esta representação foi tomada de \cite{hall2018})
+
+\begin{figure}[h!]
+	\centering
+	\includegraphics[width=11cm]{esquema_flex.pdf}
+   \caption{Dinâmica do flexágono de seis faces}
+   \label{fig_dinamica}
+\end{figure}
+
+\section{O flexágono como laboratório}
+
+Para utilizarmos o flexágono como material didático é importante ter certa facilidade para gerar o plano de montagem de forma que as imagens que nos interessam apareçam nas faces na sequência desejada. Isto é explicado em detalhes em \cite{milanes2025} será mostrado também no minicurso, naturalmente.
+
+Em \cite{milanes2025} também são apresentados exemplos de flexágonos com algumas iterações do tapete de Sierpinski e com gráficos de diferentes funções de variável complexa produzidos através do método de coloração de domínio nas suas faces. No entanto, esses planos não aproveitaram ao máximo as variações das imagens ao longo da dinâmica do flexágono, visualizada na figura \ref{fig_dinamica}. Para este minicurso, trazemos mais duas propostas.
+\begin{figure}[h!]
+\centering
+\begin{minipage}{.32\textwidth}
+  \includegraphics[width=1\linewidth]{figPolar1}
+ % \caption{Caption for first figure.}
+\end{minipage}%
+\begin{minipage}{.32\textwidth}
+  \includegraphics[width=1\linewidth]{figPolar2}
+ % \caption{Caption for second figure.}
+\end{minipage}
+\begin{minipage}{.32\textwidth}
+  \includegraphics[width=1\linewidth]{figPolar3}
+ % \caption{Caption for second figure.}
+\end{minipage}
+\end{figure}
+\vspace{-0.9cm}
+\begin{figure}[h!]
+\centering
+\begin{minipage}{.32\textwidth}
+  \includegraphics[width=1\linewidth]{figPolar4}
+ % \caption{Caption for first figure.}
+\end{minipage}%
+\begin{minipage}{.32\textwidth}
+  \includegraphics[width=1\linewidth]{figPolar5}
+ % \caption{Caption for second figure.}
+\end{minipage}
+\begin{minipage}{.32\textwidth}
+  \includegraphics[width=1\linewidth]{figPolar6}
+ % \caption{Caption for second figure.}
+\end{minipage}
+\end{figure}
+
+Vamos mostrar o flexágono construído usando as imagens acima, nessa ordem, e como sua própria dinâmica pode se relacionar com as propriedades das funções trigonométricas utilizadas na construção das curvas polares.
+
+Mostraremos também  o flexágono construído usando as imagens na próxima página. Aproveitaremos a oportunidade para comentar o método de coloração do domínio e a dinâmica do flexágono para visualizar algumas propriedades das funções de variável complexa que foram representadas.
+
+\begin{figure}[h!]
+ \begin{center}
+  \includegraphics[width=1\linewidth]{flexagono_grade_n6_final}
+ \end{center}
+
+\end{figure}
+
+\section{Metodologia}
+Ao longo do minicurso:
+\begin{itemize}
+    \item explicaremos a nossa proposta;
+    \item distribuiremos nossos materiais para montar os flexágonos de papel;
+    \item discutiremos propriedades que possam ser visualizadas a través da dinâmica dos flexágonos montados;
+    \item os participantes terão a oportunidade de apresentar propostas para as imagens das faces de forma a discutirmos diferentes questões geométricas que possam ser de seu interesse. Para isto seria importante que pudéssemos ministrar o minicurso numa sala com computadores com acesso à internet.
+\end{itemize}
+
+\section{Conclus\~oes ou Considerações Finais} %(SE HOUVER) 
+
+ Esperamos que nosso trabalho facilite o acesso a materiais manipuláveis e lúdicos adequados também para introduzir temas de geometria que às vezes resultam mais abstratos, em diferentes níveis de ensino.
+
+
+\renewcommand{\refname}{Bibliografia}
+\addcontentsline{toc}{section}{Refer\^encias bibliogr\'aficas}
+  \begin{thebibliography}{9}
+
+%--------------------------------------------------------------------------
+%                             NORMAS ABNT
+%--------------------------------------------------------------------------
+%       https://www.bco.ufscar.br/servicos-informacoes/normalizacao
+%--------------------------------------------------------------------------
+
+\bibitem{gardner1988}
+GARDNER, Martin. \textbf{Hexaflexagons and Other Mathematical Diversions}: The First Scientific American Book of Mathematical Puzzles and Games. Chicago: University of Chicago Press, 1988.
+
+\bibitem{hall2018}
+HALL, Andreia; ALMEIDA, Paulo; TEIXEIRA, Ricardo. Exploring symmetry in rosettes of Truchet tiles. In: \textbf{Proceedings of Bridges 2018}: Mathematics, Art, Music, Architecture, Education, Culture. Phoenix: Tessellations Publishing, 2018. p. 455-458.
+
+\bibitem{milanes2025}
+MILANÉS BARRIENTOS, Aniura; RIBEIRO, Gabriel. \textbf{Papel, quadrados misteriosos e ... matemática}. Coleção Matemática fora da caixa, 2025. Disponível em: \url{https://www.mat.ufmg.br/visitas/materiais/}.
+
+\bibitem{needham1997}
+NEEDHAM, Tristan. \textbf{Visual Complex Analysis}. Oxford: Clarendon Press, 1997.
+
+\bibitem{ponce2024}
+PONCE CAMPUZANO, Juan Carlos. \textbf{Domain Coloring}. Disponível em: \url{https://www.dynamicmath.xyz/domain-coloring/}. Acesso em: 13 abr. 2026.
+
+\end{thebibliography}
+
+\end{document}
+

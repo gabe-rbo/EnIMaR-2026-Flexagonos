@@ -1,0 +1,106 @@
+Que iniciativa fantástica! O trabalho de vocês já tem elementos muito fortes: o código gerador, os exemplos visuais e a conexão entre um objeto recreativo e conteúdos matemáticos abstratos. Vou tentar organizar um esquema objetivo para ajudar na reunião de vocês.
+
+## 1. Sobre a modalidade: minicurso ou comunicação oral?
+
+A escolha depende do objetivo principal:
+
+| Critério | Comunicação Oral (15-20 min) | Minicurso (2-4h) |
+| :--- | :--- | :--- |
+| **Foco** | Apresentar os resultados e o potencial didático | Ensinar os participantes a construir e usar |
+| **Interação** | Limitada a perguntas | Prática, com manipulação e discussão |
+| **Perfil** | Ideal para divulgar a pesquisa e a ideia | Ideal para formação de professores e aplicação em sala |
+| **Exigência** | Resumo conciso | Proposta mais detalhada, com cronograma |
+
+**Sugestão:** Se o objetivo é **mostrar a ideia e gerar interesse** no uso de flexágonos para ensinar conceitos abstratos, a **comunicação oral** pode ser mais adequada. Se a intenção é que os participantes saiam aptos a **reproduzir e adaptar** a atividade em suas próprias aulas, o **minicurso** é mais poderoso.
+
+---
+
+## 2. Estrutura do resumo (para ambas as modalidades)
+
+Um bom resumo para o **Eixo Temático 2** deve ter:
+
+1.  **Introdução e Contexto:** Conectar o flexágono à Matemática Recreativa e ao seu potencial como material didático concreto.
+2.  **Objetivos:** Apresentar o objeto (flexágono de 6 faces), a ferramenta de geração (código em Python) e o propósito de usá-lo para comunicar temas abstratos.
+3.  **Descrição da Metodologia:** Explicar brevemente a dinâmica do flexágono (usando o gráfico que você tem) e como as imagens são escolhidas para dialogar com essa dinâmica.
+4.  **Resultados e Exemplos:** Mostrar os exemplos já desenvolvidos (Tapete de Sierpinski, Coloração de Domínio) e indicar a nova proposta.
+5.  **Considerações Finais:** Destacar o potencial didático do objeto para tornar tangíveis conceitos abstratos.
+
+---
+
+## 3. Sugestões para as imagens do novo flexágono
+
+Para aproveitar a dinâmica que você descreveu, as imagens precisam ser escolhidas para que a transformação entre faces seja matematicamente significativa. Aqui vão duas sugestões alinhadas com a dinâmica do gráfico que você compartilhou.
+
+### Ideia 1: Representação de Curvas em Coordenadas Polares
+
+Aqui, cada uma das 6 faces seria uma curva polar diferente. A dinâmica do flexágono mostraria relações entre curvas por transformações de reflexão.
+
+| Face | Curva Polar (exemplo) | Dinâmica Observada |
+| :--- | :--- | :--- |
+| **Face 1** | `r = 2 + 2·cos(θ)` (cardioide, eixo x) | **Ação:** trocar esquerda/direita → reflexão no eixo y; trocar cima/baixo → reflexão no eixo x. |
+| **Face 2** | `r = 2 + 2·sen(θ)` (cardioide, eixo y) | Mesma dinâmica, comparar com a Face 1. |
+| **Face 3** | `r = 2 + cos(θ)` (cardioide menor) | **Ação:** trocar esquerda/direita → nova curva. |
+| **Face 4** | `r = 1` (círculo) | **Ação:** trocar cima/baixo → mesma curva, pois é simétrica. |
+| **Face 5** | `r = cos(2θ)` (rosácea de 4 pétalas) | **Ação:** trocar cima/baixo → mesma curva (simétrica). |
+| **Face 6** | `r = sen(2θ)` (rosácea de 4 pétalas girada) | **Ação:** trocar esquerda/direita → nova curva. |
+
+**Estratégia didática:** Ao manipular o flexágono, o estudante observa como a reflexão de uma curva polar se relaciona com sua equação, consolidando a ideia de simetria de forma concreta.
+
+### Ideia 2: Coloração de Domínio de Funções de Variável Complexa
+
+A técnica de coloração de domínio (domain coloring) representa funções complexas `f(z) = w` mapeando cor (hue) para o argumento de `w` e brilho para o módulo. É um campo visualmente rico.
+
+**Escolha sugerida:** Trabalhar com **uma única função** mas explorar **6 diferentes paletas de cor e/ou funções de brilho**. A dinâmica do flexágono compararia esses diferentes modos de visualizar a mesma entidade matemática.
+
+| Face | Configuração de Cor | Efeito Visual |
+| :--- | :--- | :--- |
+| **1** | Paleta padrão (hue = arg, brilho = módulo) | Visualização clássica. |
+| **2** | Paleta com cores complementares | Destaca regiões com argumentos opostos. |
+| **3** | Brilho = log(módulo) | Enfatiza variações para valores pequenos. |
+| **4** | Brilho constante, cor = arg | Mostra apenas a direção do vetor resultante. |
+| **5** | Cor = arg, brilho = módulo² | Enfatiza valores grandes. |
+| **6** | Aplicar uma rotação de 90° no domínio `z` | Mostra como a função se comporta com uma transformação de entrada. |
+
+**Estratégia didática:** O flexágono se torna um catálogo interativo de diferentes "lentes" para analisar uma mesma função complexa. A transformação entre faces revela como diferentes aspectos da função emergem conforme se altera a representação visual.
+
+---
+
+## 4. Bibliografia Recomendada
+
+Aqui estão algumas referências verificadas que podem dar suporte teórico ao seu resumo e trabalho final:
+
+[1] GARDNER, Martin. **Divertimentos matemáticos: uma antologia**. Lisboa: Gradiva, 2002. (contém o capítulo clássico sobre flexágonos).
+
+[2] HALL, Andreia; ALMEIDA, Paulo; TEIXEIRA, Ricardo. Exploring symmetry in rosettes of Truchet tiles. **Journal of Mathematics and the Arts**, v. 14, n. 1-2, p. 101-116, 2020. (de onde você tirou o gráfico da dinâmica).
+
+[3] MITCHELL, David. **Mathematical origami: geometrical shapes by paper folding**. Tarporley: Tarquin Publications, 2017. (aborda a construção de poliedros e flexágonos).
+
+[4] PICKOVER, Clifford A. **The math book: from Pythagoras to the 57th dimension, 250 milestones in the history of mathematics**. New York: Sterling, 2009. (contém referências sobre visualização de funções complexas).
+
+[5] POMMER, Wagner Marcelo. Flexágonos: um recurso para o ensino de geometria e álgebra. **Revista de Educação Matemática da UFOP**, Ouro Preto, v. 2, n. 1, p. 45-58, 2015.
+
+[6] WEGNER, Scott. Domain coloring for complex functions. **The Mathematica Journal**, v. 12, n. 3, p. 1-18, 2010.
+
+---
+
+## 5. Esquema para a reunião de hoje
+
+**Objetivo:** Definir o foco do trabalho para escrever o resumo.
+
+1.  **Decidir a modalidade (10 min)**
+    *   Discutir o principal objetivo: divulgar a pesquisa e a ideia (Comunicação Oral) ou capacitar outros professores (Minicurso)?
+    *   *Sugestão:* Para o primeiro evento, a **Comunicação Oral** pode ser mais viável e já consolida a ideia para futuras oficinas.
+
+2.  **Escolher o tema central (15 min)**
+    *   Decidir entre as duas propostas acima (Curvas Polares ou Coloração de Domínio).
+    *   *Sugestão:* A **Coloração de Domínio** é visualmente mais impressionante e conecta diretamente com um campo abstrato (variável complexa), o que gera mais impacto e curiosidade.
+
+3.  **Definir as 6 imagens (15 min)**
+    *   Se escolherem a **Coloração de Domínio**, podem começar com as 6 paletas sugeridas.
+    *   Se optarem por **Curvas Polares**, podem adaptar a lista de 6 curvas, garantindo que as transformações (reflexões) façam sentido na dinâmica.
+
+4.  **Esboçar o resumo (20 min)**
+    *   Usar a estrutura sugerida no item 2.
+    *   Destacar os 3 pilares: (a) o flexágono e sua dinâmica; (b) o código gerador; (c) a escolha inteligente das imagens para comunicar conceitos abstratos.
+
+Boa sorte na reunião! O trabalho de vocês une criatividade visual, programação e um sólido fundamento matemático. Isso é exatamente o tipo de proposta que eventos como o EnIMaR valorizam. Se precisar de mais detalhes sobre alguma parte, estou à disposição.

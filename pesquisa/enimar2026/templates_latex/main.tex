@@ -1,0 +1,278 @@
+\documentclass[12pt,oneside,a4paper]{article}
+
+%------------------------------------------------------------------------
+%                         PACOTES UTILIZADOS
+%------------------------------------------------------------------------
+\usepackage{amssymb,amsmath,amsfonts,pgf,verbatim, graphicx,epsf,xcolor,color,tikz,hyperref}
+\usepackage[brazilian]{babel}
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage{indentfirst}
+\usepackage{lmodern}
+%\usepackage{figure}
+%--------------------------------------------------------------------------
+
+%--------------------------------------------------------------------------
+%                             MARGENS
+%--------------------------------------------------------------------------
+\usepackage{geometry}
+\geometry{lmargin=3.0cm,rmargin=3.0cm,tmargin=3.0cm,bmargin=2cm}
+%\setlength{\textwidth}{160mm}  %-------- largura do texto --------------
+%\setlength{\textheight}{247mm} %------- altura do texto ---------------
+%\setlength{\voffset}{-42mm} 
+%\setlength{\hoffset}{-9mm}
+%--------------------------------------------------------------------------
+
+\usepackage{transparent}
+\usepackage{eso-pic}
+
+\AddToShipoutPicture*{
+    \put(0,0){
+        \parbox[b][\paperheight]{\paperwidth}{%
+            \vfill
+            \centering
+            {\transparent{1}\includegraphics[scale=1]{Marcadagua}}%
+            \vfill
+        }
+    }
+}
+
+
+%--------------------------------------------------------------------------
+%                             ESPAÇAMENTO ENTRE LINHAS
+%--------------------------------------------------------------------------
+\renewcommand{\baselinestretch}{1.0}
+\parskip 7pt
+%--------------------------------------------------------------------------
+
+%--------------------------------------------------------------------------
+%                              AMBIENTES E NUMERAÇÃO
+%--------------------------------------------------------------------------
+\newtheorem{Teorema}{Teorema}[section]
+\newtheorem{Lema}{Lema}[section]
+\newtheorem{Corolario}{Corol\'ario}[section]
+\newtheorem{Proposicao}{Proposição}[section]
+\newtheorem{Definicao}{Defini\c{c}\~ao}[section]
+\newtheorem{Observacao}{Observa\c{c}\~ao}[section]
+%--------------------------------------------------------------------------
+
+%--------------------------------------------------------------------------
+%                             NORMAS ABNT
+%--------------------------------------------------------------------------
+%       https://www.bco.ufscar.br/servicos-informacoes/normalizacao
+%--------------------------------------------------------------------------
+
+
+%--------------------------------------------------------------------------
+%                            Legenda de figuras e tabelas
+%--------------------------------------------------------------------------
+\usepackage[figurename=Fig.,tablename=Tab.,footnotesize,bf]{caption}
+%--------------------------------------------------------------------------
+
+
+%--------------------------------------------------------------------------
+%  INÍCIO DO DOCUMENTO. NÃO ALTERAR O PREÂMBULO, EXCETO TÍTULO E AUTORES.  
+%--------------------------------------------------------------------------
+\begin{document}
+\pretolerance10000 %it does not allow separation syllabic.
+%--------------------------------------------------------------------------
+
+
+%--------------------------------------------------------------------------
+%                             ESTILO DA PÁGINA (NÃO ALTERAR)
+%--------------------------------------------------------------------------
+\thispagestyle{empty}
+
+
+%-------------------------------------------------------
+% COM LOGO 
+%-------------------------------------------------------
+
+\centerline{
+ \includegraphics[width=0.4\textwidth]{Enimarlogo}
+}
+
+
+
+\pagenumbering{arabic}
+\pagestyle{myheadings}
+\markboth{1$^o$ Encontro Internacional de Matemática Recreativa em Língua Portuguesa}
+{1$^o$ Encontro Internacional de Matemática Recreativa em Língua Portuguesa}
+
+
+
+%--------------------------------------------------------------------------
+
+
+
+%--------------------------------------------------------------------------
+%                   IDENTIFICAÇÃO DO TRABALHO E DOS AUTORES
+%--------------------------------------------------------------------------
+\vspace{1.0cm}
+
+%\begin{center}
+%	{\LARGE \bf
+%		
+%		MINICURSO%\footnote{Este trabalho foi apoiado ...}
+%		
+%}\end{center}
+
+
+\begin{center}
+{\Huge\bf
+
+       T\'itulo de trabalho%\footnote{Este trabalho foi apoiado ...}
+
+}\end{center}
+
+\begin{center}
+	{\large\bf
+		
+		Subt\'itulo de trabalho%(Se houver)
+		
+}\end{center}
+%Use o comando \footnote{Este trabalho foi apoiado ...} logo após o título caso necessário indicar o apoio de agência/instituição.
+
+\begin{center}
+{\large
+
+ Sobrenome 1, Nome 1\footnote{Afilia\c{c}\~ao. Este autor foi apoiado ...};\\
+ Sobrenome 2, Nome 2\footnote{Afilia\c{c}\~ao. Este autor foi apoiado ...} e\\
+ Sobrenome 3, Nome 3\footnote{Afilia\c{c}\~ao. Este autor foi apoiado ...}
+
+}\end{center}
+ %Use o comando \footnote{Afiliação. Este autor foi apoiado ...} logo após o nome do autor para identificar a Instituição do autor e caso necessário indicar o apoio de agência/instituição.
+
+
+\noindent \textit{\textbf{Resumo:}}{\it 
+  Este documento \'e um modelo para a formata\c{c}\~ao dos textos de trabalhos: minicursos,  oficinas, pôster e exposição de material, submetidos ao 1$^o$ Encontro Internacional de Matemática Recreativa em Língua Portuguesa, que ocorrer\'a na Universidade Federal de Minas Gerais, Belo Horizonte-Brasil, de 09 a 12 de setembro de 2026. 
+
+O resumo deve ter, no m\'aximo, 300 palavras. (N\~ao alterar o estilo e tamanho das fontes deste documento.) Sugere-se que esteja claro o objetivo da pesquisa, apresente uma visão geral dos pressupostos teóricos, da metodologia utilizada e da conclusão
+}
+
+\begin{flushleft}
+\textit{\textbf{Palavras-chave:}}{\it
+palavra 1, palavra 2, palavra 3...  at\'e 5 palavras chaves.
+
+}\end{flushleft}
+%--------------------------------------------------------------------------
+
+ 
+
+%--------------------------------------------------------------------------
+%                             CONTEÚDO DO TRABALHO
+%--------------------------------------------------------------------------
+
+
+
+
+
+\section{Introdução}
+O arquivo deve ser enviado com o nome: \vspace{0.3cm} Modalidade\textunderscore eixo temático\textunderscore nome do autor\textunderscore último sobrenome.tex\\ 
+Por exemplo:\vspace{0.3cm}\\
+ MC\textunderscore T2\textunderscore Roberta\textunderscore Rodrigues.pdf.
+
+Os textos devem ser formatados de acordo com estas instruções e este arquivo texto pode ser usado como um template. Estes estão limitados com no mínimo 2 e  no máximo 4 páginas, incluindo tabelas e figuras. O arquivo final em formato PDF não deve exceder 5 MB. Recomenda-se usar este arquivo para submeter o texto.
+
+O texto deve ser digitado em papel tamanho A4, usando fonte Times New Roman, tamanho 10, exceto para o título e espaço simples entre linhas.
+
+
+Apresente o contexto teórico e prático da proposta, incluindo referências relevantes à Matemática Recreativa, jogos, problemas, desafios ou recursos tecnológicos aplicados ao ensino e à divulgação da Matemática. Justifique a relevância da proposta para o público-alvo do encontro.
+
+%\section{Objetivos}
+%Liste os objetivos gerais e específicos da proposta. Exemplo:
+%\begin{itemize}
+%    \item Investigar o potencial de jogos matemáticos na formação de professores;
+%    \item Desenvolver materiais didáticos abertos baseados em desafios lógicos;
+%    \item Promover o intercâmbio entre experiências dos países de língua portuguesa.
+%\end{itemize}
+%
+%\section{Metodologia (caso Oficina)}
+%Descreva como a proposta será desenvolvida durante a oficina. Inclua:
+%\begin{itemize}
+%    \item Duração estimada;
+%    \item Número ideal de participantes;
+%    \item Materiais necessários;
+%    \item Etapas da atividade;
+%    \item Reflexão final.
+%\end{itemize}
+
+
+
+
+
+
+\section{Títulos e Subtítulos das Seções}
+Os títulos e subtítulos das seções devem ser digitados em fonte Times New Roman, tamanho 12, estilo negrito, e alinhados à esquerda. Os títulos ser escritos em letras maiúsculas, enquanto nos subtítulos só as primeiras letras de cada palavra serão maiúsculas. Eles devem ser numera-dos, usando numerais arábicos separados por pontos.
+
+\subsection{Títulos e Subtítulos das Seções}
+
+ Uma linha em branco de espaçamento simples deve ser incluída acima e abaixo de cada título ou subtítulo.
+
+
+\textbf{Corpo do Texto}
+
+O corpo do texto é justificado, com espaçamento simples. A primeira linha de cada parágrafo tem recuo de 0,6 cm a partir da margem esquerda.
+
+As tabelas devem ser centralizadas. A legenda deve ser centralizada e localizada imediatamente abaixo da tabela. Uma linha em branco, em espaço simples, deve ser introduzida entre a tabela, seu título e o texto.
+
+\begin{table}[h!]
+	\centering
+\begin{tabular}{|c|c|c|c|c|c|c|c|}\hline
+$n$&2&3&4&5&6&7 &8\\ \hline
+$n$-poliminós &1&2&5&12&35&108&369\\ \hline
+\end{tabular}
+\captionof{table}{$n$-poliminós}\label{poliminos}
+\end{table}
+
+As figuras devem ser centralizadas. Sua legenda deve ser centralizada e localizada imediatamente abaixo da figura. Deve ser deixada uma linha em branco, de espaçamento simples, entre as figuras e o texto.
+
+\begin{figure}[h!]
+	\centering
+	\includegraphics[width=11cm]{cubosoma}
+   \caption{Cubo Soma}
+\end{figure}
+
+\section{Metodologia (caso Oficina)}
+Descreva como a proposta será desenvolvida durante a oficina. Inclua:
+\begin{itemize}
+
+    \item Número ideal de participantes;
+    \item Materiais necessários;
+    \item Desenvolvimento;
+    \item Reflexão final.
+\end{itemize}
+
+\section{Conclus\~oes ou Considerações Finais} %(SE HOUVER) 
+
+ Estas indicações de formatação de texto,  devem ser suprimidas na versão final do artigo antes do envio. Devem aparecer nas referências apenas os trabalhos citados no corpo da proposta de trabalho. 
+
+
+\renewcommand{\refname}{Bibliografia}
+\addcontentsline{toc}{section}{Refer\^encias bibliogr\'aficas}
+  \begin{thebibliography}{9}
+
+%--------------------------------------------------------------------------
+%                             NORMAS ABNT
+%--------------------------------------------------------------------------
+%       https://www.bco.ufscar.br/servicos-informacoes/normalizacao
+%--------------------------------------------------------------------------
+
+    \bibitem{Sin}  SINGMASTER, D. \emph{The Utility of Recreational Mathematics}.   Proceedings of Recreational Mathematics Colloquium v - G4G (Europe), pp. 3–46,
+     
+    \bibitem{Dud}  DUDENEY, H. E. \emph{The Canterbury Puzzles}.   Dover Publications, 1958.
+    
+     \bibitem{Mar} MARTIN, G. \emph{Divertimentos Matemáticos}. Ibrasa, 1967.
+
+
+
+
+
+
+ 
+\end{thebibliography}
+
+
+
+\end{document}
+

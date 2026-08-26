@@ -1,0 +1,16 @@
+\documentclass{standalone}
+
+\usepackage{tikz}
+
+\begin{document}
+
+\begin{tikzpicture}[scale=1]
+%posição inicial
+\draw[style=help lines,dashed] (0,0) grid (4,4);
+\draw[ultra thick] (0,0) rectangle (4,4);
+\draw[ultra thick] (1,1) rectangle (3,3);
+\draw[ultra thick,color=white] (2,1) -- (2,3);
+\draw[ultra thick,color=white] (1,2) -- (3,2);
+\end{tikzpicture}
+
+\end{document}

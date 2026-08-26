@@ -1,0 +1,216 @@
+\documentclass[12pt,oneside,a4paper]{article}
+
+%------------------------------------------------------------------------
+%                         PACOTES UTILIZADOS
+%------------------------------------------------------------------------
+\usepackage{amssymb,amsmath,amsfonts,pgf,verbatim, graphicx,epsf,xcolor,color,tikz,hyperref}
+\usepackage[brazilian]{babel}
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage{indentfirst}
+\usepackage{lmodern}
+%\usepackage{figure}
+%--------------------------------------------------------------------------
+
+%--------------------------------------------------------------------------
+%                             MARGENS
+%--------------------------------------------------------------------------
+\usepackage{geometry}
+\geometry{lmargin=3.0cm,rmargin=3.0cm,tmargin=3.0cm,bmargin=2cm}
+%\setlength{\textwidth}{160mm}  %-------- largura do texto --------------
+%\setlength{\textheight}{247mm} %------- altura do texto ---------------
+%\setlength{\voffset}{-42mm} 
+%\setlength{\hoffset}{-9mm}
+%--------------------------------------------------------------------------
+
+\usepackage{transparent}
+\usepackage{eso-pic}
+
+\AddToShipoutPicture*{
+    \put(0,0){
+        \parbox[b][\paperheight]{\paperwidth}{%
+            \vfill
+            \centering
+            {\transparent{1}\includegraphics[scale=1]{Marcadagua}}%
+            \vfill
+        }
+    }
+}
+
+
+%--------------------------------------------------------------------------
+%                             ESPAÇAMENTO ENTRE LINHAS
+%--------------------------------------------------------------------------
+\renewcommand{\baselinestretch}{1.0}
+\parskip 7pt
+%--------------------------------------------------------------------------
+
+%--------------------------------------------------------------------------
+%                              AMBIENTES E NUMERAÇÃO
+%--------------------------------------------------------------------------
+\newtheorem{Teorema}{Teorema}[section]
+\newtheorem{Lema}{Lema}[section]
+\newtheorem{Corolario}{Corol\'ario}[section]
+\newtheorem{Proposicao}{Proposição}[section]
+\newtheorem{Definicao}{Defini\c{c}\~ao}[section]
+\newtheorem{Observacao}{Observa\c{c}\~ao}[section]
+%--------------------------------------------------------------------------
+
+%--------------------------------------------------------------------------
+%                             NORMAS ABNT
+%--------------------------------------------------------------------------
+%       https://www.bco.ufscar.br/servicos-informacoes/normalizacao
+%--------------------------------------------------------------------------
+
+
+%--------------------------------------------------------------------------
+%                            Legenda de figuras e tabelas
+%--------------------------------------------------------------------------
+\usepackage[figurename=Fig.,tablename=Tab.,footnotesize,bf]{caption}
+%--------------------------------------------------------------------------
+
+
+%--------------------------------------------------------------------------
+%  INÍCIO DO DOCUMENTO. NÃO ALTERAR O PREÂMBULO, EXCETO TÍTULO E AUTORES.  
+%--------------------------------------------------------------------------
+\begin{document}
+\pretolerance10000 %it does not allow separation syllabic.
+%--------------------------------------------------------------------------
+
+
+%--------------------------------------------------------------------------
+%                             ESTILO DA PÁGINA (NÃO ALTERAR)
+%--------------------------------------------------------------------------
+\thispagestyle{empty}
+
+
+%-------------------------------------------------------
+% COM LOGO 
+%-------------------------------------------------------
+
+\centerline{
+ \includegraphics[width=0.4\textwidth]{Enimarlogo}
+}
+
+
+
+\pagenumbering{arabic}
+\pagestyle{myheadings}
+\markboth{1$^o$ Encontro Internacional de Matemática Recreativa em Língua Portuguesa}
+{1$^o$ Encontro Internacional de Matemática Recreativa em Língua Portuguesa}
+
+
+
+%--------------------------------------------------------------------------
+
+
+
+%--------------------------------------------------------------------------
+%                   IDENTIFICAÇÃO DO TRABALHO E DOS AUTORES
+%--------------------------------------------------------------------------
+\vspace{1.0cm}
+
+%\begin{center}
+%	{\LARGE \bf
+%		
+%		MINICURSO%\footnote{Este trabalho foi apoiado ...}
+%		
+%}\end{center}
+
+
+\begin{center}
+{\Huge\bf
+
+       Mostra de jogos do acervo do projeto Visitas no Mundo da Matemática%\footnote{Este trabalho foi apoiado ...}
+
+}\end{center}
+
+%\begin{center}
+%	{\large\bf
+		
+%		Subt\'itulo de trabalho%(Se houver)
+		
+%}\end{center}
+%Use o comando \footnote{Este trabalho foi apoiado ...} logo após o título caso necessário indicar o apoio de agência/instituição.
+
+\begin{center}
+{\large
+
+ Sobrenome 1, Nome 1\footnote{Afilia\c{c}\~ao. Este autor foi apoiado ...};\\
+ Sobrenome 2, Nome 2\footnote{Afilia\c{c}\~ao. Este autor foi apoiado ...} e\\
+ Sobrenome 3, Nome 3\footnote{Afilia\c{c}\~ao. Este autor foi apoiado ...}
+
+}\end{center}
+ %Use o comando \footnote{Afiliação. Este autor foi apoiado ...} logo após o nome do autor para identificar a Instituição do autor e caso necessário indicar o apoio de agência/instituição.
+
+
+\noindent \textit{\textbf{Resumo:}}{\it 
+  Apresentaremos diversas atividades interativas utilizadas pelo projeto de extensão “Visitas no Mundo da Matemática”, que funciona na Universidade Federal de Minas Gerais. As atividades são elaboradas a partir de desafios matemáticos tomados de diferentes referências bibliográficas e eventuais modificações utilizando materiais bastante simples e acessíveis. Além disso, apresentaremos também uma revista em quadrinhos produzida pela equipe em 2021 e flexágonos de três faces que foram decorados usando cenas dessa revista.
+
+}
+
+\begin{flushleft}
+\textit{\textbf{Palavras-chave:}}{\it
+ atividades lúdicas, material didático, flexágonos, quadrinhos.
+
+}\end{flushleft}
+%--------------------------------------------------------------------------
+
+ 
+
+%--------------------------------------------------------------------------
+%                             CONTEÚDO DO TRABALHO
+%--------------------------------------------------------------------------
+
+
+
+
+
+\section{Introdução}
+
+O projeto “Visitas no Mundo da Matemática” é um projeto de extensão do Departamento de Matemática da Universidade Federal de Minas Gerais.  Este projeto existe desde 1997. Sua equipe recebe turmas de alunos do Ensino Fundamental e Médio, principalmente da cidade de Belo Horizonte e de cidades vizinhas, acompanhados por seus professores de matemática para realizar com eles jogos, truques de mágica e vários tipos de atividades lúdicas nas quais a matemática está integrada de alguma forma. Isso, por um lado, contribui para desconstruir o estereótipo bastante generalizado dessa disciplina como algo árido e pouco atraente e, por outro, fortalece a imagem do professor(a) de matemática perante seus alunos.
+
+\section{A mostra}
+
+A equipe do projeto conta com um acervo de atividades muito amplo e diversificado. Essas atividades também são utilizadas em oficinas para professores e em mostras de jogos que organizamos em diferentes eventos. Nossa proposta aqui é apresentar vários de nossos materiais e atividades na Exposição de Material.
+
+Todas as atividades são interativas. A maior parte delas foi concebida utilizando tabuleiros, fichas ou outras peças feitas de papel ou cartolina. Por trás de cada atividade há um desafio matemático bastante estimulante e a proposta consiste em resolvê-lo através da manipulação do material que levamos. Naturalmente, sempre colocamos cartelas que orientam o público para poder realizar a atividade de forma independente, mas certamente caso haja alguém com dúvidas, os monitores intervirão da maneira mais adequada.
+
+\begin{figure}[h!]
+	\centering
+	\includegraphics[width=11cm]{imagem_completa.jpg}
+   \caption{Atividades de equipe do projeto Visitas em diferentes momentos. Fonte: Acervo do projecto.}
+\end{figure}
+
+Além dessas atividades, durante a exposição também pretendemos distribuir alguns exemplares da revista em quadrinhos “Fibo e Sofia”, que foi criada com base nas atividades do projeto. Também serão disponibilizados alguns flexágonos bastante simples de montar que foram desenhados usando cenas da história da revista. Os flexágonos são brinquedos feitos de papel que são dobrados em forma de quadrados e têm a propriedade de que uma face permanece sempre escondida, o que surpreende e encanta a todos.
+
+\section{Conclus\~oes} %(SE HOUVER)
+
+Em suma, pretendemos apresentar vários materiais que a equipe do “Projeto Visitas” utilizou em diferentes eventos e que tiveram boa aceitação entre o público. Esperamos ter a oportunidade de fazer isso também no EnIMaR. Para quem deseja saber mais sobre o Projeto Visitas, sugerimos visitar o site do projeto.
+
+\renewcommand{\refname}{Bibliografia}
+\addcontentsline{toc}{section}{Refer\^encias bibliogr\'aficas}
+  \begin{thebibliography}{9}
+
+%--------------------------------------------------------------------------
+%                             NORMAS ABNT
+%--------------------------------------------------------------------------
+%       https://www.bco.ufscar.br/servicos-informacoes/normalizacao
+%--------------------------------------------------------------------------
+     
+    \bibitem{Lewis}  Lewis, T.\emph{Manual de la feria de Matemáticas}.   Alberta: Pacific Institute., 2002.
+
+     \bibitem{Kordemsky}  Kordemsky, B. A,, T.\emph{The Moscow Puzzles: 359 Mathematical Recreations}.   Dover, 1992.
+    
+     \bibitem{Visitas} Projeto Visitas \emph{\href{http://www.mat.ufmg.br/visitas/}{Projeto Visitas no Mundo da Matemática.}}. Acessado em 30/03/2026.
+
+
+
+
+ 
+\end{thebibliography}
+
+
+
+\end{document}
+

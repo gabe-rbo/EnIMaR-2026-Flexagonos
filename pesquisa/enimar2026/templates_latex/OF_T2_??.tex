@@ -1,0 +1,245 @@
+\documentclass[12pt,oneside,a4paper]{article}
+
+%------------------------------------------------------------------------
+%                         PACOTES UTILIZADOS
+%------------------------------------------------------------------------
+\usepackage{amssymb,amsmath,amsfonts,pgf,verbatim, graphicx,epsf,xcolor,color,tikz,hyperref}
+\usepackage[brazilian]{babel}
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage{indentfirst}
+\usepackage{lmodern}
+%\usepackage{figure}
+%--------------------------------------------------------------------------
+
+%--------------------------------------------------------------------------
+%                             MARGENS
+%--------------------------------------------------------------------------
+\usepackage{geometry}
+\geometry{lmargin=3.0cm,rmargin=3.0cm,tmargin=3.0cm,bmargin=2cm}
+%\setlength{\textwidth}{160mm}  %-------- largura do texto --------------
+%\setlength{\textheight}{247mm} %------- altura do texto ---------------
+%\setlength{\voffset}{-42mm} 
+%\setlength{\hoffset}{-9mm}
+%--------------------------------------------------------------------------
+
+\usepackage{transparent}
+\usepackage{eso-pic}
+
+\AddToShipoutPicture*{
+    \put(0,0){
+        \parbox[b][\paperheight]{\paperwidth}{%
+            \vfill
+            \centering
+            {\transparent{1}\includegraphics[scale=1]{Marcadagua}}%
+            \vfill
+        }
+    }
+}
+
+
+%--------------------------------------------------------------------------
+%                             ESPAÇAMENTO ENTRE LINHAS
+%--------------------------------------------------------------------------
+\renewcommand{\baselinestretch}{1.0}
+\parskip 7pt
+%--------------------------------------------------------------------------
+
+%--------------------------------------------------------------------------
+%                              AMBIENTES E NUMERAÇÃO
+%--------------------------------------------------------------------------
+\newtheorem{Teorema}{Teorema}[section]
+\newtheorem{Lema}{Lema}[section]
+\newtheorem{Corolario}{Corol\'ario}[section]
+\newtheorem{Proposicao}{Proposição}[section]
+\newtheorem{Definicao}{Defini\c{c}\~ao}[section]
+\newtheorem{Observacao}{Observa\c{c}\~ao}[section]
+%--------------------------------------------------------------------------
+
+%--------------------------------------------------------------------------
+%                             NORMAS ABNT
+%--------------------------------------------------------------------------
+%       https://www.bco.ufscar.br/servicos-informacoes/normalizacao
+%--------------------------------------------------------------------------
+
+
+%--------------------------------------------------------------------------
+%                            Legenda de figuras e tabelas
+%--------------------------------------------------------------------------
+\usepackage[figurename=Fig.,tablename=Tab.,footnotesize,bf]{caption}
+%--------------------------------------------------------------------------
+
+
+%--------------------------------------------------------------------------
+%  INÍCIO DO DOCUMENTO. NÃO ALTERAR O PREÂMBULO, EXCETO TÍTULO E AUTORES.  
+%--------------------------------------------------------------------------
+\begin{document}
+\pretolerance10000 %it does not allow separation syllabic.
+%--------------------------------------------------------------------------
+
+
+%--------------------------------------------------------------------------
+%                             ESTILO DA PÁGINA (NÃO ALTERAR)
+%--------------------------------------------------------------------------
+\thispagestyle{empty}
+
+
+%-------------------------------------------------------
+% COM LOGO 
+%-------------------------------------------------------
+
+\centerline{
+ \includegraphics[width=0.4\textwidth]{Enimarlogo}
+}
+
+
+
+\pagenumbering{arabic}
+\pagestyle{myheadings}
+\markboth{1$^o$ Encontro Internacional de Matemática Recreativa em Língua Portuguesa}
+{1$^o$ Encontro Internacional de Matemática Recreativa em Língua Portuguesa}
+
+
+
+%--------------------------------------------------------------------------
+
+
+
+%--------------------------------------------------------------------------
+%                   IDENTIFICAÇÃO DO TRABALHO E DOS AUTORES
+%--------------------------------------------------------------------------
+\vspace{1.0cm}
+
+%\begin{center}
+%	{\LARGE \bf
+%		
+%		MINICURSO%\footnote{Este trabalho foi apoiado ...}
+%		
+%}\end{center}
+
+
+\begin{center}
+{\Huge\bf
+
+       Jogos Matemáticos em Quadrinhos e
+Dobraduras%\footnote{Este trabalho foi apoiado ...}
+
+}\end{center}
+
+\begin{center}
+	{\large\bf
+		
+		Subt\'itulo de trabalho%(Se houver)
+		
+}\end{center}
+%Use o comando \footnote{Este trabalho foi apoiado ...} logo após o título caso necessário indicar o apoio de agência/instituição.
+
+\begin{center}
+{\large
+
+ Sobrenome 1, Nome 1\footnote{Afilia\c{c}\~ao. Este autor foi apoiado ...};\\
+ Sobrenome 2, Nome 2\footnote{Afilia\c{c}\~ao. Este autor foi apoiado ...} e\\
+ Sobrenome 3, Nome 3\footnote{Afilia\c{c}\~ao. Este autor foi apoiado ...}
+
+}\end{center}
+ %Use o comando \footnote{Afiliação. Este autor foi apoiado ...} logo após o nome do autor para identificar a Instituição do autor e caso necessário indicar o apoio de agência/instituição.
+
+
+\noindent \textit{\textbf{Resumo:}}{\it 
+  Em 2021 a equipe do Projeto Visitas publicou pela primeira vez uma revista de quadrinhos “artesanal”, desenhada por um de seus monitores, cujo enredo é estruturado em torno de três jogos do acervo do projeto. Nesta oficina propomos apresentar e discutir esses jogos, apresentar a revista e também uns brinquedos de papel (flexágonos) que foram baseados na história da revista.  Esses materiais podem ser de interesse para professores e professoras que pretendam introduzir elementos lúdicos em suas aulas.
+}
+
+\begin{flushleft}
+\textit{\textbf{Palavras-chave:}}{\it
+Recursos didáticos, matemática e quadrinhos, jogos matemáticos, matemática e literatura.
+
+}\end{flushleft}
+%--------------------------------------------------------------------------
+
+ 
+
+%--------------------------------------------------------------------------
+%                             CONTEÚDO DO TRABALHO
+%--------------------------------------------------------------------------
+
+
+
+
+
+\section{Introdução}
+
+Em diversas obras literárias, a matemática aparece como parte do tema principal ou relacionada a algum ou alguns personagens. No livro  \cite{hart}, a autora discute vários exemplos. Queremos apresentar neste trabalho um relato sobre uma revista em quadrinhos em que a matemática desempenha um papel de destaque.
+
+A revista Fibo e Sofia é fruto de muitos anos de trabalho de um projeto de extensão do Departamento de Matemática da Universidade Federal de Minas Gerais, Brasil, que coordeno atualmente: o projeto Visitas no Mundo da Matemática. A equipe desse projeto apresenta aos alunos e professores que nos visitam diferentes atividades lúdicas nas quais a matemática está integrada de alguma forma. Isso, por um lado, contribui para desconstruir o estereótipo de que essa disciplina é algo árido e pouco atraente; por outro, fortalece a imagem do professor de matemática perante seus alunos.
+
+\begin{figure}[h!]
+	\centering
+	\includegraphics[scale = 0.7]{0_t.png}
+   \caption{Capa da revista Fibo e Sofia}
+\end{figure}
+
+A revista foi concebida durante a pandemia da Covid-19, pois nossas atividades presenciais tiveram que ser interrompidas repentinamente. Marlon Ferreira, um dos monitores do projeto naquela época, tinha como hobby a criação de histórias em quadrinhos e teve a iniciativa de criar os personagens e a história. As histórias foram publicadas inicialmente na conta do Instagram do projeto e, posteriormente, em 2021, conseguimos financiamento da UFMG para atividades de extensão, para compilar uma revista com essas publicações e para imprimi-la.
+
+Os protagonistas da história são uma menina e um menino que são amigos e se veem envolvidos em uma aventura inesperada. Eles são transportados para um mundo mágico, onde um feiticeiro lhes diz que precisam superar três desafios matemáticos de forma “interativa” para voltarem para casa sãos e salvos. Cada desafio corresponde a um dos jogos/atividades lúdicas utilizados no
+trabalho do projeto mencionado. Na verdade, provavelmente são os jogos mais populares do projeto e eles comporão a nossa oficina.
+
+%\section{Objetivos}
+%Liste os objetivos gerais e específicos da proposta. Exemplo:
+%\begin{itemize}
+%    \item Investigar o potencial de jogos matemáticos na formação de professores;
+%    \item Desenvolver materiais didáticos abertos baseados em desafios lógicos;
+%    \item Promover o intercâmbio entre experiências dos países de língua portuguesa.
+%\end{itemize}
+%
+\section{Metodologia}
+
+Na oficina apresentaremos os três jogos que fazem parte da história da revista Fibo e Sofia. Não apenas jogaremos com os participantes, também discutiremos detalhes sobre a resolução, possíveis variações e observações sobre o retorno das crianças durante as visitas.
+
+\begin{itemize}
+    \item Duração estimada: 2 horas.
+    \item Número ideal de participantes: 30.
+    \item Materiais necessários: nenhum, pois levaremos todos os materiais.
+    \item Discutiremos 3 jogos, apresentaremos a revista e se houver tempo, discutiremos mais um jogo do acervo do projeto. Os participantes receberão um documento com o resumo dos temas tratados na oficina.
+    \item Pensamos que a oficina pode ser de interesse de docentes que pretendem inserir atividades lúdicas na sua prática pedagógica. Muito provavelmente teremos kits de revistinhas para entregar pelo menos para alguns professores.
+\end{itemize}
+
+\section{Os jogos}
+
+O primeiro dos desafios da revista é o chamado “Jogo da Corrente”. Trata-se de uma variação do jogo Nim, em que dois jogadores se alternam para colocar suas peças em um ou dois espaços de uma série de espaços adjacentes. Vence o jogador que colocar sua peça no último espaço da “corrente”. Segue-se o “Jogo da Senha”. Neste jogo, usando algumas informações, os jogadores devem descobrir uma senha escondida. O desafio final é o que chamamos de “Jogo do Dragão”, onde o objetivo é matar um dragão muito perigoso usando uma espada (ou uma varinha mágica) e que funciona de acordo com certas regras. Este último jogo foi baseado num desafio descrito em \cite{Lewis}.
+
+\section{Possibilidades na aula de matemática}
+
+Uma maneira de trabalhar com a revista nas aulas seria, em primeiro lugar, reservar um tempo para uma primeira leitura e, em seguida, jogar um ou vários dos jogos. Isso provavelmente exigiria uma discussão prévia sobre as regras, pois não é algo que fique muito claro apenas com a leitura da revista, onde o mais importante é a história que é contada. Os jogos também poderiam ser usados em atividades extracurriculares, como festivais de matemática e eventos semelhantes, onde os protagonistas seriam os próprios alunos, apresentando os desafios ao público.
+
+Como mencionamos anteriormente, a partir da leitura da revista, a estrutura de cada desafio e a matemática relacionada a ele podem não ficar muito claras para o leitor. Para facilitar o uso da revista como material de apoio didático, em 2022 elaboramos e imprimimos vários exemplares do “Manual para professores”, que foram reimpressos em 2023 (veja \cite{Visitas} para acessar versões digitais).
+
+Nesse documento, são apresentados mais detalhes sobre a construção dos personagens, cujos nomes são inspirados em matemáticos bastante conhecidos. Também se aprofunda em conceitos matemáticos presentes em cada desafio e se ilustra como alguns conteúdos de Matemática Básica, como divisão com resto e progressões aritméticas, por exemplo, poderiam ser trabalhados nas aulas após a apresentação da revista. Também foram incluídos links para atividades no Geogebra, por meio dos quais os desafios podem ser resolvidos de forma interativa.
+
+\section{Conclus\~oes ou Considerações Finais} %(SE HOUVER) 
+
+Esperamos que os materiais aqui descritos sejam de interesse para professores interessados em utilizar recursos lúdicos em suas aulas. Lembrando que é possível acessar versões digitais tanto da revista quanto do manual que a complementa através do site do Projeto Visitas no Mundo da Matemática.
+
+
+\renewcommand{\refname}{Bibliografia}
+\addcontentsline{toc}{section}{Refer\^encias bibliogr\'aficas}
+  \begin{thebibliography}{9}
+
+%--------------------------------------------------------------------------
+%                             NORMAS ABNT
+%--------------------------------------------------------------------------
+%       https://www.bco.ufscar.br/servicos-informacoes/normalizacao
+%--------------------------------------------------------------------------
+
+    \bibitem{Lewis}  Lewis, T.\emph{Manual de la feria de Matemáticas}.   Alberta: Pacific Institute., 2002.
+
+     \bibitem{hart}  Hart, S., T.\emph{Once Upon a Prime: The Wondrous Connections Between Mathematics and Literature}.   Flatiron Books, 2023.
+
+     \bibitem{Visitas} Materiais do Projeto Visitas\\ \emph{\url{http://www.mat.ufmg.br/visitas/materiais}}. Acessado em 30/03/2026.
+
+ 
+\end{thebibliography}
+
+
+
+\end{document}
+

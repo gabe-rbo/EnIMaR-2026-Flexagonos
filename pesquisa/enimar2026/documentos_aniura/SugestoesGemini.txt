@@ -1,0 +1,61 @@
+Essa é uma proposta fantástica para o **ENIMAR 2026**! O uso de flexágonos como interface para explorar conceitos complexos (como análise complexa ou geometria de curvas) une perfeitamente a matemática recreativa ao rigor acadêmico.
+
+Para a sua reunião em 3 horas, aqui está uma estrutura estratégica para o resumo e sugestões técnicas para as imagens.
+
+---
+
+### 1. Sugestão de Modalidade: Minicurso
+Embora a Comunicação Oral seja prestigiada, a natureza do objeto (o flexágono) e o código em Python gritam por um **Minicurso**.
+* **Por quê?** No minicurso, os participantes podem: 1. Entender a teoria (dinâmica do diagrama); 2. Ver o código funcionando; 3. **Montar o seu próprio flexágono**. Isso gera um engajamento muito maior no eixo de Matemática Recreativa.
+
+---
+
+### 2. Escolha das Imagens (Conectando com a Dinâmica)
+
+A dinâmica que você anexou mostra que o flexágono não apenas "esconde" faces, mas as **decompõe e permuta**. Para as funções complexas ou curvas polares, o segredo é usar a **simetria** para que as trocas de metades (esquerda/direita ou cima/baixo) criem novas formas coerentes.
+
+#### Opção A: Coloração de Domínio (Domain Coloring)
+Escolha uma única função complexa "mãe", mas varie a região do plano complexo ou a função de brilho.
+* **Função Sugerida:** $f(z) = z^n - 1$ (Raízes da unidade). Para $n=3$ ou $n=4$, você tem simetrias radiais belíssimas.
+* **As 6 Faces:**
+    1.  **Face 1 e 2 (Alta Dinâmica):** Use a função com centros de zeros e polos deslocados de forma que a troca de metades (L/R ou U/D) ainda mantenha a continuidade visual.
+    2.  **Faces 3 a 6:** Use zooms em regiões fractais da função.
+* **Por que funciona?** Ao flexionar, o aluno verá a "continuidade analítica" de forma tátil. Se você trocar a metade esquerda com a direita e a imagem "encaixar", você está discutindo visualmente propriedades de simetria da função $f(z) = \overline{f(\overline{z})}$.
+
+#### Opção B: Curvas Polares (Explorando Simetrias)
+Sugiro usar as **Rosáceas** ($r = a \cos(k\theta)$).
+* **Faces 1 e 2 (Troca L/R e U/D):** Use $k$ par (ex: $k=4$, rosácea de 8 pétalas). Como ela tem simetria em relação aos dois eixos, as trocas de metades no flexágono resultarão na mesma curva ou em rotações imperceptíveis, causando um efeito de "magia" matemática.
+* **Faces 3 a 6:** Use $k$ ímpar (ex: $k=3$, 3 pétalas). Aqui, a troca de metades vai "quebrar" a curva ou gerar uma nova figura. Isso permite discutir **paridade e simetria** de funções trigonométricas.
+
+---
+
+### 3. Esquema para o Resumo (Submissão)
+
+1.  **Título Sugerido:** "A Geometria dos Flexágonos: Da Matemática Recreativa à Coloração de Domínio Complexo".
+2.  **Introdução:** Definir o hexaflexágono quadrado e o fascínio histórico (Feynman, Gardner).
+3.  **Metodologia:**
+    * Descrição do algoritmo em Python para automação dos moldes.
+    * Análise da teoria de grafos por trás da dinâmica de faces (referenciando Hall, Almeida e Teixeira).
+4.  **Objetivo Didático:** Propor o flexágono como "laboratório tátil" para visualizar transformações geométricas e propriedades de funções de variável complexa/curvas polares.
+5.  **Resultados Esperados:** Capacitar professores a utilizarem materiais manipuláveis para introduzir temas abstratos do Ensino Superior ou Ensino Médio avançado.
+
+---
+
+### 4. Referências Bibliográficas (Verificadas)
+
+[1] GARDNER, Martin. **Hexaflexagons and Other Mathematical Diversions: The First Scientific American Book of Mathematical Puzzles and Games**. Chicago: University of Chicago Press, 1988. ISBN 0226282546. (A base histórica de tudo).
+
+[2] HALL, Andreia; ALMEIDA, Paulo; TEIXEIRA, Ricardo. **Exploring symmetry in rosettes of Truchet tiles**. In: Proceedings of Bridges 2018: Mathematics, Art, Music, Architecture, Education, Culture. Phoenix: Tessellations Publishing, 2018. p. 455-458. (A referência da sua imagem).
+
+[3] NEEDHAM, Tristan. **Visual Complex Analysis**. Oxford: Clarendon Press, 1997. ISBN 0198534469. (Melhor referência para justificar o uso de imagens na compreensão de funções complexas).
+
+[4] CONWAY, John H.; GUY, Richard K. **The Book of Numbers**. New York: Copernicus, 1996. ISBN 038797993X. (Útil para a parte de sequências e padrões nas faces).
+
+[5] PUNA, Elias. **Domain Coloring: a visualização de funções complexas**. In: Atas do ProfMat 2014. Portugal: APM, 2014. (Referência em português sobre a técnica de coloração).
+
+---
+
+### Dica para a Reunião:
+Mostre ao estudante que o "pulo do gato" do trabalho de vocês é a **automação**. Ter um código que gera o molde permite que qualquer pessoa crie seu próprio material didático personalizado. Isso é um argumento fortíssimo para um minicurso no ENIMAR!
+
+Boa sorte na reunião e na submissão! Se precisar que eu detalhe mais alguma curva ou função complexa específica, me avise.
