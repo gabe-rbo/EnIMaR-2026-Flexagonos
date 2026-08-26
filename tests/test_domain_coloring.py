@@ -116,12 +116,12 @@ class TestDomainColoring(unittest.TestCase):
         # Top-right (z = 1 + 1j) -> tex Top-Right (Verde)
         self.assertAlmostEqual(res_id[5, 95, 1], 255, delta=10)
 
-    def test_domain_coloring_engine_faces(self):
-        """Testa a geração completa das 6 faces do flexágono."""
+    def test_domain_coloring_solid_faces(self):
+        """Testa a geração das 6 faces exclusivamente em cores sólidas."""
         func = lambda z: (z - 1) / (z**2 + z + 1)
         engine = DomainColoringEngine(func, x_range=(-2, 2), y_range=(-2, 2), resolution=(64, 64))
         
-        faces = engine.generate_six_flexagon_faces()
+        faces = engine.generate_six_solid_faces()
         self.assertEqual(len(faces), 6)
         for i in range(1, 7):
             key = f'face{i}'

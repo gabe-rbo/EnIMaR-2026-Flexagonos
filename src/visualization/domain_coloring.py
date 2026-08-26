@@ -464,6 +464,37 @@ def generate_concentric_targets_texture(
     return img
 
 
+def generate_truchet_texture(
+    size: Tuple[int, int] = (1024, 1024),
+    grid_size: int = 8,
+    line_thickness: int = 16,
+    bg_color: Tuple[int, int, int] = (248, 248, 250),
+    line_color: Tuple[int, int, int] = (25, 45, 95)
+) -> np.ndarray:
+    """Gera um mosaico clássico de rosetas e arcos de Truchet para o plano w."""
+    w, h = size
+    img = np.full((h, w, 3), bg_color, dtype=np.uint8)
+    tile_w = w // grid_size
+    tile_h = h // grid_size
+
+    # Padrão pseudoaleatório determinístico estético
+    np.random.seed(101)
+    for r in range(grid_size):
+        for c in range(grid_size):
+            x0, y0 = c * tile_w, r * tile_h
+            rot = (r * 3 + c * 7 + (r ^ c)) % 2
+            rad = tile_w // 2
+
+            if rot == 0:
+                cv2.ellipse(img, (x0, y0), (rad, rad), 0, 0, 90, line_color, line_thickness)
+                cv2.ellipse(img, (x0 + tile_w, y0 + tile_h), (rad, rad), 0, 180, 270, line_color, line_thickness)
+            else:
+                cv2.ellipse(img, (x0 + tile_w, y0), (rad, rad), 0, 90, 180, line_color, line_thickness)
+                cv2.ellipse(img, (x0, y0 + tile_h), (rad, rad), 0, 270, 360, line_color, line_thickness)
+
+    return img
+
+
 # ==============================================================================
 # CLASSE DE ALTO NÍVEL: DomainColoringEngine
 # ==============================================================================
@@ -508,6 +539,7 @@ class DomainColoringEngine:
             - 'cartesian_grid': pullback de grade cartesiana do plano w
             - 'checkerboard': pullback de xadrez cartesiano do plano w
             - 'concentric_targets': pullback de círculos concêntricos
+            - 'truchet': pullback de mosaico de Truchet
             - 'custom_image': pullback de imagem arbitrária (requer kwargs['texture'])
         """
         _, W = self.evaluate()
@@ -536,6 +568,10 @@ class DomainColoringEngine:
             target_tex = generate_concentric_targets_texture(size=self.resolution)
             rgb = colorize_image_pullback(W, target_tex, **kwargs)
 
+        elif mode == 'truchet':
+            truchet_tex = generate_truchet_texture(size=self.resolution)
+            rgb = colorize_image_pullback(W, truchet_tex, **kwargs)
+
         elif mode == 'custom_image':
             if 'texture' not in kwargs:
                 raise ValueError("Modo 'custom_image' requer o parâmetro 'texture'.")
@@ -554,61 +590,84 @@ class DomainColoringEngine:
         texture_v_range: Tuple[float, float] = (-2.5, 2.5),
         texture_mode: str = 'wrap'
     ) -> Dict[str, Image.Image]:
+        """Gera as 6 faces da coloração de domínio clássica/mista."""
+        faces = {}
+        faces['face1'] = self.render(mode='continuous', brightness_mode='balanced')
+        faces['face2'] = self.render(mode='solid_sectors', n_sectors=6, palette=custom_palette if custom_palette is not None else PALETTE_SOLID_6)
+        faces['face3'] = self.render(mode='wegert_enhanced', n_mod_lines=10, n_phase_lines=12, pattern_mode='both')
+        faces['face4'] = self.render(mode='cartesian_grid', u_range=texture_u_range, v_range=texture_v_range, border_mode=texture_mode)
+        if custom_texture is not None:
+            faces['face5'] = self.render(mode='custom_image', texture=custom_texture, u_range=texture_u_range, v_range=texture_v_range, border_mode=texture_mode)
+        else:
+            faces['face5'] = self.render(mode='concentric_targets', n_rings=8, u_range=texture_u_range, v_range=texture_v_range, border_mode=texture_mode)
+        faces['face6'] = self.render(mode='continuous', hue_shift=0.5, brightness_mode='balanced')
+        return faces
+
+    def generate_six_solid_faces(
+        self,
+        custom_palette: Optional[np.ndarray] = None,
+        texture_u_range: Tuple[float, float] = (-2.5, 2.5),
+        texture_v_range: Tuple[float, float] = (-2.5, 2.5),
+        texture_mode: str = 'wrap'
+    ) -> Dict[str, Image.Image]:
         """
-        Gera as 6 faces coordenadas para uma mesma função complexa:
-            Face 1: Retrato de fase contínuo (HSV)
-            Face 2: Cores sólidas em 6 setores angulares
-            Face 3: Estilo Wegert (Enhanced com anéis e raios)
-            Face 4: Grade cartesiana no plano w (Pullback conforme)
-            Face 5: Textura personalizada ou alvo concêntrico no plano w
-            Face 6: Paleta de cores complementares ou rotação angular (180°)
+        Gera 6 faces exclusivamente em CORES SÓLIDAS E PADRÕES GEOMÉTRICOS PÚROS (sem gradientes contínuos):
+            Face 1: 6 Setores Angulares Sólidos (Hexacromático Puro)
+            Face 2: Grade Cartesiana Ortogonal no Plano w (Pullback Conforme)
+            Face 3: Tabuleiro de Xadrez Cartesiano no Plano w (Pullback Conforme)
+            Face 4: Xadrez Polar Sólido (Discretização Setorial + Anéis)
+            Face 5: Alvos Concêntricos em Cores Sólidas (Curvas de Nível)
+            Face 6: Mosaico de Arcos de Truchet no Plano w (Pullback Conforme)
         """
         faces = {}
 
-        # Face 1: Contínuo Clássico
-        faces['face1'] = self.render(mode='continuous', brightness_mode='balanced')
-
-        # Face 2: Cores Sólidas (6 setores)
-        faces['face2'] = self.render(
+        # Face 1: 6 Setores Angulares Sólidos Puros
+        faces['face1'] = self.render(
             mode='solid_sectors',
             n_sectors=6,
             palette=custom_palette if custom_palette is not None else PALETTE_SOLID_6
         )
 
-        # Face 3: Wegert Enhanced
-        faces['face3'] = self.render(
-            mode='wegert_enhanced',
-            n_mod_lines=10,
-            n_phase_lines=12,
-            pattern_mode='both'
+        # Face 2: Grade Cartesiana Ortogonal (Pullback)
+        faces['face2'] = self.render(
+            mode='cartesian_grid',
+            u_range=texture_u_range,
+            v_range=texture_v_range,
+            border_mode=texture_mode
         )
 
-        # Face 4: Grade Cartesiana no plano w
-        faces['face4'] = self.render(mode='cartesian_grid', u_range=texture_u_range, v_range=texture_v_range, border_mode=texture_mode)
+        # Face 3: Tabuleiro de Xadrez Cartesiano (Pullback)
+        faces['face3'] = self.render(
+            mode='checkerboard',
+            u_range=texture_u_range,
+            v_range=texture_v_range,
+            border_mode=texture_mode
+        )
 
-        # Face 5: Textura personalizada ou Círculos Concêntricos
-        if custom_texture is not None:
-            faces['face5'] = self.render(
-                mode='custom_image',
-                texture=custom_texture,
-                u_range=texture_u_range,
-                v_range=texture_v_range,
-                border_mode=texture_mode
-            )
-        else:
-            faces['face5'] = self.render(
-                mode='concentric_targets',
-                n_rings=8,
-                u_range=texture_u_range,
-                v_range=texture_v_range,
-                border_mode=texture_mode
-            )
+        # Face 4: Xadrez Polar Sólido
+        faces['face4'] = self.render(
+            mode='polar_chessboard',
+            n_sectors=12,
+            n_rings_scale=2.0,
+            color1=(250, 250, 250),
+            color2=(25, 30, 45)
+        )
 
-        # Face 6: Cores Complementares (shift de 180°)
+        # Face 5: Círculos Concêntricos Sólidos (Alvos)
+        faces['face5'] = self.render(
+            mode='concentric_targets',
+            n_rings=8,
+            u_range=texture_u_range,
+            v_range=texture_v_range,
+            border_mode=texture_mode
+        )
+
+        # Face 6: Mosaico de Truchet Sólido (Pullback)
         faces['face6'] = self.render(
-            mode='continuous',
-            hue_shift=0.5,
-            brightness_mode='balanced'
+            mode='truchet',
+            u_range=texture_u_range,
+            v_range=texture_v_range,
+            border_mode=texture_mode
         )
 
         return faces
