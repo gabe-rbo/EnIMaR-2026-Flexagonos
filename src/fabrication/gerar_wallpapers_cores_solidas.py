@@ -46,9 +46,9 @@ def main():
     img_desk_face1.save(p_desk_face1, "PNG")
     print(f"   [OK] Salvo: {p_desk_face1}")
 
-    # Desktop Face 5: Alvos Concêntricos Sólidos
+    # Desktop Face 5: Alvos Concêntricos Sólidos (8 anéis como a face 5 original)
     print(" - Renderizando Desktop Face 5 (Alvos Concêntricos)...")
-    img_desk_face5 = eng_desk.render(mode='concentric_targets', n_rings=10, u_range=(-2.5, 2.5), v_range=(-2.5, 2.5), border_mode='wrap')
+    img_desk_face5 = eng_desk.render(mode='concentric_targets', n_rings=8, u_range=(-2.5, 2.5), v_range=(-2.5, 2.5), border_mode='wrap')
     p_desk_face5 = out_dir / "wallpaper_desktop_face5_4k.png"
     img_desk_face5.save(p_desk_face5, "PNG")
     print(f"   [OK] Salvo: {p_desk_face5}")
@@ -73,9 +73,9 @@ def main():
     img_mob_face1.save(p_mob_face1, "PNG")
     print(f"   [OK] Salvo: {p_mob_face1}")
 
-    # Mobile Face 5: Alvos Concêntricos Sólidos
+    # Mobile Face 5: Alvos Concêntricos Sólidos (8 anéis como a face 5 original)
     print(" - Renderizando Celular Face 5 (Alvos Concêntricos)...")
-    img_mob_face5 = eng_mob.render(mode='concentric_targets', n_rings=10, u_range=(-2.5, 2.5), v_range=(-2.5, 2.5), border_mode='wrap')
+    img_mob_face5 = eng_mob.render(mode='concentric_targets', n_rings=8, u_range=(-2.5, 2.5), v_range=(-2.5, 2.5), border_mode='wrap')
     p_mob_face5 = out_dir / "wallpaper_celular_face5_4k.png"
     img_mob_face5.save(p_mob_face5, "PNG")
     print(f"   [OK] Salvo: {p_mob_face5}")
