@@ -650,7 +650,14 @@ class DomainColoringEngine:
         texture_v_range: Tuple[float, float] = (-2.5, 2.5),
         texture_mode: str = 'wrap'
     ) -> Dict[str, Image.Image]:
-        """Gera as 6 faces da coloração de domínio clássica/mista."""
+        """Gera as 6 faces da coloração de domínio clássica/mista.
+
+        Face 6 usa 'checkerboard' (tabuleiro de xadrez conforme no plano w) em vez de uma segunda
+        fase contínua com matiz invertido: a versão anterior (mode='continuous', hue_shift=0.5)
+        preserva o mesmo padrão de módulo/brilho da Face 1, só trocando as cores — o resultado ficava
+        visualmente quase idêntico à Face 1 (mesmo "redemoinho", só recolorido). O tabuleiro de xadrez
+        é geometricamente distinto de todas as outras 5 lentes desta função, então dá mais variedade
+        real ao conjunto de 6 faces. Mesmo modo já usado na Face 4 do flexagono_artigo_solido."""
         faces = {}
         faces['face1'] = self.render(mode='continuous', brightness_mode='balanced')
         faces['face2'] = self.render(mode='solid_sectors', n_sectors=6, palette=custom_palette if custom_palette is not None else PALETTE_SOLID_6)
@@ -660,7 +667,7 @@ class DomainColoringEngine:
             faces['face5'] = self.render(mode='custom_image', texture=custom_texture, u_range=texture_u_range, v_range=texture_v_range, border_mode=texture_mode)
         else:
             faces['face5'] = self.render(mode='concentric_targets', n_rings=8, u_range=texture_u_range, v_range=texture_v_range, border_mode=texture_mode)
-        faces['face6'] = self.render(mode='continuous', hue_shift=0.5, brightness_mode='balanced')
+        faces['face6'] = self.render(mode='checkerboard', u_range=texture_u_range, v_range=texture_v_range, border_mode=texture_mode)
         return faces
 
     def generate_six_solid_faces(

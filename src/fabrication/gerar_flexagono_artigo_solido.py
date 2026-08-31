@@ -35,7 +35,7 @@ from domain_coloring import (
     generate_truchet_texture,
     generate_honeycomb_texture
 )
-from flexagon_domain_faces import gerar_planificacao_tetraflexagono
+from flexagon_domain_faces import gerar_planificacao_tetraflexagono, gerar_diagrama_dinamica, desenhar_titulo_painel
 from wpgen import WP
 
 
@@ -71,7 +71,7 @@ def criar_painel_artigo(
         y = margin + row * (face_h + header_h + margin)
 
         title = titles.get(key, key)
-        draw.text((x + 12, y + 16), title, fill=(15, 30, 55))
+        desenhar_titulo_painel(draw, title, (x + 12, y + 16), largura_max=face_w - 24, tamanho_inicial=20, cor=(15, 30, 55))
 
         face_img = faces[key].resize((face_w, face_h), Image.Resampling.LANCZOS)
         panel.paste(face_img, (x, y + header_h))
@@ -166,9 +166,15 @@ def main():
         faces_paths=face_paths,
         output_frontal=frontal_path,
         output_traseiro=traseiro_path,
+        trocar_3com5_4com6=True,
         grafica=True,
-        scale_factor=2
+        scale_factor=2,
+        watermark=True
     )
+
+    print(">>> 5. Gerando Diagrama de Dinâmica (flexão) em 4K...")
+    diagrama_path = out_dir / "Diagrama_Dinamica_ArtigoSolido.png"
+    gerar_diagrama_dinamica(face_paths, diagrama_path)
 
     # README da seção
     readme_path = out_dir / "README.md"
@@ -196,6 +202,7 @@ Neste flexágono, **cada uma das 6 faces é rigorosamente uma das soluções fun
 - **Painel Geral:** [`painel_6_faces_artigo.png`](painel_6_faces_artigo.png)
 - **Plano Frontal (Frente 4840x4840):** [`Plano_Frontal_ArtigoSolido.png`](Plano_Frontal_ArtigoSolido.png)
 - **Plano Traseiro (Verso 4840x4840):** [`Plano_Traseiro_ArtigoSolido.png`](Plano_Traseiro_ArtigoSolido.png)
+- **Diagrama de Dinâmica (flexão, 4K):** [`Diagrama_Dinamica_ArtigoSolido.png`](Diagrama_Dinamica_ArtigoSolido.png)
 """
     readme_path.write_text(readme_content, encoding="utf-8")
 

@@ -20,7 +20,7 @@ sys.path.insert(0, str(PROJECT_ROOT / "src" / "visualization"))
 sys.path.insert(0, str(PROJECT_ROOT / "src" / "fabrication"))
 
 from domain_coloring import DomainColoringEngine, PALETTE_SOLID_6
-from flexagon_domain_faces import gerar_planificacao_tetraflexagono
+from flexagon_domain_faces import gerar_planificacao_tetraflexagono, gerar_diagrama_dinamica, desenhar_titulo_painel
 
 
 def criar_painel_comparativo_solidas(
@@ -55,7 +55,7 @@ def criar_painel_comparativo_solidas(
         y = margin + row * (face_h + header_h + margin)
 
         title = titles.get(key, key)
-        draw.text((x + 10, y + 12), title, fill=(20, 35, 60))
+        desenhar_titulo_painel(draw, title, (x + 10, y + 12), largura_max=face_w - 20, tamanho_inicial=18, cor=(20, 35, 60))
 
         face_img = faces[key].resize((face_w, face_h), Image.Resampling.LANCZOS)
         panel.paste(face_img, (x, y + header_h))
@@ -109,9 +109,15 @@ def main():
         faces_paths=face_paths,
         output_frontal=frontal_path,
         output_traseiro=traseiro_path,
+        trocar_3com5_4com6=True,
         grafica=True,
-        scale_factor=2
+        scale_factor=2,
+        watermark=True
     )
+
+    print(">>> 5. Gerando Diagrama de Dinâmica (flexão) em 4K...")
+    diagrama_path = out_dir / "Diagrama_Dinamica_CoresSolidas.png"
+    gerar_diagrama_dinamica(face_paths, diagrama_path)
 
     # Gerar também o README da pasta
     readme_path = out_dir / "README.md"
@@ -137,6 +143,7 @@ Flexágono da mesma função $f(z) = \\frac{{z-1}}{{z^2+z+1}}$ gerado com 6 vis�
 - **Painel Geral:** [`painel_6_faces_cores_solidas.png`](painel_6_faces_cores_solidas.png)
 - **Plano Frontal (Frente):** [`Plano_Frontal_CoresSolidas.png`](Plano_Frontal_CoresSolidas.png)
 - **Plano Traseiro (Verso):** [`Plano_Traseiro_CoresSolidas.png`](Plano_Traseiro_CoresSolidas.png)
+- **Diagrama de Dinâmica (flexão, 4K):** [`Diagrama_Dinamica_CoresSolidas.png`](Diagrama_Dinamica_CoresSolidas.png)
 """
     readme_path.write_text(readme_content, encoding="utf-8")
 
