@@ -4,30 +4,51 @@ Este diretório armazena todos os produtos finais gerados pelo projeto destinado
 
 ---
 
-## 🗂️ As Coleções de Flexágonos Disponíveis
+## 🗂️ Estrutura Atual
 
 ```
 grafica/
-├── flexagono_artigo_solido/      # 🌟 As 6 Funções do Teorema Universal do Artigo em Cores Sólidas 4K
-├── flexagono_galeria_solida/     # 🌟 Galeria de 6 Funções/Geometrias Heterogêneas em Cores Sólidas 4K
-├── flexagono_cores_solidas/      # 🌟 Mesma Função (z-1)/(z²+z+1) sob 6 Esquemas de Cores Sólidas 4K
-├── flexagono_coloracao_dominio/  # 🌟 Mesma Função (z-1)/(z²+z+1) sob 6 Lentes Clássicas (HSV, Wegert)
-├── flexagono_curvas_polares/     # 🌟 Flexágono de Gráficos de Curvas Polares (Opção #5 Selecionada)
-└── catalogos_pdf/                # 📚 Catálogos Sistemáticos em PDF (Tetra e Hexaflexágonos)
+├── com_watermark/   # 🖨️ OS 5 FLEXÁGONOS PARA A GRÁFICA — com assinatura "Feito na UFMG" + logo no verso
+├── sem_watermark/   # 📦 Acervo completo (7 flexágonos válidos) — sem assinatura, para arquivo/catálogo
+├── flexagono_curvas_polares/   # ⚠️ Pasta antiga/contaminada — NÃO USAR (ver nota abaixo)
+└── catalogos_pdf/               # 📚 Catálogos Sistemáticos em PDF (Tetra e Hexaflexágonos)
 ```
 
----
+O diretório foi reorganizado nessa estrutura de duas coleções para deixar claro, de forma
+inequívoca, qual arquivo vai para a gráfica (com a assinatura da UFMG no verso, como a Aniura
+pediu) e qual é só o acervo interno/arquivo.
 
-## 📋 Resumo das Coleções e Respectivos READMEs
+### `com_watermark/` — os 5 flexágonos que vão para a gráfica
 
-| Coleção | Tipo de Funções | Resolução | Documentação Completa |
-| :--- | :--- | :---: | :--- |
-| **1. Funções do Artigo Científico** | 6 classes canônicas do Teorema 5.1 ($z^4$, $\exp$, $\cos$, $\wp$, $\wp'$, $\wp^2$) | **4K UHD** ($3840\times 3840$) | [`flexagono_artigo_solido/README.md`](flexagono_artigo_solido/README.md) |
-| **2. Galeria Matemática Heterogênea** | 6 funções analíticas com geometrias distintas ($z^6-1$, $\exp$, Truchet, Joukowsky, $\frac{z^3-1}{z^3+1}$, $\frac{z^4+1}{z^4-1}$) | **4K UHD** ($3840\times 3840$) | [`flexagono_galeria_solida/README.md`](flexagono_galeria_solida/README.md) |
-| **3. Cores Sólidas & Padrões** | Mesma função $f(z)=\frac{z-1}{z^2+z+1}$ em 6 estilos puramente sólidos (setores, xadrez, grade, alvos, Truchet) | **4K UHD** ($3840\times 3840$) | [`flexagono_cores_solidas/README.md`](flexagono_cores_solidas/README.md) |
-| **4. Coloração de Domínio Clássica** | Mesma função $f(z)=\frac{z-1}{z^2+z+1}$ em retratos suaves HSV, curvas de Wegert e pullbacks | **4K UHD** ($3840\times 3840$) | [`flexagono_coloracao_dominio/README.md`](flexagono_coloracao_dominio/README.md) |
-| **5. Curvas Polares (Opção #5)** | 6 curvas polares clássicas (Borboleta de Temple Fay, Rosáceas $C_3/C_4$, Flor de Lótus, Estrela) | Alta Definição | [`flexagono_curvas_polares/README.md`](flexagono_curvas_polares/README.md) |
-| **6. Catálogos em PDF** | 4 livros em PDF com catálogos de soluções em $\mathbb{Z}[i]$ e $\mathbb{Z}[\zeta_3]$ | PDF Vetorial | [`catalogos_pdf/README.md`](catalogos_pdf/README.md) |
+Exatamente os que a Aniura pediu no e-mail, cada um com painel comparativo (fonte corrigida —
+sem mais caixas com "X" nos caracteres especiais), Plano Frontal, Plano Traseiro **com a
+assinatura "Feito na UFMG por" + logo do EnIMaR no verso**, e diagrama de dinâmica em 4K:
+
+| Pasta | Conteúdo |
+| :--- | :--- |
+| `flexagonos_curvas_polares_cores_solidas/` | Curvas polares clássicas (Borboleta, Estrela, Rosáceas, Flor de Lótus) |
+| `flexagono_coloracao_dominio_candidato_A_sin1z/` | Coloração de domínio — candidato A: $f(z)=\sin(1/z)$ |
+| `flexagono_coloracao_dominio_candidato_B_racional/` | Coloração de domínio — candidato B: $f(z)=z^5/(z^4-1)$ |
+| `flexagono_galeria_solida/` | Galeria de 6 geometrias heterogêneas em cores sólidas |
+| `flexagono_artigo_solido/` | As 6 classes universais do Teorema 5.1 do artigo |
+
+Os dois candidatos de coloração de domínio (A e B) estão incluídos os dois, lado a lado, por
+decisão do Gabe — a ideia é a Aniura escolher visualmente qual vai para a versão final antes da
+impressão (ou imprimir os dois, se preferir).
+
+### `sem_watermark/` — acervo completo (arquivo/catálogo)
+
+Os mesmos 5 flexágonos acima **mais** `flexagono_cores_solidas/` e o `flexagono_coloracao_dominio/`
+antigo (função repetida de `cores_solidas`, mantido só por completude), todos sem a assinatura da
+UFMG no verso — para catálogo, referência e reimpressões futuras sem marca fixa.
+
+### `flexagono_curvas_polares/` (pasta antiga, intocada)
+
+As imagens de face nessa pasta estão contaminadas (na verdade são renders de coloração de domínio
+de $f(z)=z^6+1$, sem relação com as curvas polares descritas no README interno). Decisão tomada
+com o Gabe: **pular esta pasta** — o flexágono de curvas polares correto foi refeito do zero a
+partir do notebook fonte e está em `sem_watermark/` e `com_watermark/` como
+`flexagonos_curvas_polares_cores_solidas/`.
 
 ---
 
@@ -36,3 +57,5 @@ grafica/
 - **Sangria (*Bleed*):** $58\text{ px} \times 2 = 116\text{ px}$ por segmento.
 - **Margem de Segurança:** $56\text{ px}$ nas bordas externas.
 - **Marcas de Registro:** Vetoriais com cruzes de corte nos 4 cantos e no centro óptico.
+- **Numeração das faces:** convenção do artigo (Hall, Almeida & Teixeira, Bridges 2018, Fig. 33) e
+  do `Manual_Flexas.pdf`, mesma do diagrama de dinâmica de flexão.
