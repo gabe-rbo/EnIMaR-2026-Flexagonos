@@ -440,7 +440,7 @@ def gerar_planificacao_tetraflexagono(
         B35F1 = img5.crop((tamanho / 2, tamanho / 2, tamanho - ajuste, tamanho / 2 + ajuste)).rotate(90, expand=True)
         B25F2 = img5.crop((0, ajuste, ajuste, tamanho / 2)).rotate(90, expand=True)
         B11F3 = img1.crop((ajuste, tamanho / 2 - ajuste, tamanho / 2, tamanho / 2)).rotate(180)
-        B31F3 = img1.crop((0, tamanho - ajuste, tamanho / 2 - ajuste, tamanho)).rotate(180)
+        B31F3 = img1.crop((ajuste, tamanho - ajuste, tamanho / 2, tamanho)).rotate(180)
         B33F3 = img3.crop((ajuste, tamanho - ajuste, tamanho / 2, tamanho)).rotate(180)
         B13F3 = img3.crop((ajuste, tamanho / 2 - ajuste, tamanho / 2, tamanho / 2)).rotate(180)
         B43F4 = img3.crop((tamanho - ajuste, tamanho / 2, tamanho, tamanho - ajuste)).rotate(180)
