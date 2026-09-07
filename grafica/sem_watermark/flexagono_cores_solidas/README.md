@@ -21,3 +21,4 @@ Flexágono da mesma função $f(z) = \frac{z-1}{z^2+z+1}$ gerado com 6 visões p
 - **Plano Frontal (Frente):** [`Plano_Frontal_CoresSolidas.png`](Plano_Frontal_CoresSolidas.png)
 - **Plano Traseiro (Verso):** [`Plano_Traseiro_CoresSolidas.png`](Plano_Traseiro_CoresSolidas.png)
 - **Diagrama de Dinâmica (flexão, 4K):** [`Diagrama_Dinamica_CoresSolidas.png`](Diagrama_Dinamica_CoresSolidas.png)
+- **Diagrama de Dinâmica, faces 3↔5 e 4↔6 trocadas (mesma disposição do plano de impressão físico deste flexágono):** [`Diagrama_Dinamica_CoresSolidas_trocado.png`](Diagrama_Dinamica_CoresSolidas_trocado.png)
