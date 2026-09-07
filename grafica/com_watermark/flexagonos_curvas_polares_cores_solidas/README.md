@@ -23,3 +23,5 @@ Lótus), reproduzindo exatamente as fórmulas e o esquema de cores de
 - **Plano Frontal (Frente):** [`Plano_Frontal_CurvasPolares.png`](Plano_Frontal_CurvasPolares.png)
 - **Plano Traseiro (Verso):** [`Plano_Traseiro_CurvasPolares.png`](Plano_Traseiro_CurvasPolares.png)
 - **Diagrama de Dinâmica (flexão, 4K):** [`Diagrama_Dinamica_CurvasPolares.png`](Diagrama_Dinamica_CurvasPolares.png)
+
+> Não há painel de "plano ômega" para este flexágono: as faces vêm de curvas polares $r(\theta)$ desenhadas diretamente, sem passar pelo `DomainColoringEngine` (não há função complexa $f$ nem plano $w$ de onde extrair essa codificação).

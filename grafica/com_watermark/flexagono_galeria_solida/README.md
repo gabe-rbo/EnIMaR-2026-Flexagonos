@@ -20,6 +20,8 @@ Neste flexágono, **cada uma das 6 faces é um objeto matemático e padrão geom
 ## Arquivos Prontos para a Gráfica
 
 - **Painel Geral:** [`painel_6_faces_galeria.png`](painel_6_faces_galeria.png)
+- **Painel dos Planos Ômega (a mesma codificação de cada face, aplicada à identidade $f(z)=z$ — sem compor com nenhuma função):** [`painel_omega_GaleriaSolida.png`](painel_omega_GaleriaSolida.png)
 - **Plano Frontal (Frente 4840x4840):** [`Plano_Frontal_GaleriaSolida.png`](Plano_Frontal_GaleriaSolida.png)
 - **Plano Traseiro (Verso 4840x4840):** [`Plano_Traseiro_GaleriaSolida.png`](Plano_Traseiro_GaleriaSolida.png)
 - **Diagrama de Dinâmica (flexão, 4K):** [`Diagrama_Dinamica_GaleriaSolida.png`](Diagrama_Dinamica_GaleriaSolida.png)
+- **Diagrama de Dinâmica, faces 3↔5 e 4↔6 trocadas (mesma disposição do plano de impressão físico deste flexágono):** [`Diagrama_Dinamica_GaleriaSolida_trocado.png`](Diagrama_Dinamica_GaleriaSolida_trocado.png)

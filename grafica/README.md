@@ -38,9 +38,13 @@ impressão (ou imprimir os dois, se preferir).
 
 ### `sem_watermark/` — acervo completo (arquivo/catálogo)
 
-Os mesmos 5 flexágonos acima **mais** `flexagono_cores_solidas/` e o `flexagono_coloracao_dominio/`
-antigo (função repetida de `cores_solidas`, mantido só por completude), todos sem a assinatura da
-UFMG no verso — para catálogo, referência e reimpressões futuras sem marca fixa.
+Os mesmos 5 flexágonos acima **mais** `flexagono_cores_solidas/`, o `flexagono_coloracao_dominio/`
+antigo (função repetida de `cores_solidas`, mantido só por completude), `flexagono_setores_solidos/`
+(galeria de funções estritamente racionais em setores angulares de cores sólidas, livre de
+singularidades essenciais, no estilo da Face 1 de `cores_solidas`) e `flexagono_artigo_setores_solidos/`
+(as funções meromorfas flexionáveis universais do artigo científico, Teorema 5.1, renderizadas em setores
+angulares de cores sólidas e composições racionais não-lineares, sem singularidades essenciais), todos
+sem a assinatura da UFMG no verso — para catálogo, referência e reimpressões futuras sem marca fixa.
 
 ### `flexagono_curvas_polares/` (pasta antiga, intocada)
 

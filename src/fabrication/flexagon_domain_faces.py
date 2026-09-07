@@ -153,6 +153,7 @@ def gerar_diagrama_dinamica(
     output_path: Path,
     resolucao_alvo_px: int = 3840,
     tamanho_face_px: int = 900,
+    trocar_3com5_4com6: bool = False,
 ) -> Path:
     """Gera, em ~4K UHD, o diagrama de flexão ("dinâmica") do hexa-tetraflexágono usando as 6
     imagens de face reais do flexágono gerado (não rótulos genéricos).
@@ -167,14 +168,26 @@ def gerar_diagrama_dinamica(
 
     Importante: `faces_paths` deve estar na numeração "de conteúdo" (face1..face6, a mesma ordem
     passada a `gerar_planificacao_tetraflexagono` ANTES do `trocar_3com5_4com6`) — o diagrama de
-    flexão (`src/kinematics/mecanica.py::HEXA`) já usa essa numeração nativamente, então não há
-    troca a aplicar aqui (ver docstring de `gerar_planificacao_tetraflexagono` para o contexto
-    completo da troca 3↔5/4↔6, que é específica da montagem do plano de impressão).
+    flexão (`src/kinematics/mecanica.py::HEXA`) já usa essa numeração nativamente. Por padrão
+    (`trocar_3com5_4com6=False`) NÃO há troca: o diagrama sai na convenção nativa do HEXA, a mesma
+    do artigo de referência (Hall, Almeida & Teixeira 2018) — é a leitura genérica/didática do
+    método, independente de qualquer flexágono impresso específico.
+
+    Se o flexágono cujas faces você está passando teve seu PLANO DE IMPRESSÃO gerado com
+    `trocar_3com5_4com6=True` (isto é, o objeto físico que o público vai segurar já tem as faces
+    3/5 e 4/6 trocadas em relação à numeração de conteúdo), passe `trocar_3com5_4com6=True` aqui
+    também, para que o diagrama mostre a MESMA disposição de faces do objeto físico — senão o
+    diagrama e o flexágono impresso ficam descasados face a face (ver docstring de
+    `gerar_planificacao_tetraflexagono` para o contexto completo da troca). Quando True, a troca é
+    aplicada às imagens (img3↔img5, img4↔img6) antes de montar o grafo, e o sufixo "_trocado" é
+    adicionado automaticamente ao nome do arquivo de saída — a versão sem troca nunca é
+    sobrescrita nem fica com nome ambíguo.
 
     Args:
         faces_paths: lista com os caminhos das 6 imagens de face, na ordem face1..face6 (numeração
             de conteúdo, igual à usada em `gerar_planificacao_tetraflexagono`).
-        output_path: caminho de saída do PNG do diagrama.
+        output_path: caminho de saída do PNG do diagrama. Se `trocar_3com5_4com6=True`, recebe
+            automaticamente o sufixo "_trocado" antes da extensão.
         resolucao_alvo_px: largura alvo em pixels da imagem final (default 3840 = 4K UHD, mesma
             convenção horizontal usada nas faces individuais do projeto). A altura é derivada
             automaticamente pela geometria fixa do diagrama (grade de 6 colunas × 3 linhas), então
@@ -182,9 +195,20 @@ def gerar_diagrama_dinamica(
         tamanho_face_px: resolução (quadrada) para a qual cada face é reamostrada antes de entrar
             no diagrama — não precisa bater com a resolução original da face (tipicamente 4K); um
             valor bem menor já basta porque cada face ocupa só uma fração da largura final.
+        trocar_3com5_4com6: aplica a mesma troca de `gerar_planificacao_tetraflexagono` (img3↔img5,
+            img4↔img6) às faces antes de montar o diagrama, e marca isso no nome do arquivo de
+            saída (ver acima). Default False — mantém compatibilidade total com todas as chamadas
+            existentes no projeto, que continuam produzindo o arquivo com o nome exato de antes.
     """
     from mecanica import HEXA
     from diagrama import desenha
+
+    faces_paths = list(faces_paths)
+    output_path = Path(output_path)
+    if trocar_3com5_4com6:
+        faces_paths[2], faces_paths[4] = faces_paths[4], faces_paths[2]  # face3 <-> face5
+        faces_paths[3], faces_paths[5] = faces_paths[5], faces_paths[3]  # face4 <-> face6
+        output_path = output_path.with_name(output_path.stem + "_trocado" + output_path.suffix)
 
     imagens = {}
     for i, p in enumerate(faces_paths, start=1):

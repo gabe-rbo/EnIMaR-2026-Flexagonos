@@ -1,0 +1,1369 @@
+\documentclass[aspectratio=169, 11pt, utf8]{beamer}
+
+%------------------------------------------------------------------------
+% PACOTES E IDIOMA
+%------------------------------------------------------------------------
+\usepackage[brazilian]{babel}
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage{lmodern}
+\usepackage{amsmath,amssymb,amsfonts}
+\usepackage{graphicx}
+\usepackage{tikz}
+\usepackage{qrcode}
+\usepackage{booktabs}
+\usepackage{caption}
+\usepackage{hyperref}
+
+%------------------------------------------------------------------------
+% TEMA E IDENTIDADE VISUAL LIMPA
+%------------------------------------------------------------------------
+\usetheme{default}
+\usefonttheme{professionalfonts}
+
+% Cores Oficiais EnIMaR 2026
+\definecolor{EnimarNavy}{RGB}{20, 45, 85}        % Azul Marinho Nobre
+\definecolor{EnimarTeal}{RGB}{0, 136, 145}       % Azul Ciano / Petróleo
+\definecolor{EnimarGold}{RGB}{212, 143, 24}       % Dourado / Destaque
+\definecolor{EnimarGray}{RGB}{245, 247, 250}     % Fundo suave
+\definecolor{EnimarText}{RGB}{30, 35, 42}        % Texto escuro
+
+% Configuração de Cores dos Elementos Beamer
+\setbeamercolor{background canvas}{bg=white}
+\setbeamercolor{normal text}{fg=EnimarText}
+\setbeamercolor{frametitle}{fg=EnimarNavy, bg=white}
+\setbeamercolor{title}{fg=EnimarNavy, bg=white}
+\setbeamercolor{subtitle}{fg=EnimarTeal}
+\setbeamercolor{structure}{fg=EnimarNavy}
+\setbeamercolor{item}{fg=EnimarTeal}
+\setbeamercolor{subitem}{fg=EnimarNavy}
+
+% Formatação dos Títulos de Slide
+\setbeamertemplate{frametitle}{
+  \vspace{0.25cm}
+  {\large\textbf{\insertframetitle}}\par
+  \ifx\insertframesubtitle\@empty\else
+    \vspace{2pt}
+    {\footnotesize\color{EnimarTeal}\insertframesubtitle}\par
+  \fi
+  \vspace{4pt}
+  {\color{EnimarTeal!30}\hrule height 0.6pt}
+  \vspace{0.15cm}
+}
+
+% Desativar símbolos de navegação padrão
+\setbeamertemplate{navigation symbols}{}
+\setbeamertemplate{itemize items}[circle]
+
+% Configuração das Legendas
+\captionsetup{labelformat=empty, font=scriptsize, skip=4pt}
+
+% Caminho das Figuras
+\graphicspath{{./figuras/}}
+
+% Rodapé oficial EnIMaR (modelo/Modelo_apresentacao.tex, slide 2): faixa
+% fina mosaico à esquerda + logo à direita, com o nº de página discreto.
+\setbeamertemplate{footline}{
+  \leavevmode%
+  \hbox{%
+    \begin{beamercolorbox}[wd=.66\paperwidth,ht=0.30cm,dp=0pt,left]{footline}%
+      \hspace*{0.35cm}\includegraphics[width=0.60\paperwidth, keepaspectratio]{Faixa_fina2}%
+    \end{beamercolorbox}%
+    \begin{beamercolorbox}[wd=.24\paperwidth,ht=0.30cm,dp=0pt,left]{footline}%
+      \includegraphics[height=0.24cm]{Enimarlogo}%
+    \end{beamercolorbox}%
+    \begin{beamercolorbox}[wd=.10\paperwidth,ht=0.30cm,dp=0pt,right]{footline}%
+      \scriptsize\color{EnimarTeal!55}\insertframenumber{}/\inserttotalframenumber\hspace*{2ex}
+    \end{beamercolorbox}%
+  }%
+  \vspace{0.05cm}
+}
+
+% Capa de Seção / Divisor de Parte
+\newcommand{\capaparte}[3]{%
+  \begin{frame}[plain]
+    \begin{center}
+      \vspace{1.2cm}
+      {\scriptsize\bfseries\color{EnimarTeal} PARTE #1}\\[0.35cm]
+      {\LARGE\bfseries\color{EnimarNavy} #2}\\[0.3cm]
+      {\color{EnimarTeal!40}\rule{4.5cm}{0.8pt}}\\[0.45cm]
+      {\normalsize\color{EnimarText} #3}
+    \end{center}
+  \end{frame}
+}
+
+%------------------------------------------------------------------------
+% INFORMAÇÕES DO TRABALHO
+%------------------------------------------------------------------------
+\title{\textbf{Experiências com Flexágonos}}
+\subtitle{Da Matemática Recreativa à Coloração de Domínio de Funções Complexas}
+
+\author{\textbf{Gabriel Ribeiro} \and \textbf{Profª Drª Aniura Milanés Barrientos}}
+
+\institute{\small
+  Departamento de Matemática — Instituto de Ciências Exatas (ICEx)\\[2pt]
+  \textbf{Universidade Federal de Minas Gerais (UFMG)}
+}
+
+\date{
+  \vspace{0.2cm}
+  \textbf{1º Encontro Internacional de Matemática Recreativa em Língua Portuguesa}\\[2pt]
+  {\small EnIMaR 2026}
+}
+
+%------------------------------------------------------------------------
+% INÍCIO DO DOCUMENTO
+%------------------------------------------------------------------------
+\begin{document}
+
+%========================================================================
+% SLIDE 1: CAPA (modelo/Modelo_apresentacao.tex, slide 1)
+%========================================================================
+\begin{frame}[plain]
+  \vspace*{0.1cm}
+  \begin{minipage}{\linewidth}
+    \includegraphics[height=0.55cm]{Enimarlogo}\hfill%
+    \includegraphics[height=0.55cm]{Titulo_congresso}
+  \end{minipage}\\[0.1cm]
+  \includegraphics[width=\linewidth, height=1cm, keepaspectratio]{Faixa_fina}
+  \vspace{0.35cm}
+
+  \begin{center}
+    {\color{blue}\fontsize{20}{24}\selectfont\textbf{Experiências com Flexágonos}}\\[0.15cm]
+    {\color{EnimarTeal}\normalsize Da Matemática Recreativa à Coloração de Domínio de Funções Complexas}\\[0.35cm]
+
+    {\color{red}\fontsize{14}{17}\selectfont\textbf{Gabriel Ribeiro}\\[0.08cm]
+    \fontsize{14}{17}\selectfont\textbf{Profª Drª Aniura Milanés Barrientos}}\\[0.2cm]
+
+    {\small Departamento de Matemática --- Instituto de Ciências Exatas (ICEx)\\
+    \textbf{Universidade Federal de Minas Gerais (UFMG)}}\\[0.2cm]
+
+    {\small \textbf{1º Encontro Internacional de Matemática Recreativa em Língua Portuguesa} --- EnIMaR 2026}
+  \end{center}
+
+  \vfill
+  \includegraphics[width=\linewidth, keepaspectratio]{Faixa}
+\end{frame}
+
+%========================================================================
+% SUMÁRIO DA APRESENTAÇÃO (TOC)
+%========================================================================
+\begin{frame}{Sumário da Apresentação}{Estrutura da oficina e minicurso}
+  \begin{columns}[c]
+    \begin{column}{0.48\textwidth}
+      \begin{itemize}
+        \setlength{\itemsep}{14pt}
+        \item \textbf{\color{EnimarNavy}Parte 1: Origens e Automação}\\[2pt]
+        {\small A história em Princeton (1939) e o gerador de código aberto.}
+        
+        \item \textbf{\color{EnimarNavy}Parte 2: Dinâmica e Coloração de Domínio}\\[2pt]
+        {\small O modelo de 6 faces e a visualização de funções complexas.}
+      \end{itemize}
+    \end{column}
+
+    \begin{column}{0.48\textwidth}
+      \begin{itemize}
+        \setlength{\itemsep}{14pt}
+        \item \textbf{\color{EnimarNavy}Parte 3: Oficina Prática de Montagem}\\[2pt]
+        {\small Roteiro de dobras do manual e a cinemática de abertura.}
+        
+        \item \textbf{\color{EnimarNavy}Parte 4: Funções Flexionáveis e Teoria}\\[2pt]
+        {\small Grupos cristalográficos, rigidez de Liouville e curvas elípticas.}
+      \end{itemize}
+    \end{column}
+  \end{columns}
+\end{frame}
+
+%========================================================================
+% PARTE 1: ORIGENS E DEMOCRATIZAÇÃO
+%========================================================================
+\capaparte{1}{Origens, Recreação e Democratização}{Como tiras de papel em Princeton deram origem a um laboratório tátil}
+
+%========================================================================
+% SLIDE 1: O PARADOXO DAS FACES
+%========================================================================
+\begin{frame}{Quantas Faces Tem uma Folha de Papel?}{O paradoxo geométrico do origami tátil}
+  \begin{columns}[c]
+    \begin{column}{0.38\textwidth}
+      \small
+      \begin{itemize}
+        \setlength{\itemsep}{14pt}
+        \item \textbf{Folha Comum:}\\
+        Apenas \textbf{2 faces} (frente e verso).
+
+        \item \textbf{Fita de Möbius:}\\
+        Uma única face contínua.
+
+        \item \textbf{O Enigma do Flexágono:}\\
+        Um anel plano de papel que revela \textbf{6 ou mais faces planas}!
+      \end{itemize}
+    \end{column}
+
+    \begin{column}{0.60\textwidth}
+      \centering
+      \includegraphics[width=\linewidth, height=5.5cm, keepaspectratio]{mobius_folha}
+      \captionof{figure}{\footnotesize Da folha de 2 faces ao objeto cinemático multifacetado}
+    \end{column}
+  \end{columns}
+\end{frame}
+
+%========================================================================
+% SLIDE 2: ARTHUR STONE
+%========================================================================
+\begin{frame}{Arthur Stone: O Acaso em Princeton (1939)}{Quando as sobras de papel revelam uma nova geometria}
+  \begin{columns}[c, onlytextwidth]
+    \begin{column}{0.33\textwidth}
+      \centering
+      \includegraphics[height=4.15cm, keepaspectratio]{hist_stone_hd}\\[2pt]
+      {\scriptsize\textbf{Arthur Harold Stone}\\\textit{Topólogo britânico (1916--2000)}}
+    \end{column}
+
+    \begin{column}{0.64\textwidth}
+      \small
+      \begin{itemize}
+        \setlength{\itemsep}{2pt}
+        \item \textbf{O Problema Prático:}
+        Papel americano era largo demais para o fichário inglês.
+        \item \textbf{A Brincadeira:}
+        Em vez de jogar fora os retalhos, começou a dobrá-los em polígonos.
+        \item \textbf{A Revelação:}
+        Ao abrir pelo centro... \textbf{uma face oculta surgiu magicamente!}
+      \end{itemize}
+      \vspace{0.08cm}
+      \centering
+      \includegraphics[width=\linewidth, height=2.35cm, keepaspectratio]{tiras}\\[2pt]
+      {\scriptsize Das tiras de sobra às primeiras dobras acidentais}
+    \end{column}
+  \end{columns}
+\end{frame}
+
+%========================================================================
+% SLIDE 3: O COMITÊ DE PRINCETON
+%========================================================================
+\begin{frame}{O Comitê de Flexágonos de Princeton (1939)}{Quatro mentes brilhantes unidas por uma brincadeira séria}
+  \begin{center}
+    \begin{tabular}{cccc}
+      \includegraphics[height=3.15cm, keepaspectratio]{hist_stone_hd} &
+      \includegraphics[height=3.15cm, keepaspectratio]{hist_tuckerman_placeholder} &
+      \includegraphics[height=3.15cm, keepaspectratio]{hist_tukey_hd} &
+      \includegraphics[height=3.15cm, keepaspectratio]{hist_feynman} \\[3pt]
+      \shortstack{\textbf{Arthur Stone}\\[-1pt]\footnotesize\textit{Topologia}} &
+      \shortstack{\textbf{Bryant Tuckerman}\\[-1pt]\footnotesize\textit{Criptografia}} &
+      \shortstack{\textbf{John Tukey}\\[-1pt]\footnotesize\textit{Estatística}} &
+      \shortstack{\textbf{Richard Feynman}\\[-1pt]\footnotesize\textit{Física Teórica}}
+    \end{tabular}
+  \end{center}
+  \vspace{0.15cm}
+  \small
+  \begin{center}
+    \textbf{A Febre em Princeton:} A sala de estudos tomada por tiras de papel dobradas.\\[2pt]
+    \textbf{O Comitê Oficial:} Quatro amigos unidos para decifrar a matemática completa do brinquedo.
+  \end{center}
+\end{frame}
+
+%========================================================================
+% SLIDE 4: RICHARD FEYNMAN
+%========================================================================
+\begin{frame}{Richard Feynman: O Desafio no Almoço}{Física teórica e a paixão por enigmas táteis}
+  \begin{columns}[c, onlytextwidth]
+    \begin{column}{0.52\textwidth}
+      \small
+      \begin{itemize}
+        \setlength{\itemsep}{10pt}
+        \item \textbf{Prêmio Nobel de Física (1965):}\\
+        Famoso pela curiosidade insaciável e espírito lúdico.
+
+        \item \textbf{O Truque do Bolso:}\\
+        Andava com flexágonos nos almoços e corredores, desafiando colegas a acharem todas as faces.
+
+        \item \textbf{Mapeando Transições:}\\
+        Fascinado pela cinemática, rascunhava como as faces se alternavam a cada dobra.
+      \end{itemize}
+    \end{column}
+
+    \begin{column}{0.46\textwidth}
+      \centering
+      \includegraphics[height=5.4cm, keepaspectratio]{hist_feynman}
+      \captionof{figure}{\footnotesize Richard Feynman em Princeton}
+    \end{column}
+  \end{columns}
+\end{frame}
+
+%========================================================================
+% SLIDE 5: BRYANT TUCKERMAN
+%========================================================================
+\begin{frame}{Bryant Tuckerman: O Mapa e a Teoria dos Grafos}{O algoritmo para nunca mais se perder no labirinto}
+  \begin{columns}[c, onlytextwidth]
+    \begin{column}{0.44\textwidth}
+      \small
+      \begin{itemize}
+        \setlength{\itemsep}{9pt}
+        \item \textbf{Pioneiro da Criptografia:}\\
+        Pesquisador da IBM e desenvolvedor do algoritmo DES.
+
+        \item \textbf{O Labirinto das Dobras:}\\
+        Percebeu que as pessoas se perdiam nas dobras e achavam que o brinquedo havia quebrado.
+
+        \item \textbf{A Tuckerman Traverse:}\\
+        Criou o primeiro \textbf{algoritmo em grafos} para percorrer todas as faces possíveis.
+      \end{itemize}
+    \end{column}
+
+    \begin{column}{0.54\textwidth}
+      \centering
+      \includegraphics[width=\linewidth, height=5.3cm, keepaspectratio]{tuckerman_traverse}
+      \captionof{figure}{\footnotesize A Tuckerman Traverse: dinâmica modelada como grafo}
+    \end{column}
+  \end{columns}
+\end{frame}
+
+%========================================================================
+% SLIDE 6: JOHN TUKEY
+%========================================================================
+\begin{frame}{John Tukey: Permutações e os Estados do Papel}{A combinatória por trás das camadas dobradas}
+  \begin{columns}[c, onlytextwidth]
+    \begin{column}{0.52\textwidth}
+      \small
+      \begin{itemize}
+        \setlength{\itemsep}{10pt}
+        \item \textbf{Gênio da Computação:}\\
+        Cunhou a palavra \textbf{\textit{``bit''}} e foi coinventor do algoritmo \textbf{FFT} (Transformada Rápida de Fourier).
+
+        \item \textbf{Combinatória de Camadas:}\\
+        Modelou as permutações e a sobreposição das folhas de papel durante cada dobra.
+
+        \item \textbf{Autômato Mecânico:}\\
+        Provou que a folha de papel dobrada atua como um sistema discreto de estados finitos.
+      \end{itemize}
+    \end{column}
+
+    \begin{column}{0.46\textwidth}
+      \centering
+      \includegraphics[height=5.4cm, keepaspectratio]{hist_tukey_hd}
+      \captionof{figure}{\footnotesize John Tukey em Princeton}
+    \end{column}
+  \end{columns}
+\end{frame}
+
+%========================================================================
+% SLIDE 7: PRANCHAS REAIS DA OFICINA
+%========================================================================
+\begin{frame}{Pranchas Reais: O Algoritmo em Ação}{Exemplos reais prontos para impressão gráfica e corte}
+  \small
+  \begin{itemize}
+    \setlength{\itemsep}{2pt}
+    \item \textbf{O Desafio Manual:} 24 quadradinhos e 4 rotações possíveis ($0^\circ, 90^\circ, 180^\circ, 270^\circ$) --- errar uma dobra inverte a imagem!
+    \item \textbf{Automação Gráfica (UFMG):} O algoritmo calcula permutações, sangrias de corte (\textit{bleed}) e marcas de registro vetoriais.
+  \end{itemize}
+  \vspace{0.05cm}
+  \centering
+  \includegraphics[width=0.88\linewidth, height=3.55cm, keepaspectratio]{pranchas_reais_grafica}\\[2pt]
+  {\scriptsize Prancha Frontal (frente com 24 quadrantes) e Prancha Traseira (verso com marcas e assinatura UFMG)}
+\end{frame}
+
+%========================================================================
+% SLIDE 8: APOSTILA DE FLEXÁGONOS (UFMG)
+%========================================================================
+\begin{frame}{Apostila: Matemática Fora da Caixa}{Material didático aberto e gratuito para a educação básica}
+  \begin{columns}[c, onlytextwidth]
+    \begin{column}{0.34\textwidth}
+      \centering
+      \includegraphics[height=5.2cm, keepaspectratio]{capa_livro_ufmg}\\[3pt]
+      {\scriptsize\textbf{Coleção Didática UFMG (2025)}}
+    \end{column}
+
+    \begin{column}{0.64\textwidth}
+      \small
+      \begin{itemize}
+        \setlength{\itemsep}{3pt}
+        \item \textbf{Obra Oficial:}\\
+        \textit{Papel, quadrados misteriosos e ... matemática} (2025).
+
+        \item \textbf{Autores:}\\
+        Profª Drª Aniura Milanés Barrientos e Gabriel Ribeiro.
+
+        \item \textbf{Projeto de Extensão (DMAT / ICEx / UFMG):}\\
+        \textit{Visitas no Mundo da Matemática} --- com apoio da FAPEMIG.
+
+        \item \textbf{Recursos Didáticos para Professores:}\\
+        Roteiros passo a passo, investigações geométricas e a iteração do tapete de Sierpinski em dobraduras.
+
+        \item \textbf{Download Gratuito:}\\
+        {\footnotesize\href{https://www.mat.ufmg.br/visitas/materiais/}{\color{EnimarTeal}\texttt{\underline{mat.ufmg.br/visitas/materiais/}}}}
+      \end{itemize}
+    \end{column}
+  \end{columns}
+\end{frame}
+
+%========================================================================
+% SLIDE 9: REPOSITÓRIO ABERTO
+%========================================================================
+\begin{frame}{Repositório Aberto: Construa o Seu!}{Código-fonte, gerador em Python e moldes em alta definição}
+  \begin{columns}[c, onlytextwidth]
+    \begin{column}{0.38\textwidth}
+      \centering
+      \qrcode[height=4.2cm]{https://github.com/gabe-rbo/EnIMaR-2026-Flexagonos}\\[5pt]
+      {\small \textbf{Aponte a câmera para acessar}}
+    \end{column}
+
+    \begin{column}{0.60\textwidth}
+      \small
+      \begin{itemize}
+        \setlength{\itemsep}{2pt}
+        \item \textbf{Repositório no GitHub:}\\
+        {\footnotesize\href{https://github.com/gabe-rbo/EnIMaR-2026-Flexagonos}{\color{EnimarNavy}\texttt{\textbf{github.com/gabe-rbo/EnIMaR-2026-Flexagonos}}}}
+
+        \item \textbf{Gerador Automatizado em Python:}\\
+        Crie seus próprios flexágonos com 6 imagens quaisquer.
+
+        \item \textbf{Pranchas Prontas em PDF:}\\
+        Modelos em alta resolução prontos para folha A4 comum.
+
+        \item \textbf{Artigo Científico Completo:}\\
+        Demonstrações matemáticas, teoremas e figuras.
+
+        \item \textbf{100\% Aberto:}\\
+        Livre para uso e replicação em escolas e universidades.
+      \end{itemize}
+    \end{column}
+  \end{columns}
+\end{frame}
+
+%========================================================================
+% PARTE 2: DINÂMICA E OS FLEXÁGONOS DA OFICINA
+%========================================================================
+\capaparte{2}{Dinâmica e os Flexágonos da Oficina}{Anatomia de 24 quadradinhos e o método de Coloração de Domínio}
+
+\begin{frame}{O Nosso Modelo: Tetraflexágono Quadrado}{Por que o modelo quadrado de 6 faces?}
+  \begin{columns}[c, onlytextwidth]
+    \begin{column}{0.42\textwidth}
+      \small
+      \begin{itemize}
+        \setlength{\itemsep}{8pt}
+        \item \textbf{Economia e Acessibilidade:}\\
+        Montável em folha A4 comum, sem desperdício de papel.
+
+        \item \textbf{Estrutura de 24 Quadrados:}\\
+        Circuito fechado de 12 peças: \textbf{12 na frente} e \textbf{12 no verso}.
+
+        \item \textbf{Conservação de Área:}\\
+        $12 \times 2 = 24$ faces de papel, exatamente igual a \textbf{6 faces} de 4 quadrantes!
+      \end{itemize}
+    \end{column}
+
+    \begin{column}{0.55\textwidth}
+      \centering
+      \includegraphics[width=\linewidth, height=4.8cm, keepaspectratio]{retas_dobra_quadrado}
+      \captionof{figure}{\footnotesize Face quadrada (4 quadrantes) e circuito de 12 peças (24 quadrados)}
+    \end{column}
+  \end{columns}
+\end{frame}
+
+\begin{frame}{O Grafo da Dinâmica de Flexão}{14 configurações visíveis (Hall, Almeida \& Teixeira, Bridges 2018)}
+  \begin{columns}[c, onlytextwidth]
+    \begin{column}{0.54\textwidth}
+      \centering
+      \includegraphics[width=\linewidth, height=4.8cm, keepaspectratio]{esquema_flex}
+      \captionof{figure}{\footnotesize Grafo de transições e estados de flexão}
+    \end{column}
+
+    \begin{column}{0.43\textwidth}
+      \small
+      \begin{itemize}
+        \setlength{\itemsep}{8pt}
+        \item \textbf{Faces 1 e 2 (Alta Dinâmica):}\\
+        Troca $\mathbf{L/R}$ (esquerda $\leftrightarrow$ direita) e $\mathbf{U/D}$ (cima $\leftrightarrow$ baixo).
+
+        \item \textbf{Faces 3, 4, 5 e 6 (Cíclicas):}\\
+        Rotações sucessivas de quadrantes a cada ciclo de abertura.
+
+        \item \textbf{14 Desenhos Possíveis:}\\
+        Um caleidoscópio geométrico a partir de uma única tira dobrada!
+      \end{itemize}
+    \end{column}
+  \end{columns}
+\end{frame}
+
+%========================================================================
+% SEÇÃO: COLORISMO DE DOMÍNIO
+%========================================================================
+\begin{frame}{Como Enxergar Funções Complexas?}{O método de Coloração de Domínio (\textit{Domain Coloring})}
+  \begin{columns}[c, onlytextwidth]
+    \begin{column}{0.52\textwidth}
+      \small
+      \begin{itemize}
+        \setlength{\itemsep}{6pt}
+        \item \textbf{O Desafio Dimensional:}\\
+        $f: \mathbb{C} \to \mathbb{C}$ precisaria de \textbf{4 dimensões} ($x, y \to u, v$). Como desenhar no papel plano?
+
+        \item \textbf{A Saída Genial: Usar Cor!}\\
+        O plano do papel é a entrada $z$. O valor $w = f(z)$ é codificado em cores:
+        \begin{itemize}
+          \setlength{\itemsep}{2pt}
+          \item \textbf{Ângulo $\arg(w)$ $\to$ Matiz (Cor):}\\
+          O arco-íris percorre o círculo trigonométrico.
+          \item \textbf{Módulo $|w|$ $\to$ Luminosidade:}\\
+          Anéis concêntricos e variação claro/escuro.
+        \end{itemize}
+      \end{itemize}
+    \end{column}
+
+    \begin{column}{0.45\textwidth}
+      \centering
+      \includegraphics[height=4.85cm, keepaspectratio]{roda_cromatica_domain}
+      \captionof{figure}{\footnotesize A roda cromática: matiz para o ângulo e luminosidade para o módulo}
+    \end{column}
+  \end{columns}
+\end{frame}
+
+%========================================================================
+% LEITURA VISUAL: ZEROS, POLOS E SINGULARIDADES EM 3 SLIDES
+%========================================================================
+\begin{frame}{Leitura Visual: Como Identificar Zeros}{A raiz $z_0$ onde a função se anula: $f(z_0) = 0$}
+  \begin{columns}[c, onlytextwidth]
+    \begin{column}{0.50\textwidth}
+      \small
+      \begin{itemize}
+        \setlength{\itemsep}{3pt}
+        \item \textbf{O que é um Zero?}\\
+        Ponto onde o valor atinge zero ($|f(z)| \to 0$).
+
+        \item \textbf{Giro Anti-horário:}\\
+        Ao circundar a raiz, as cores seguem a ordem canônica: \textbf{vermelho $\to$ verde $\to$ azul}.
+
+        \item \textbf{O Centro Escuro:}\\
+        O centro fica escuro pois o módulo decai a zero.
+
+        \item \textbf{Ordem da Raiz:}\\
+        O número de voltas completas revela a multiplicidade do zero.
+      \end{itemize}
+    \end{column}
+
+    \begin{column}{0.46\textwidth}
+      \centering
+      \includegraphics[height=4.5cm, keepaspectratio]{dc_zero_simples}
+      \captionof{figure}{\footnotesize Zero simples $f(z) = z$: rotação anti-horária}
+    \end{column}
+  \end{columns}
+\end{frame}
+
+\begin{frame}{Leitura Visual: Como Identificar Polos}{A divisão por zero onde o módulo explode: $|f(z)| \to \infty$}
+  \begin{columns}[c, onlytextwidth]
+    \begin{column}{0.50\textwidth}
+      \small
+      \begin{itemize}
+        \setlength{\itemsep}{3pt}
+        \item \textbf{O que é um Polo?}\\
+        Ponto de divergência onde o denominador se anula e $|f(z)| \to \infty$.
+
+        \item \textbf{Giro Horário (Invertido):}\\
+        A ordem das cores inverte o sentido: \textbf{vermelho $\to$ azul $\to$ verde}!
+
+        \item \textbf{Convergência das Cores:}\\
+        Todos os raios de fase convergem para o polo, com rotação oposta ao zero.
+
+        \item \textbf{Ordem do Polo:}\\
+        O número de voltas horárias revela a ordem do polo.
+      \end{itemize}
+    \end{column}
+
+    \begin{column}{0.46\textwidth}
+      \centering
+      \includegraphics[height=4.6cm, keepaspectratio]{dc_polo_simples}
+      \captionof{figure}{\footnotesize Polo simples $f(z) = 1/z$: rotação horária invertida}
+    \end{column}
+  \end{columns}
+\end{frame}
+
+\begin{frame}{A Singularidade Essencial: $f(z) = \sin(1/z)$}{O infinito condensado no centro do flexágono}
+  \begin{columns}[c, onlytextwidth]
+    \begin{column}{0.50\textwidth}
+      \small
+      \begin{itemize}
+        \setlength{\itemsep}{3pt}
+        \item \textbf{Além de Zeros e Polos:}\\
+        Comportamento infinitamente complexo em $z=0$.
+
+        \item \textbf{Grande Teorema de Picard:}\\
+        Em qualquer vizinhança de $z=0$, a função assume \textbf{todos os valores complexos} infinitas vezes!
+
+        \item \textbf{A Cascata Cromática:}\\
+        Infinitos zeros ($z = \frac{1}{k\pi}$) acumulando-se no centro geram um turbilhão denso de cores.
+
+        \item \textbf{O Flexágono Tátil:}\\
+        Esta é a imagem fascinante da Face 1 da oficina!
+      \end{itemize}
+    \end{column}
+
+    \begin{column}{0.46\textwidth}
+      \centering
+      \includegraphics[height=4.6cm, keepaspectratio]{dc_singularidade_essencial}
+      \captionof{figure}{\footnotesize Singularidade essencial: cascata infinita de ciclos}
+    \end{column}
+  \end{columns}
+\end{frame}
+
+%========================================================================
+% SLIDES INDIVIDUAIS: AS 6 FACES DA OFICINA
+%========================================================================
+\begin{frame}{Face 1: O Espectro Contínuo (HSV)}{A face frontal de partida de $f(z) = \sin(1/z)$}
+  \begin{columns}[c, onlytextwidth]
+    \begin{column}{0.48\textwidth}
+      \small
+      \begin{itemize}
+        \setlength{\itemsep}{12pt}
+        \item \textbf{A Função Escolhida:}\\
+        $$f(z) = \sin\left(\frac{1}{z}\right)$$
+
+        \item \textbf{Arco-Íris Contínuo:}\\
+        A cor varia suavemente com o ângulo $\arg(f(z))$, revelando toda a transição de fases.
+
+        \item \textbf{Simetrias na Dobra:}\\
+        As trocas $\mathbf{L/R}$ e $\mathbf{U/D}$ da Face 1 interagem diretamente com a simetria ímpar do seno.
+      \end{itemize}
+    \end{column}
+
+    \begin{column}{0.48\textwidth}
+      \centering
+      \includegraphics[height=5.4cm, keepaspectratio]{dc_face1}
+      \captionof{figure}{\footnotesize \textbf{Face 1:} Coloração Contínua HSV}
+    \end{column}
+  \end{columns}
+\end{frame}
+
+\begin{frame}{Face 2: A Pizza de 8 Cores Sólidas}{Discretização angular para manuseio intuitivo}
+  \begin{columns}[c, onlytextwidth]
+    \begin{column}{0.48\textwidth}
+      \small
+      \begin{itemize}
+        \setlength{\itemsep}{12pt}
+        \item \textbf{8 Fatias de Cor Pura:}\\
+        O círculo $[0, 2\pi)$ é dividido em 8 setores angulares com cores bem contrastantes.
+
+        \item \textbf{Rastreador Perfeito na Oficina:}\\
+        Ao flexionar o papel, os participantes enxergam de imediato quais blocos de cor trocam de posição.
+
+        \item \textbf{Descontinuidade de Fases:}\\
+        Permite identificar visualmente onde a função muda bruscamente de quadrante.
+      \end{itemize}
+    \end{column}
+
+    \begin{column}{0.48\textwidth}
+      \centering
+      \includegraphics[height=5.4cm, keepaspectratio]{dc_face2}
+      \captionof{figure}{\footnotesize \textbf{Face 2:} Cores Sólidas (8 Setores)}
+    \end{column}
+  \end{columns}
+\end{frame}
+
+\begin{frame}{Face 3: O Retrato de Fase de Elias Wegert}{Conformalidade visível: curvas que se cruzam a $90^\circ$}
+  \begin{columns}[c, onlytextwidth]
+    \begin{column}{0.48\textwidth}
+      \small
+      \begin{itemize}
+        \setlength{\itemsep}{12pt}
+        \item \textbf{Retrato de Fase Aprimorado:}\\
+        Combina o ângulo com curvas de nível de módulo $|f(z)|$ e raios isocrômicos.
+
+        \item \textbf{A Mágica dos $90^\circ$:}\\
+        As curvas de módulo e as linhas de fase cruzam-se sempre em \textbf{ângulos retos}, evidenciando a conformalidade!
+
+        \item \textbf{Referência Clássica:}\\
+        Elias Wegert (\textit{Visual Complex Functions}, Springer, 2012).
+      \end{itemize}
+    \end{column}
+
+    \begin{column}{0.48\textwidth}
+      \centering
+      \includegraphics[height=5.4cm, keepaspectratio]{dc_face3}
+      \captionof{figure}{\footnotesize \textbf{Face 3:} Estilo Elias Wegert}
+    \end{column}
+  \end{columns}
+\end{frame}
+
+\begin{frame}{Face 4: A Grade Quadriculada Deformada}{O papel milimetrado sob a ação da função}
+  \begin{columns}[c, onlytextwidth]
+    \begin{column}{0.48\textwidth}
+      \small
+      \begin{itemize}
+        \setlength{\itemsep}{12pt}
+        \item \textbf{A Folha de Caderno Curvada:}\\
+        Uma grade ortogonal regular no contradomínio é puxada de volta para o plano complexo.
+
+        \item \textbf{Preservação de Ângulos:}\\
+        Mesmo altamente deformadas pela função, as linhas horizontais e verticais mantêm cruzamentos em $90^\circ$.
+
+        \item \textbf{Zonas de Compressão:}\\
+        As células quadriculadas encolhem perto dos zeros e se expandem nos polos.
+      \end{itemize}
+    \end{column}
+
+    \begin{column}{0.48\textwidth}
+      \centering
+      \includegraphics[height=5.4cm, keepaspectratio]{dc_face4}
+      \captionof{figure}{\footnotesize \textbf{Face 4:} Deformação da Grade Cartesiana}
+    \end{column}
+  \end{columns}
+\end{frame}
+
+\begin{frame}{Face 5: Ondas Concêntricas Deformadas}{Propagação radial e curvas de igual intensidade}
+  \begin{columns}[c, onlytextwidth]
+    \begin{column}{0.48\textwidth}
+      \small
+      \begin{itemize}
+        \setlength{\itemsep}{12pt}
+        \item \textbf{Ondas no Lago:}\\
+        Famílias de circunferências concêntricas centradas na origem do contradomínio.
+
+        \item \textbf{Topologia dos Laços:}\\
+        No plano $z$, as frentes de onda circulares transformam-se em laços ovais e loops fechados.
+
+        \item \textbf{Crescimento da Função:}\\
+        A densidade das faixas indica onde $|f(z)|$ varia mais rapidamente.
+      \end{itemize}
+    \end{column}
+
+    \begin{column}{0.48\textwidth}
+      \centering
+      \includegraphics[height=5.4cm, keepaspectratio]{dc_face5}
+      \captionof{figure}{\footnotesize \textbf{Face 5:} Círculos Concêntricos Deformados}
+    \end{column}
+  \end{columns}
+\end{frame}
+
+\begin{frame}{Face 6: O Tabuleiro de Xadrez Conforme}{Geometria discreta que se recompõe na flexão}
+  \begin{columns}[c, onlytextwidth]
+    \begin{column}{0.48\textwidth}
+      \small
+      \begin{itemize}
+        \setlength{\itemsep}{12pt}
+        \item \textbf{Casas Pretas e Brancas:}\\
+        Alternância binária mapeada pelo plano complexo.
+
+        \item \textbf{O Efeito Caleidoscópio:}\\
+        A cada rotação cíclica entre as faces 3, 4, 5 e 6, o tabuleiro de xadrez se decompõe e monta novos mosaicos.
+
+        \item \textbf{Quadrados Curvos:}\\
+        Cada quadrado distorcido preserva exatamente 4 vértices ortogonais.
+      \end{itemize}
+    \end{column}
+
+    \begin{column}{0.48\textwidth}
+      \centering
+      \includegraphics[height=5.4cm, keepaspectratio]{dc_face6}
+      \captionof{figure}{\footnotesize \textbf{Face 6:} Tabuleiro de Xadrez Conforme}
+    \end{column}
+  \end{columns}
+\end{frame}
+
+%========================================================================
+% GALERIA DOS FLEXÁGONOS FÍSICOS DA OFICINA (FACES INDIVIDUAIS)
+%========================================================================
+\begin{frame}{Os Flexágonos da Oficina: Curvas Polares}{Seis geometrias clássicas da trigonometria plana}
+  \vspace{-0.15cm}
+  \centering
+  \begin{columns}[c, onlytextwidth]
+    \begin{column}{0.32\textwidth}
+      \centering
+      \includegraphics[height=2.52cm, width=2.52cm, keepaspectratio]{polar_face1}\\[1pt]
+      {\scriptsize \textbf{Face 1:} Borboleta}\\[4pt]
+      \includegraphics[height=2.52cm, width=2.52cm, keepaspectratio]{polar_face4}\\[1pt]
+      {\scriptsize \textbf{Face 4:} Rosácea $3\theta$}
+    \end{column}
+    \begin{column}{0.32\textwidth}
+      \centering
+      \includegraphics[height=2.52cm, width=2.52cm, keepaspectratio]{polar_face2}\\[1pt]
+      {\scriptsize \textbf{Face 2:} Estrela Polar}\\[4pt]
+      \includegraphics[height=2.52cm, width=2.52cm, keepaspectratio]{polar_face5}\\[1pt]
+      {\scriptsize \textbf{Face 5:} Flor de Lótus}
+    \end{column}
+    \begin{column}{0.32\textwidth}
+      \centering
+      \includegraphics[height=2.52cm, width=2.52cm, keepaspectratio]{polar_face3}\\[1pt]
+      {\scriptsize \textbf{Face 3:} Rosácea $2\theta$}\\[4pt]
+      \includegraphics[height=2.52cm, width=2.52cm, keepaspectratio]{polar_face6}\\[1pt]
+      {\scriptsize \textbf{Face 6:} Fracionária}
+    \end{column}
+  \end{columns}
+\end{frame}
+
+\begin{frame}{Os Flexágonos da Oficina: Funções Racionais}{Seis paletas na mesma função: $f(z) = \frac{z^5}{z^4-1}$}
+  \vspace{-0.15cm}
+  \centering
+  \begin{columns}[c, onlytextwidth]
+    \begin{column}{0.32\textwidth}
+      \centering
+      \includegraphics[height=2.52cm, width=2.52cm, keepaspectratio]{racional_face1}\\[1pt]
+      {\scriptsize \textbf{Face 1:} HSV Contínuo}\\[4pt]
+      \includegraphics[height=2.52cm, width=2.52cm, keepaspectratio]{racional_face4}\\[1pt]
+      {\scriptsize \textbf{Face 4:} Reticulado}
+    \end{column}
+    \begin{column}{0.32\textwidth}
+      \centering
+      \includegraphics[height=2.52cm, width=2.52cm, keepaspectratio]{racional_face2}\\[1pt]
+      {\scriptsize \textbf{Face 2:} Cores Sólidas}\\[4pt]
+      \includegraphics[height=2.52cm, width=2.52cm, keepaspectratio]{racional_face5}\\[1pt]
+      {\scriptsize \textbf{Face 5:} Ondas Circulares}
+    \end{column}
+    \begin{column}{0.32\textwidth}
+      \centering
+      \includegraphics[height=2.52cm, width=2.52cm, keepaspectratio]{racional_face3}\\[1pt]
+      {\scriptsize \textbf{Face 3:} Grade Conforme}\\[4pt]
+      \includegraphics[height=2.52cm, width=2.52cm, keepaspectratio]{racional_face6}\\[1pt]
+      {\scriptsize \textbf{Face 6:} Tabuleiro Xadrez}
+    \end{column}
+  \end{columns}
+\end{frame}
+
+\begin{frame}{Os Flexágonos da Oficina: Galeria de Seis Funções}{Uma função analítica diferente a cada ciclo de flexão}
+  \vspace{-0.15cm}
+  \centering
+  \begin{columns}[c, onlytextwidth]
+    \begin{column}{0.32\textwidth}
+      \centering
+      \includegraphics[height=2.52cm, width=2.52cm, keepaspectratio]{galeria_face1}\\[1pt]
+      {\scriptsize \textbf{Face 1:} $z^6 - 1$}\\[4pt]
+      \includegraphics[height=2.52cm, width=2.52cm, keepaspectratio]{galeria_face4}\\[1pt]
+      {\scriptsize \textbf{Face 4:} Joukowsky $z + 1/z$}
+    \end{column}
+    \begin{column}{0.32\textwidth}
+      \centering
+      \includegraphics[height=2.52cm, width=2.52cm, keepaspectratio]{galeria_face2}\\[1pt]
+      {\scriptsize \textbf{Face 2:} $\exp(z) - 1$}\\[4pt]
+      \includegraphics[height=2.52cm, width=2.52cm, keepaspectratio]{galeria_face5}\\[1pt]
+      {\scriptsize \textbf{Face 5:} Möbius $\frac{z-1}{z+1}$}
+    \end{column}
+    \begin{column}{0.32\textwidth}
+      \centering
+      \includegraphics[height=2.52cm, width=2.52cm, keepaspectratio]{galeria_face3}\\[1pt]
+      {\scriptsize \textbf{Face 3:} Tangente $\tan(z)$}\\[4pt]
+      \includegraphics[height=2.52cm, width=2.52cm, keepaspectratio]{galeria_face6}\\[1pt]
+      {\scriptsize \textbf{Face 6:} Cúbica $\frac{z^3-1}{z^3+1}$}
+    \end{column}
+  \end{columns}
+\end{frame}
+
+%========================================================================
+% PARTE 3: OFICINA PRÁTICA DE MONTAGEM
+%========================================================================
+\capaparte{3}{Oficina Prática de Montagem}{Roteiro de dobras do manual e a cinemática de abertura}
+
+\begin{frame}{Montagem do Hexa-tetraflexágono}{Roteiro de dobras (Manual dos Flexágonos — UFMG, seç. 1.2)}
+  \footnotesize
+  \textbf{1. Faixa Superior} $\to$ \textbf{2. Coluna Direita} $\to$
+  \textbf{3. Faixa Superior} $\to$ \textbf{4. Coluna Esquerda} $\to$
+  \textbf{5. Passo especial (Torção da Aba):} desenrola-se e inverte-se o sentido dos últimos quadradinhos, fechando a fita como uma faixa de Möbius (\textbf{sem cola!}).
+  \vspace{1pt}
+  \begin{center}
+    \includegraphics[width=0.60\linewidth]{roteiro_montagem_fiel}
+  \end{center}
+\end{frame}
+
+\begin{frame}{Como Flexionar: O Movimento de Pinça}{A cinemática de abertura central}
+  \footnotesize
+  \begin{itemize}
+    \setlength{\itemsep}{1pt}
+    \item \textbf{1. Dobra Inicial:} dobre o flexágono ao meio, formando um retângulo duplo.
+    \item \textbf{2. O Pinçamento:} segure as extremidades com as pontas dos dedos e empurre as bordas externas para trás.
+    \item \textbf{3. Abertura pelo Centro:} o centro se abre ``como um livro'', revelando a próxima face oculta!
+  \end{itemize}
+  \vspace{1pt}
+  \begin{center}
+    \includegraphics[width=0.46\linewidth]{pinca_tetra}\\[1pt]
+    {\tiny Dobra-se ao meio (duas pilhas de 2 quadrantes) e reabre-se pelo outro vinco: sobem quadrantes escondidos e surge a próxima face}
+  \end{center}
+\end{frame}
+
+%========================================================================
+% PARTE 4: FUNÇÕES COMPLEXAS FLEXIONÁVEIS
+%========================================================================
+\capaparte{4}{Funções Complexas Flexionáveis}{Grupos cristalográficos planos, rigidez de Liouville e curvas elípticas}
+
+%------------------------------------------------------------------------
+% BLOCO A: MOTIVAÇÃO
+%------------------------------------------------------------------------
+\begin{frame}{A Cinemática da Dobra}{O domínio $Q=[-1,1]^2$ fatiado em 4 quadrantes}
+  \begin{columns}[c, onlytextwidth]
+    \begin{column}{0.44\textwidth}
+      \small
+      \begin{itemize}
+        \setlength{\itemsep}{10pt}
+        \item \textbf{4 Quadrantes no Plano:}\\
+        O quadrado é dividido em 4 peças móveis pelas retas centrais de dobra.
+
+        \item \textbf{A Ação da Dobra ($\Phi$):}\\
+        A cada flexão, os quadrantes \textbf{giram} e \textbf{trocam de lugar} rigidamente.
+
+        \item \textbf{A Pergunta Fundamental:}\\
+        O que acontece com uma função complexa $f$ desenhada sobre essa malha móvel?
+      \end{itemize}
+    \end{column}
+
+    \begin{column}{0.54\textwidth}
+      \centering
+      \includegraphics[width=\linewidth, height=4.8cm, keepaspectratio]{retas_dobra_quadrado}
+      \captionof{figure}{\footnotesize Os 4 quadrantes e as linhas de dobra do quadrado}
+    \end{column}
+  \end{columns}
+\end{frame}
+
+\begin{frame}{A Imagem Quebrada}{Para uma função genérica, a costura salta aos olhos}
+  \begin{columns}[c, onlytextwidth]
+    \begin{column}{0.44\textwidth}
+      \small
+      \begin{itemize}
+        \setlength{\itemsep}{10pt}
+        \item \textbf{A Função Genérica:}\\
+        Desenhamos a coloração de domínio de uma função qualquer (ex: exponencial).
+
+        \item \textbf{Ao Dobrar o Papel:}\\
+        Os 4 quadrantes giram e se reposicionam no espaço.
+
+        \item \textbf{A Quebra da Continuidade:}\\
+        As curvas de nível \textbf{partem ao meio}! A costura revela que os valores complexos não coincidem nos cortes.
+      \end{itemize}
+    \end{column}
+
+    \begin{column}{0.54\textwidth}
+      \centering
+      \includegraphics[width=0.48\linewidth, height=4.6cm, keepaspectratio]{n_exp_horz_antes}\hfill
+      \includegraphics[width=0.48\linewidth, height=4.6cm, keepaspectratio]{n_exp_horz_depois}
+      \captionof{figure}{\footnotesize \textbf{Antes} (função contínua) e \textbf{depois} (pós-flex: costuras rompidas)}
+    \end{column}
+  \end{columns}
+\end{frame}
+
+\begin{frame}{A Pergunta Central}{O problema que guia todo o desenvolvimento da pesquisa}
+  \vspace{0.6cm}
+  \begin{center}
+    {\Large\color{EnimarNavy}\textit{``Quais funções meromorfas}}\\[4pt]
+    {\Large\color{EnimarNavy}\textit{$f: \mathbb{C} \to \hat{\mathbb{C}}$}}\\[4pt]
+    {\Large\color{EnimarNavy}\textit{continuam analíticas e sem costuras}}\\[4pt]
+    {\Large\color{EnimarNavy}\textit{depois do flex?''}}
+    \vspace{0.8cm}
+
+    {\color{EnimarTeal!40}\rule{6cm}{0.8pt}}
+    \vspace{0.5cm}
+
+    {\normalsize\color{EnimarTeal} Chamamos essas funções de
+    \textbf{flexionáveis}. É delas que trata o teorema do artigo.}
+  \end{center}
+\end{frame}
+
+%------------------------------------------------------------------------
+% BLOCO B: A MODELAGEM
+%------------------------------------------------------------------------
+\begin{frame}{A Modelagem: Ação nos Quadrantes}{Cada dobra do papel é uma transformação afim rígida}
+  \begin{columns}[c, onlytextwidth]
+    \begin{column}{0.52\textwidth}
+      \small
+      \begin{itemize}
+        \setlength{\itemsep}{8pt}
+        \item \textbf{Transformação em Cada Peça:}\\
+        \[ \Phi\big|_{Q_j} = A_j(z) = \varepsilon_j\, z + \beta_j \]
+
+        \item \textbf{Duas Operações Básicas:}\\
+        \begin{itemize}
+          \setlength{\itemsep}{3pt}
+          \item $\varepsilon_j \in \{1, i, -1, -i\}$: \textbf{Giro} de $0^\circ, 90^\circ, 180^\circ$ ou $270^\circ$.
+          \item $\beta_j \in \frac{1}{2}\mathbb{Z}[i]$: \textbf{Translação} para o novo local.
+        \end{itemize}
+
+        \item \textbf{Isometria por Partes:}\\
+        O papel não estica nem rasga: cada quadrante preserva distâncias e ângulos internamente!
+      \end{itemize}
+    \end{column}
+
+    \begin{column}{0.45\textwidth}
+      \centering
+      \includegraphics[width=\linewidth, height=4.8cm, keepaspectratio]{quadrantes_de_e}
+      \captionof{figure}{\footnotesize Rotação dos quadrantes e o reticulado gerado}
+    \end{column}
+  \end{columns}
+\end{frame}
+
+\begin{frame}{A Modelagem: O Universo dos Flexes}{Quantos flexes matematicamente possíveis existem?}
+  \begin{center}
+    \vspace{0.2cm}
+    {\normalsize Cada um dos 4 quadrantes escolhe, independentemente:}\\[6pt]
+    {\large uma rotação em $\{1, i, -1, -i\}$ \quad e \quad um lugar entre os 4}
+    \vspace{0.4cm}
+
+    \[ \mathcal{F} \cong \mu_4 \wr S_4 \]
+    \[ |\mathcal{F}| \;=\; \underbrace{4^4}_{\text{rotações}} \;\cdot\;
+       \underbrace{4!}_{\text{permutações}} \;=\; \mathbf{6.144 \text{ flexes possíveis}} \]
+
+    \vspace{0.3cm}
+    {\small\color{EnimarTeal} Um universo combinatório imenso que o Teorema da
+    Classificação vai organizar em apenas 3 regimes!}
+  \end{center}
+\end{frame}
+
+\begin{frame}{O Grupo de Discrepâncias $\Gamma_\Phi$}{O ``teste de costura'' que decide a analiticidade}
+  \small
+  \begin{itemize}
+    \setlength{\itemsep}{10pt}
+    \item \textbf{O Teste de Costura ($A_k^{-1} A_j$):}\\
+    Mede a diferença entre o que dois quadrantes vizinhos $Q_j$ e $Q_k$ exigem da função na linha de vinco.
+
+    \item \textbf{Condição Fundamental (Teorema):}\\
+    A função dobrada continua analítica em todo o plano $\mathbb{C}$ \textbf{se e somente se} for invariante pelo grupo de discrepâncias:
+    \[ \Gamma_\Phi = \big\langle\, A_k^{-1} A_j \;:\; 1 \le j,k \le 4 \,\big\rangle \;\le\; \operatorname{Isom}^+(\mathbb{C}) \]
+
+    \item \textbf{Prolongamento Analítico:}\\
+    Pelo Princípio da Identidade, se a função se encaixa sem quebra na fronteira, ela se solda perfeitamente por todo o plano!
+  \end{itemize}
+\end{frame}
+
+\begin{frame}{A Costura, em Duas Imagens}{Mesma função: quadrante errado (costura salta) vs. quadrante certo (sem costura)}
+  \centering
+  \begin{columns}[c, onlytextwidth]
+    \begin{column}{0.48\textwidth}
+      \centering
+      \includegraphics[width=\linewidth, height=4.2cm, keepaspectratio]{cos_f3_depois}\\[3pt]
+      {\footnotesize\color{EnimarNavy}\textbf{Quadrante Errado: A costura salta}}
+    \end{column}
+    \begin{column}{0.48\textwidth}
+      \centering
+      \includegraphics[width=\linewidth, height=4.2cm, keepaspectratio]{cos_f1_depois}\\[3pt]
+      {\footnotesize\color{EnimarTeal}\textbf{Quadrante Certo: Continuidade perfeita}}
+    \end{column}
+  \end{columns}
+  \vspace{0.2cm}
+  \footnotesize A discrepância $A_k^{-1}A_j$ foi absorvida pela simetria da função: as curvas de nível se unem perfeitamente!
+\end{frame}
+
+%------------------------------------------------------------------------
+% BLOCO C: O TEOREMA DA CLASSIFICAÇÃO -- DESENVOLVIDO
+%------------------------------------------------------------------------
+\begin{frame}{O Teorema da Classificação: o Regime do Nosso Flexágono}{$\Gamma_\Phi$ é sempre um grupo cristalográfico discreto}
+  \begin{columns}[c, onlytextwidth]
+    \begin{column}{0.54\textwidth}
+      \small
+      \begin{itemize}
+        \setlength{\itemsep}{3pt}
+        \item \textbf{Três Regimes Possíveis:}\\
+        O comportamento é regido pelo \textbf{posto} de $\Lambda_\Phi$:
+        \begin{itemize}
+          \setlength{\itemsep}{1pt}
+          \item \textbf{Posto 0:} Rotações pontuais ($\mathbb{C}/C_n$).
+          \item \textbf{Posto 1:} Translações em 1 direção (periódicas).
+          \item \textbf{Posto 2:} Duplamente periódicas no plano!
+        \end{itemize}
+
+        \item \textbf{O Domínio de Weierstrass:}\\
+        O hexa-tetraflexágono vive no caso de \textbf{Posto 2} ($\Gamma_\Phi = 2\mathbb{Z}[i]$), com soluções $f \in \mathbb{C}(\wp, \wp')$, abrangendo $\mathbf{92{,}06\%}$ dos 6.144 flexes!
+      \end{itemize}
+    \end{column}
+
+    \begin{column}{0.44\textwidth}
+      \centering
+      \includegraphics[width=\linewidth, height=4.2cm, keepaspectratio]{mecanica_posto2_hexatetra}
+      \captionof{figure}{\footnotesize As 6 faces encaixando com invariância sob flexão}
+    \end{column}
+  \end{columns}
+\end{frame}
+
+\begin{frame}{Generalizando: O Que É um Flexágono?}{Como o artigo enuncia (Seção 10): faces ladrilhadas por polígonos congruentes}
+  \begin{center}
+    \vspace{0.2cm}
+    {\Large\color{EnimarNavy}\textit{``Um flex de uma face ladrilhada por
+    polígonos congruentes é uma bijeção que é isometria direta em cada
+    ladrilho e os permuta.''}}
+    \vspace{0.5cm}
+
+    {\color{EnimarTeal!40}\rule{7cm}{0.8pt}}
+    \vspace{0.45cm}
+
+    \begin{tabular}{rl}
+      ladrilho \textbf{quadrado} & $\longrightarrow$ \textbf{tetraflexágonos} --- o nosso! \\[4pt]
+      ladrilho \textbf{triangular} & $\longrightarrow$ \textbf{hexaflexágonos} --- os clássicos de Stone \\
+    \end{tabular}
+    \vspace{0.5cm}
+
+    {\normalsize\color{EnimarTeal} Teorema 10.2 do artigo: ``tudo o que foi
+    feito para o quadrado vale, sem alteração, para qualquer face
+    ladrilhada.'' Mesmo teorema, mesma demonstração.}
+  \end{center}
+\end{frame}
+
+\begin{frame}{O Teorema em Outros Flexágonos}{Os quatro flexágonos clássicos do manual, resolvidos}
+  \begin{center}
+    \includegraphics[width=0.80\linewidth]{quatro_faces}
+  \end{center}
+  \scriptsize
+  \begin{center}
+  \begin{tabular}{lccc}
+    \toprule
+    \textbf{Flexágono} & \textbf{Ladrilho} & \textbf{$\Gamma_\Phi$} & \textbf{Inteiras?} \\
+    \midrule
+    tri-tetraflexágono & quadrado & $2\mathbb{Z}$ (posto 1) & sim \\
+    hexa-tetraflexágono (o nosso) & quadrado & $2\mathbb{Z}[i]$ (posto 2) & não \\
+    tri-- e hexa-hexaflexágono & triângulo & $C_3$ (posto 0) & sim \\
+    \bottomrule
+  \end{tabular}
+  \end{center}
+  \footnotesize
+  Nos hexagonais, todas as retas de dobra passam pelo centro --- simetria
+  de ordem 3 \textbf{a olho nu}. Só o \textbf{hexa-tetraflexágono} força
+  polos: é o único dos quatro com $\Gamma_\Phi$ de posto 2.
+\end{frame}
+
+\begin{frame}{Posto 1, em Outro Flexágono: o Tri-tetraflexágono}{$\Lambda_\Phi = \omega\mathbb{Z}$ --- uma única direção de translação}
+  \[ f(z) = h\Big(e^{2\pi i (z-p)/\omega}\Big) \quad\text{ou}\quad
+     H\Big(\cos\tfrac{2\pi(z-p)}{\omega}\Big) \]
+  \normalsize
+  $\omega$ é o \textbf{período}: $f(z+\omega)=f(z)$; a exponencial
+  complexa $e^{2\pi i z/\omega}$ é o \textit{Hauptmodul} --- toda solução é
+  uma função racional dela. O \textbf{tri-tetraflexágono} (quadrado, como o
+  nosso, mas com só 3 faces) vive aqui: $\Gamma_\Phi=2\mathbb{Z} \implies
+  f(z)=h(e^{i\pi z})$ --- e, ao contrário do nosso, \textbf{admite soluções
+  inteiras}.
+  \vspace{1pt}
+  \begin{center}
+    \includegraphics[width=0.66\linewidth]{mecanica_posto1_tritetra}\\[1pt]
+    {\tiny As 3 faces do tri-tetraflexágono (F, V, E) encaixando sem
+    costura a cada flex}
+  \end{center}
+\end{frame}
+
+\begin{frame}{Censo dos 6.144 Flexes}{Uma classificação completa, três regimes}
+  \begin{columns}[c, onlytextwidth]
+    \begin{column}{0.44\textwidth}
+      \scriptsize
+      \begin{tabular}{lccr}
+        \toprule
+        \textbf{Posto} & \textbf{Grupo} & \textbf{Flexes} & \textbf{\%} \\
+        \midrule
+        $0$ & Trivial$/C_2/C_4$ & $168$ & $2{,}74\%$ \\
+        $1$ & Frisos $p1,p2$ & $320$ & $5{,}21\%$ \\
+        $2$ & $p1,p2,p4$ & $5.656$ & $\mathbf{92{,}06\%}$ \\
+        \bottomrule
+      \end{tabular}
+      \vspace{10pt}
+
+      \small Todo flex \textbf{quadrado} cai em exatamente uma dessas 3 classes.
+
+      \vspace{4pt}
+      {\scriptsize Os hexaflexágonos vivem num universo de 524.880 flexes, sempre com simetria $C_3$.}
+    \end{column}
+
+    \begin{column}{0.54\textwidth}
+      \centering
+      \includegraphics[height=5.0cm, keepaspectratio]{atlas}
+      \captionof{figure}{As 9 classes completas $(\text{posto},|P|)$, cada uma com seu \textit{Hauptmodul}}
+    \end{column}
+  \end{columns}
+\end{frame}
+
+%------------------------------------------------------------------------
+% BLOCO D: CONSEQUÊNCIAS
+%------------------------------------------------------------------------
+\begin{frame}{Rigidez Absoluta: o Teorema de Liouville}{Um fato clássico que vira uma restrição forte}
+  \begin{center}
+    \vspace{0.2cm}
+    \begin{block}{}
+      \centering \large
+      Toda função \textbf{inteira} (sem polos) e \textbf{limitada} em
+      $\mathbb{C}$ é \textbf{constante}.
+    \end{block}
+    \vspace{0.4cm}
+
+    {\normalsize Uma função \textbf{duplamente periódica} já é limitada em
+    $\mathbb{C}$ inteiro --- basta olhar seus valores no paralelogramo
+    fundamental, o resto se repete.}
+    \vspace{0.3cm}
+
+    {\large\color{EnimarNavy}\textbf{Logo: se é inteira e duplamente
+    periódica, é constante.}}
+  \end{center}
+\end{frame}
+
+\begin{frame}{Por Que $92\%$ dos Flexes Proíbem Funções Inteiras}{A consequência do Teorema de Liouville para o flexágono}
+  \begin{columns}[c, onlytextwidth]
+    \begin{column}{0.48\textwidth}
+      \small
+      \begin{itemize}
+        \setlength{\itemsep}{6pt}
+        \item \textbf{Soluções de Posto 2:}\\
+        Em 5.656 flexes ($92{,}06\%$), a função precisa ser duplamente periódica.
+
+        \item \textbf{O Veto de Liouville:}\\
+        Pelo Teorema de Liouville, se uma função duplamente periódica não tiver polos, ela é obrigatoriamente constante!
+
+        \item \textbf{A Física da Dobra Exige Singularidades:}\\
+        Para não ser trivial, **toda função flexionável de posto 2 tem polos**! São eles que enxergamos na coloração de domínio.
+      \end{itemize}
+    \end{column}
+
+    \begin{column}{0.49\textwidth}
+      \centering
+      \includegraphics[width=0.48\linewidth, height=4.4cm, keepaspectratio]{n_wp_diag_antes}\hfill
+      \includegraphics[width=0.48\linewidth, height=4.4cm, keepaspectratio]{n_wp_diag_depois}
+      \captionof{figure}{\footnotesize Solução elíptica: antes e depois (os polos persistem, a costura desaparece)}
+    \end{column}
+  \end{columns}
+\end{frame}
+
+\begin{frame}{Multiplicação Complexa Forçada}{Como a dobradura do papel seleciona uma curva especial}
+  \vspace{0.3cm}
+  \begin{center}
+    \begin{block}{}
+      \centering \large
+      Como $\Lambda_\Phi \subset \frac{1}{2}\mathbb{Z}[i]$, a curva
+      $E = \mathbb{C}/\Lambda_\Phi$ sempre tem \textbf{Multiplicação
+      Complexa}: $\operatorname{End}(E) \cong \mathbb{Z}[i]$.
+    \end{block}
+    \vspace{0.4cm}
+
+    {\normalsize Isso \textbf{não é genérico} --- é uma coincidência
+    aritmética rara entre curvas elípticas. E aqui ela é
+    \textbf{forçada} pela própria geometria da dobra, sem nenhum
+    ajuste fino.}
+    \vspace{0.3cm}
+
+    {\large\color{EnimarNavy}\textbf{O brinquedo de papel materializa
+    naturalmente as curvas clássicas de Gauss e Weierstrass.}}
+  \end{center}
+\end{frame}
+
+\begin{frame}{As Curvas Clássicas de Gauss e Weierstrass}{Duas descobertas, setenta anos de distância, o mesmo objeto}
+  \begin{columns}[t, onlytextwidth]
+    \begin{column}{0.48\textwidth}
+      \textbf{\color{EnimarNavy}Gauss (por volta de 1797)}
+      \small
+      Estudando o comprimento de arco da \textbf{lemniscata} de Bernoulli
+      ($\int_0^r \frac{dt}{\sqrt{1-t^4}}$), descobriu --- em seu diário,
+      sem publicar --- uma função duplamente periódica: o
+      \textit{seno lemniscático}. Seu reticulado de períodos é
+      $\mathbb{Z}[i]$, os \textbf{inteiros de Gauss}.
+    \end{column}
+    \begin{column}{0.48\textwidth}
+      \textbf{\color{EnimarNavy}Weierstrass (décadas de 1860--80)}
+      \small
+      Construiu a teoria \textbf{geral}: para qualquer reticulado
+      $\Lambda\subset\mathbb{C}$, a função $\wp(z;\Lambda)$ e sua
+      derivada parametrizam uma curva elíptica:
+      $(\wp')^2 = 4\wp^3 - g_2\wp - g_3$. É a parametrização universal.
+    \end{column}
+  \end{columns}
+  \vspace{0.25cm}
+  \begin{center}
+    {\color{EnimarTeal!40}\rule{9cm}{0.8pt}}
+    \vspace{0.20cm}
+
+    \small A simetria $C_4$ do quadrado força $g_3 = 0$: a geometria da dobra seleciona sozinha, 70 anos antes de Weierstrass, a mesma curva da lemniscata de Gauss!
+  \end{center}
+\end{frame}
+
+\begin{frame}{A Curva Lemniscática}{$j = 1728$ --- o invariante que a simetria $C_4$ fixa}
+  \normalsize
+  Para flexes com simetria $C_4$ (como o hexa-tetraflexágono):
+  $i\Lambda_\Phi = \Lambda_\Phi \implies g_3 = 0$, o que fixa o invariante
+  $j(E) = 1728$ --- a curva é sempre a \textbf{lemniscática} de Gauss.
+  \vspace{3pt}
+  \begin{center}
+    \includegraphics[width=0.52\linewidth]{variedade}
+    \captionof{figure}{\tiny Órbitas e catálogo de soluções simétricas sobre a curva lemniscática}
+  \end{center}
+\end{frame}
+
+\begin{frame}{Continuidade Perfeita com $\wp(z)$}{A função de Weierstrass no reticulado $2\mathbb{Z}[i]$}
+  \begin{columns}[c, onlytextwidth]
+    \begin{column}{0.44\textwidth}
+      \small
+      \begin{itemize}
+        \setlength{\itemsep}{10pt}
+        \item \textbf{Solda Analítica Exata:}\\
+        Ao flexionar a face desenhada com $\wp(z)$, os polos e as curvas de fase se \textbf{unem com precisão absoluta}.
+
+        \item \textbf{Geometria Pura:}\\
+        Nenhum ajuste manual: é o Teorema da Classificação garantindo o encaixe matemático perfeito!
+      \end{itemize}
+    \end{column}
+
+    \begin{column}{0.53\textwidth}
+      \centering
+      \includegraphics[width=0.48\linewidth, height=4.6cm, keepaspectratio]{wp_f3_antes}\hfill
+      \includegraphics[width=0.48\linewidth, height=4.6cm, keepaspectratio]{wp_f3_depois}
+      \captionof{figure}{\footnotesize \textbf{Função $\wp$ de Weierstrass ($j=1728$):}\\Face 3 antes e após a flexão}
+    \end{column}
+  \end{columns}
+\end{frame}
+
+%========================================================================
+% BLOCO E: MONTAGEM DO FLEXÁGONO DAS FUNÇÕES ELÍPTICAS
+%========================================================================
+\begin{frame}{O Flexágono das Funções Elípticas}{As 6 classes fundamentais do Teorema Universal materializadas em papel}
+  \vspace{-0.15cm}
+  \centering
+  \begin{columns}[c, onlytextwidth]
+    \begin{column}{0.32\textwidth}
+      \centering
+      \includegraphics[height=2.50cm, width=2.50cm, keepaspectratio]{artigo_face1}\\[1pt]
+      {\scriptsize \textbf{Face 1:} $z^4$ (Órbifold $C_4$)}\\[4pt]
+      \includegraphics[height=2.50cm, width=2.50cm, keepaspectratio]{artigo_face4}\\[1pt]
+      {\scriptsize \textbf{Face 4:} $\wp(z; 2\mathbb{Z}[i])$ (Lemniscata)}
+    \end{column}
+    \begin{column}{0.32\textwidth}
+      \centering
+      \includegraphics[height=2.50cm, width=2.50cm, keepaspectratio]{artigo_face2}\\[1pt]
+      {\scriptsize \textbf{Face 2:} $e^{\pi i z}-1$ (Faixa)}\\[4pt]
+      \includegraphics[height=2.50cm, width=2.50cm, keepaspectratio]{artigo_face5}\\[1pt]
+      {\scriptsize \textbf{Face 5:} $\wp'(z)$ (Triangular, $j=0$)}
+    \end{column}
+    \begin{column}{0.32\textwidth}
+      \centering
+      \includegraphics[height=2.50cm, width=2.50cm, keepaspectratio]{artigo_face3}\\[1pt]
+      {\scriptsize \textbf{Face 3:} $\cos(\pi z)$ (Inversão $C_2$)}\\[4pt]
+      \includegraphics[height=2.50cm, width=2.50cm, keepaspectratio]{artigo_face6}\\[1pt]
+      {\scriptsize \textbf{Face 6:} $\wp(z)^2$ (Simetria $p4$)}
+    \end{column}
+  \end{columns}
+\end{frame}
+
+\begin{frame}{Oficina: A Montagem do Flexágono Elíptico}{A união física dos polos de Weierstrass ao longo das dobras}
+  \begin{columns}[c, onlytextwidth]
+    \begin{column}{0.48\textwidth}
+      \small
+      \begin{itemize}
+        \setlength{\itemsep}{8pt}
+        \item \textbf{Polos Estrategicamente nos Vincos:}\\
+        Os polos duplos de $\wp(z)$ são posicionados exatamente sobre as linhas de dobra do quadrado.
+
+        \item \textbf{A Torção e a Mágica:}\\
+        Ao aplicar o movimento de pinça, as metades dos polos se fundem no espaço tridimensional.
+
+        \item \textbf{Matemática Viva nas Mãos:}\\
+        O estudante manipula fisicamente um toro complexo ($\mathbb{C}/\Lambda$) em uma simples folha de papel!
+      \end{itemize}
+    \end{column}
+
+    \begin{column}{0.50\textwidth}
+      \centering
+      \includegraphics[width=\linewidth, height=4.8cm, keepaspectratio]{mecanica_posto2_hexatetra}
+      \captionof{figure}{\footnotesize Fechamento sem costura das faces elípticas}
+    \end{column}
+  \end{columns}
+\end{frame}
+
+%========================================================================
+% SLIDE FINAL: CONCLUSÕES E AGRADECIMENTOS
+%========================================================================
+\begin{frame}[plain]
+  \begin{center}
+    \vspace{0.9cm}
+    {\large\textbf{\color{EnimarNavy}Agradecimentos}}\\[0.35cm]
+    {\normalsize Departamento de Matemática (UFMG)}\\[0.1cm]
+    {\normalsize Comissão Organizadora do \textbf{EnIMaR 2026}}\\[0.7cm]
+
+    {\color{EnimarTeal!40}\rule{5.5cm}{0.8pt}}\\[0.7cm]
+
+    {\Huge\textbf{\color{EnimarNavy}Muito Obrigado!}}\\[0.4cm]
+    {\normalsize\color{EnimarTeal} Perguntas, discussões e flexões?}\\[0.7cm]
+
+    \includegraphics[height=1.1cm]{Enimarlogo}
+  \end{center}
+\end{frame}
+
+\end{document}

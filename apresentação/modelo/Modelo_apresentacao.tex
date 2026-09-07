@@ -1,0 +1,100 @@
+\documentclass[aspectratio=169]{beamer}
+
+% Pacotes básicos
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage{lmodern}
+\usepackage{graphicx}
+\usepackage{lipsum}
+\usepackage{subcaption}
+% Fundo branco
+\setbeamercolor{background canvas}{bg=white}
+
+% Remover navegação padrão
+\setbeamertemplate{navigation symbols}{}
+
+% Definir título e autor (não usaremos o titlepage padrão)
+\title{}
+\author{}
+\date{}
+
+\begin{document}
+
+% ====== SLIDE 1 – CAPA ======
+\begin{frame}[plain] % plain remove barras laterais/rodapé padrão
+    % -------------------------------
+    % TOPO: Logo e Título do Congresso
+    % -------------------------------
+    \vspace*{0.2cm}
+    \hspace*{0.5cm} % margem esquerda
+    \begin{minipage}[t]{0.8\textwidth}
+        \includegraphics[height=1cm]{Enimarlogo.png} % Logo
+    \end{minipage}%
+   % empurra para a direita
+    \begin{minipage}[t]{0.15\textwidth}
+        \includegraphics[height=0.7cm]{Titulo_congresso.png} % Título do congresso
+    \end{minipage}
+     \includegraphics[width=\paperwidth, height=1cm, keepaspectratio]{Faixa_fina.png}%faixa fina
+    \vspace{0.5cm} % espaço vertical até o título central
+    
+    % -------------------------------
+    % TÍTULO CENTRAL (AZUL)
+    % -------------------------------
+    \begin{center}
+        {\color{blue}\fontsize{20}{24}\selectfont\textbf{SOU DO MUNDO SOU MINAS GERAIS}}
+               
+        % AUTORES (VERMELHO)
+        {\color{red}\fontsize{22}{26}\selectfont\textbf{Milton Nascimento\\[0.2cm]Carlos Drumond de Andrade}}
+    \end{center}
+    
+   % empurra a faixa para o fundo
+    
+    % -------------------------------
+    % FAIXA INFERIOR (MOSAICO)
+    % -------------------------------
+    \includegraphics[width=2\paperwidth, height=2cm, keepaspectratio]{Faixa.png}
+\end{frame}
+% ====== SLIDE 2 
+\begin{frame}[plain] % plain remove barras laterais/rodapé padrão
+    % -------------------------------
+    % TOPO:  Título do slide
+    % -------------------------------
+   \begin{center}
+      {\bf Texto em destaque}
+    \end{center}
+    % -------------------------------
+    % Corpo do slide
+    % -------------------------------
+    \begin{center}
+     Uai, sô! Esse trem é só um texto de exemplo
+pra ocupar espaço na sua apresentação.
+Depois é só trocar e ajeitar do jeitim que ocê
+quiser e deixar tudo bão demais da conta.
+Enquanto isso, vamo aproveitar o evento,
+prosear um cadim, tomar um cafezinho
+passado na hora e comer um pão de queijo
+quentim. Porque, no fim das contas, trem
+bão é compartilhar boas ideias com gente
+boa.
+    \end{center}
+    
+   % empurra a faixa para o fundo
+    
+    % -------------------------------
+    % FAIXA INFERIOR (MOSAICO E LOGO)
+    % -------------------------------
+    \begin{figure}[htbp]
+    % Primeiro Gráfico (Esquerda)
+    \begin{subfigure}[b]{0.65\textwidth}
+        \includegraphics[ height=0.15cm, keepaspectratio]{Faixa_fina2.png} % faixa fina
+    \end{subfigure}
+    \hfill % Espaçamento horizontal elástico entre os dois gráficos
+    % Segundo Gráfico (Direita)
+    \begin{subfigure}[b]{0.2\textwidth}
+        \includegraphics[ height=0.5cm]{Enimarlogo.png} % logo
+    \end{subfigure}
+
+\end{figure}
+
+\end{frame}
+\end{document}
