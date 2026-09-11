@@ -3,7 +3,22 @@ import os
 import cv2
 
 from PIL import Image, ImageDraw
-from Tetraflexagonos.Facas.GeradorDeFacas import criar_marcas_registro_vetoriais
+try:
+    from Tetraflexagonos.Facas.GeradorDeFacas import criar_marcas_registro_vetoriais
+except ImportError:
+    try:
+        from Facas.GeradorDeFacas import criar_marcas_registro_vetoriais
+    except ImportError:
+        try:
+            from src.fabrication.GeradorDeFacas import criar_marcas_registro_vetoriais
+        except ImportError:
+            import sys
+            _parent = Path(__file__).resolve().parent
+            if str(_parent.parent) not in sys.path:
+                sys.path.insert(0, str(_parent.parent))
+            if str(_parent) not in sys.path:
+                sys.path.insert(0, str(_parent))
+            from Tetraflexagonos.Facas.GeradorDeFacas import criar_marcas_registro_vetoriais
 
 def right_triangle_crop(img: Image.Image, orientation='top-right'):
     """
@@ -391,10 +406,24 @@ def plano(img1: str, img2: str, img3: str, img4: str, img5: str, img6: str, graf
         if nome_arq:
             PlanoFrontal.save(f'Plano_Frontal_{nome_arq}.png')
             PlanoTraseiro.save(f'Plano_Traseiro_{nome_arq}.png')
-
         else:
             PlanoFrontal.save("PlanoFrontal.png")
             PlanoTraseiro.save("PlanoTraseiro.png")
- 
-plano('teste/face1.png', 'teste/face2.png', 'teste/face3.png',
-     'teste/face4.png', 'teste/face5.png', 'teste/face6.png', grafica=True, nome_arq='Teste')
+
+        temp_dir = Path(os.getcwd()) / 'Temp_PNGs_Redimensionados'
+        if temp_dir.exists():
+            for arq in os.listdir(temp_dir):
+                try:
+                    os.remove(temp_dir / arq)
+                except Exception:
+                    pass
+            try:
+                os.rmdir(temp_dir)
+            except Exception:
+                pass
+
+        return PlanoFrontal, PlanoTraseiro
+
+if __name__ == '__main__':
+    plano('teste/face1.png', 'teste/face2.png', 'teste/face3.png',
+          'teste/face4.png', 'teste/face5.png', 'teste/face6.png', grafica=True, nome_arq='Teste')

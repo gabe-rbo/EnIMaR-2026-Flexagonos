@@ -1,0 +1,11 @@
+# Dependências essenciais para processamento de imagens e geração de planificações dos flexágonos
+numpy>=1.24.0
+Pillow>=9.5.0
+opencv-python>=4.8.0
+matplotlib>=3.7.0
+
+# Suporte a execução e visualização dos notebooks Jupyter
+jupyter>=1.0.0
+ipykernel>=6.20.0
+nbformat>=5.9.0
+nbclient>=0.8.0

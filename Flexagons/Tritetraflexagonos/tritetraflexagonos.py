@@ -4,7 +4,7 @@ import os
 import cv2
 
 
-def plano(imgF: str, imgV: str, imgE: str, grafica: bool = False, montagem_simplificada: bool = False) -> None:
+def plano(imgF: str, imgV: str, imgE: str, grafica: bool = False, montagem_simplificada: bool = False, nome_arq: str = '') -> tuple:
     """
     Função que define o plano final.
     Precisaremos de 3 imagens, as quais serão tratadas usando a biblioteca PIL.
@@ -271,12 +271,16 @@ def plano(imgF: str, imgV: str, imgE: str, grafica: bool = False, montagem_simpl
             e Marcas Traseiras. A pasta 'Cortes' contém as marcas de corte e a pasta "Facas" contém as facas.
             """
 
-            MarcasFrontais = Image.open(Path(os.getcwd()) / "Cortes" / "CorteFrontal.png")
+            cortes_dir = Path(__file__).resolve().parent / "Cortes"
+            if not (cortes_dir / "CorteFrontal.png").exists():
+                cortes_dir = Path(os.getcwd()) / "Cortes"
+
+            MarcasFrontais = Image.open(cortes_dir / "CorteFrontal.png")
             _, _, _, mask = MarcasFrontais.split()
             PlanoFrontal.paste(MarcasFrontais, (0, 0), mask)
             MarcasFrontais.close()
 
-            MarcasTraseiras = Image.open(Path(os.getcwd()) / "Cortes" / "CorteTraseiro.png")
+            MarcasTraseiras = Image.open(cortes_dir / "CorteTraseiro.png")
             _, _, _, mask = MarcasTraseiras.split()
             PlanoTraseiro.paste(MarcasTraseiras, (0, 0), mask)
             MarcasTraseiras.close()
@@ -285,32 +289,46 @@ def plano(imgF: str, imgV: str, imgE: str, grafica: bool = False, montagem_simpl
         >>> SALVANDO PLANOS <<<
         ''')
 
-        PlanoFrontal.save(r'PlanoFrontal.png')
-        PlanoTraseiro.save(r'PlanoTraseiro.png')
+        if nome_arq:
+            PlanoFrontal.save(f'Plano_Frontal_{nome_arq}.png')
+            PlanoTraseiro.save(f'Plano_Traseiro_{nome_arq}.png')
+        else:
+            PlanoFrontal.save(r'PlanoFrontal.png')
+            PlanoTraseiro.save(r'PlanoTraseiro.png')
 
         imFrente.close()
         imVerso.close()
         imEscondida.close()
 
-        for arq in os.listdir(Path(os.getcwd()) / 'Temp_PNGs_Redimensionados'):
-            os.remove(Path(os.getcwd()) / 'Temp_PNGs_Redimensionados' / arq)
-        os.rmdir(Path(os.getcwd()) / 'Temp_PNGs_Redimensionados')
+        temp_dir = Path(os.getcwd()) / 'Temp_PNGs_Redimensionados'
+        if temp_dir.exists():
+            for arq in os.listdir(temp_dir):
+                try:
+                    os.remove(temp_dir / arq)
+                except Exception:
+                    pass
+            try:
+                os.rmdir(temp_dir)
+            except Exception:
+                pass
 
     else:
         print('Alguma(s) de suas imagens é/são menor(es) que 320356 pixels^2.\n',
               'Tente pegar imagens maiores')
+        return None, None
 
     print('''
     --- PLANOS CRIADOS ---
     ''')
 
-    return None
+    return PlanoFrontal, PlanoTraseiro
 
 
-plano(imgF=r'oceano1.png',
-      imgV=r'oceano2.png',
-      imgE=r'oceano3.png',
-      grafica=True, montagem_simplificada=True)
+if __name__ == '__main__':
+    plano(imgF=r'oceano1.png',
+          imgV=r'oceano2.png',
+          imgE=r'oceano3.png',
+          grafica=True, montagem_simplificada=True)
 
 """
 O argumento montagem_simplifcada é um booleano (True/False). Ele serve para inverter a imgV e imgE para a montagem mais

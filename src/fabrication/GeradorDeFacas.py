@@ -89,47 +89,48 @@ def draw_dotted_line(draw, start, end, fill, width=1, dash_length=5, gap_length=
                     i * dash_gap + dash_length)
         draw.line([start_dash, end_dash], fill=fill, width=width)
 
-# Create a blank white image
-width, height = 2420, 2420
-image = Image.new("RGB", (width, height), "white")
-draw = ImageDraw.Draw(image)
+if __name__ == '__main__':
+    # Create a blank white image
+    width, height = 2420, 2420
+    image = Image.new("RGB", (width, height), "white")
+    draw = ImageDraw.Draw(image)
 
-# Draw shapes
-draw.line([28 + 58, 28 + 58, 2420 - 28 - 58, 28 + 58], width=5, fill='black')
-draw.line([28 + 58, 2420 - 28 - 58, 2420 - 28 - 58, 2420 - 28 - 58], width=5, fill='black')
-draw.line([28 + 58, 28 + 58, 28 + 58, 2420 - 28 - 58], width=5, fill='black')
-draw.line([2420 - 28 - 58, 28 + 58, 2420 - 28 - 58, 2420 - 28 - 58], width=5, fill='black')
-draw.line([2420 - 1772, 648, 1772, 648], width=5, fill='black')
-draw.line([2420 - 1772, 2420 - 648, 1772, 2420 - 648], width=5, fill='black')
-draw.line([2420 - 1772, 648, 2420 - 1772, 2420 - 648], width=5, fill='black')
-draw.line([1772, 648, 1772, 2420 - 648], width=5, fill='black')
+    # Draw shapes
+    draw.line([28 + 58, 28 + 58, 2420 - 28 - 58, 28 + 58], width=5, fill='black')
+    draw.line([28 + 58, 2420 - 28 - 58, 2420 - 28 - 58, 2420 - 28 - 58], width=5, fill='black')
+    draw.line([28 + 58, 28 + 58, 28 + 58, 2420 - 28 - 58], width=5, fill='black')
+    draw.line([2420 - 28 - 58, 28 + 58, 2420 - 28 - 58, 2420 - 28 - 58], width=5, fill='black')
+    draw.line([2420 - 1772, 648, 1772, 648], width=5, fill='black')
+    draw.line([2420 - 1772, 2420 - 648, 1772, 2420 - 648], width=5, fill='black')
+    draw.line([2420 - 1772, 648, 2420 - 1772, 2420 - 648], width=5, fill='black')
+    draw.line([1772, 648, 1772, 2420 - 648], width=5, fill='black')
 
-draw_dotted_line(draw, (2420 - 1772, 28 + 58), (2420 - 1772, 562 + 28 + 58), 'black', width=5, dash_length=50, gap_length=35)
-draw_dotted_line(draw, (2420 - 1772 + 562, 28 + 58), (2420 - 1772 + 562, 562 + 28 + 58), 'black', width=5, dash_length=50, gap_length=35)
-draw_dotted_line(draw, (2420 - 1772 + 562 * 2, 28 + 58), (2420 - 1772 + 562 * 2, 562 + 28 + 58), 'black', width=5, dash_length=50, gap_length=35)
-draw_dotted_line(draw, (2420 - 1772, 28 + 58 + 562 * 3), (2420 - 1772, 562 * 4 + 28 + 58), 'black', width=5, dash_length=50, gap_length=35)
-draw_dotted_line(draw, (2420 - 1772 + 562, 28 + 58 + 562 * 3), (2420 - 1772 + 562, 562 * 4 + 28 + 58), 'black', width=5, dash_length=50, gap_length=35)
-draw_dotted_line(draw, (2420 - 1772 + 562 * 2, 28 + 58 + 562 * 3), (2420 - 1772 + 562 * 2, 562 * 4 + 28 + 58), 'black', width=5, dash_length=50, gap_length=35)
-draw_dotted_line(draw, (28 + 58, 28 + 58 + 562), (28 + 58 + 562, 28 + 58 + 562), 'black', width=5, dash_length=50, gap_length=35)
-draw_dotted_line(draw, (28 + 58 + 562 * 3, 28 + 58 + 562), (28 + 58 + 562 * 4, 28 + 58 + 562), 'black', width=5, dash_length=50, gap_length=35)
-draw_dotted_line(draw, (28 + 58 + 562 * 0, 28 + 58 + 562 * 2), (28 + 58 + 562 * 1, 28 + 58 + 562 * 2), 'black', width=5, dash_length=50, gap_length=35)
-draw_dotted_line(draw, (28 + 58 + 562 * 3, 28 + 58 + 562 * 2), (28 + 58 + 562 * 4, 28 + 58 + 562 * 2), 'black', width=5, dash_length=50, gap_length=35)
-draw_dotted_line(draw, (28 + 58 + 562 * 0, 28 + 58 + 562 * 3), (28 + 58 + 562 * 1, 28 + 58 + 562 * 3), 'black', width=5, dash_length=50, gap_length=35)
-draw_dotted_line(draw, (28 + 58 + 562 * 3, 28 + 58 + 562 * 3), (28 + 58 + 562 * 4, 28 + 58 + 562 * 3), 'black', width=5, dash_length=50, gap_length=35)
+    draw_dotted_line(draw, (2420 - 1772, 28 + 58), (2420 - 1772, 562 + 28 + 58), 'black', width=5, dash_length=50, gap_length=35)
+    draw_dotted_line(draw, (2420 - 1772 + 562, 28 + 58), (2420 - 1772 + 562, 562 + 28 + 58), 'black', width=5, dash_length=50, gap_length=35)
+    draw_dotted_line(draw, (2420 - 1772 + 562 * 2, 28 + 58), (2420 - 1772 + 562 * 2, 562 + 28 + 58), 'black', width=5, dash_length=50, gap_length=35)
+    draw_dotted_line(draw, (2420 - 1772, 28 + 58 + 562 * 3), (2420 - 1772, 562 * 4 + 28 + 58), 'black', width=5, dash_length=50, gap_length=35)
+    draw_dotted_line(draw, (2420 - 1772 + 562, 28 + 58 + 562 * 3), (2420 - 1772 + 562, 562 * 4 + 28 + 58), 'black', width=5, dash_length=50, gap_length=35)
+    draw_dotted_line(draw, (2420 - 1772 + 562 * 2, 28 + 58 + 562 * 3), (2420 - 1772 + 562 * 2, 562 * 4 + 28 + 58), 'black', width=5, dash_length=50, gap_length=35)
+    draw_dotted_line(draw, (28 + 58, 28 + 58 + 562), (28 + 58 + 562, 28 + 58 + 562), 'black', width=5, dash_length=50, gap_length=35)
+    draw_dotted_line(draw, (28 + 58 + 562 * 3, 28 + 58 + 562), (28 + 58 + 562 * 4, 28 + 58 + 562), 'black', width=5, dash_length=50, gap_length=35)
+    draw_dotted_line(draw, (28 + 58 + 562 * 0, 28 + 58 + 562 * 2), (28 + 58 + 562 * 1, 28 + 58 + 562 * 2), 'black', width=5, dash_length=50, gap_length=35)
+    draw_dotted_line(draw, (28 + 58 + 562 * 3, 28 + 58 + 562 * 2), (28 + 58 + 562 * 4, 28 + 58 + 562 * 2), 'black', width=5, dash_length=50, gap_length=35)
+    draw_dotted_line(draw, (28 + 58 + 562 * 0, 28 + 58 + 562 * 3), (28 + 58 + 562 * 1, 28 + 58 + 562 * 3), 'black', width=5, dash_length=50, gap_length=35)
+    draw_dotted_line(draw, (28 + 58 + 562 * 3, 28 + 58 + 562 * 3), (28 + 58 + 562 * 4, 28 + 58 + 562 * 3), 'black', width=5, dash_length=50, gap_length=35)
 
-draw.line([58 + 28, 0, 58 + 28, 58], width=3, fill='gray')
-draw.line([0, 58 + 28, 58, 58 + 28], width=3, fill='gray')
+    draw.line([58 + 28, 0, 58 + 28, 58], width=3, fill='gray')
+    draw.line([0, 58 + 28, 58, 58 + 28], width=3, fill='gray')
 
-draw.line([58 + 28, 2420, 58 + 28, 2420 - 58], width=3, fill='gray')
-draw.line([0, 2420 - 58 - 28, 58, 2420 - 58 - 28], width=3, fill='gray')
+    draw.line([58 + 28, 2420, 58 + 28, 2420 - 58], width=3, fill='gray')
+    draw.line([0, 2420 - 58 - 28, 58, 2420 - 58 - 28], width=3, fill='gray')
 
-draw.line([2420 - 58, 2420 - 58 - 28, 2420, 2420 - 58 - 28], width=3, fill='gray')
-draw.line([2420 - 58 - 28, 2420 - 58, 2420 - 58 - 28, 2420], width=3, fill='gray')
+    draw.line([2420 - 58, 2420 - 58 - 28, 2420, 2420 - 58 - 28], width=3, fill='gray')
+    draw.line([2420 - 58 - 28, 2420 - 58, 2420 - 58 - 28, 2420], width=3, fill='gray')
 
-draw.line([2420 - 58 - 28, 0, 2420 - 58 - 28, 58], width=3, fill='gray')
-draw.line([2420 - 58, 58 + 28, 2420, 58 + 28], width=3, fill='gray')
+    draw.line([2420 - 58 - 28, 0, 2420 - 58 - 28, 58], width=3, fill='gray')
+    draw.line([2420 - 58, 58 + 28, 2420, 58 + 28], width=3, fill='gray')
 
-image = criar_marcas_registro_vetoriais(image)
+    image = criar_marcas_registro_vetoriais(image)
 
-# Save as PNG
-image.save("faca.png", "PNG")
+    # Save as PNG
+    image.save("faca.png", "PNG")
